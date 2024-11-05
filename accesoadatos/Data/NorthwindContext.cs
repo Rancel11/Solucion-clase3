@@ -27,7 +27,7 @@ namespace accesoadatos.Data
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
-            optionsBuilder.UseSqlServer("Server=RANCEL\\SQLEXPRESS;Database=Northwind;Integrated Security=True;TrustServerCertificate=True;");
+            optionsBuilder.UseSqlServer("Server=RANCEL\\SQLEXPRESS;Database=Northwind;Integrated Security=True;TrustServerCertificate=True");
         }
     }
     public class Product
@@ -81,6 +81,8 @@ namespace accesoadatos.Data
         public string ShipCountry { get; set; }
 
         public OrderDetail orderDetail { get; set; }
+
+      
     }
     [Table("Order Details")]
     public class OrderDetail
@@ -91,12 +93,13 @@ namespace accesoadatos.Data
         public decimal UnitPrice { get; set; }   
         public short Quantity { get; set; }      
         public float Discount { get; set; }
-
-        public Supplier Supplier { get; set; }
-        public Category Category { get; set; }
         
         [ForeignKey("ProductID")]
         public Product Product { get; set; }
+
+        public virtual Order Order { get; set; }
+       
+
     }
     public class Employees
     {

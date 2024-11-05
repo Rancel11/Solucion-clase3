@@ -16,7 +16,9 @@ namespace accesoadatos
     {
         private readonly NorthwindContext _context;
         private int selectedProductId;
+        private List<Data.OrderDetail> orderDetails = new List<Data.OrderDetail>();
         public Order(NorthwindContext context)
+
         {
             InitializeComponent();
             _context = context;
@@ -125,7 +127,7 @@ namespace accesoadatos
                 .Include(o => o.Product.Category)
                 .Select(o => new
                 {
-                    o.OrderID,
+                    
                     o.ProductID,
                     o.Product.UnitPrice,
                     o.Quantity,
@@ -137,7 +139,7 @@ namespace accesoadatos
                 }).ToList();
 
 
-            dataGridView1.DataSource = orders;    
+            dataGridView1.DataSource = orders;
             dataGridView1.Refresh();
         }
 
@@ -155,29 +157,32 @@ namespace accesoadatos
             comboBoxShipVIa.ValueMember = nameof(Shipper.ShipperID);
         }
 
+
+
+
+
         private void button1_Click(object sender, EventArgs e)
         {
             try
             {
+                
+                if (string.IsNullOrWhiteSpace(textBoxAddress.Text) ||
+                    string.IsNullOrWhiteSpace(textBoxCity.Text) ||
+                    string.IsNullOrWhiteSpace(textBoxPostalCode.Text) ||
+                    string.IsNullOrWhiteSpace(textBoxRegion.Text) ||
+                    string.IsNullOrWhiteSpace(textBoxShipCountry.Text) ||
+                    comboBoxCustomer.SelectedValue == null ||
+                    comboBoxEmployee.SelectedValue == null ||
+                    comboBoxShipVIa.SelectedValue == null)
+                {
+                    MessageBox.Show("Todos los campos son obligatorios y deben seleccionarse correctamente.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
 
-                //if (string.IsNullOrWhiteSpace(textBoxAddress.Text) ||
-                //    string.IsNullOrWhiteSpace(textBoxCity.Text) ||
-                //    string.IsNullOrWhiteSpace(textBoxPostalCode.Text) ||
-                //    string.IsNullOrWhiteSpace(textBoxRegion.Text) ||
-                //    string.IsNullOrWhiteSpace(textBoxShipCountry.Text) ||
-                //    comboBoxCustomer.SelectedValue == null ||
-                //    comboBoxEmployee.SelectedValue == null ||
-                //    comboBoxShipVIa.SelectedValue == null)
-                //{
-                //    MessageBox.Show("Todos los campos son obligatorios y deben seleccionarse correctamente.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                //    return;
-                //}
-
-
-
+                
                 var newOrder = new Data.Order
                 {
-                    CustomerID = (string)comboBoxCustomer.Text,
+                    CustomerID = (string)comboBoxCustomer.SelectedValue,
                     EmployeeID = (int)comboBoxEmployee.SelectedValue,
                     ShipVia = (int)comboBoxShipVIa.SelectedValue,
                     ShipAddress = textBoxAddress.Text,
@@ -187,14 +192,29 @@ namespace accesoadatos
                     ShipRegion = textBoxRegion.Text,
                     ShipName = textBoxShipName.Text,
                     Freight = decimal.Parse(textBoxFrieght.Text),
-
                     OrderDate = dateTimePicker1.Value,
                     RequiredDate = dateTimePicker2.Value,
                     ShippedDate = dateTimePicker3.Value
                 };
 
 
+                var neworderdetails = new Data.OrderDetail
+                {
 
+                    ProductID = Convert.ToInt32(dataGridView1.CurrentRow.Cells[1].Value.ToString()),
+                    UnitPrice = Convert.ToDecimal(dataGridView1.CurrentRow.Cells[2].Value.ToString()),
+                    Quantity = Convert.ToInt16(dataGridView1.CurrentRow.Cells[3].Value.ToString()),
+                    Discount = Convert.ToSingle(dataGridView1.CurrentRow.Cells[4].Value.ToString()),
+
+                    Order = newOrder
+
+                };
+
+
+
+
+
+                _context.orderDetails.Add(neworderdetails);
                 _context.orders.Add(newOrder);
                 _context.SaveChanges();
 
@@ -206,9 +226,11 @@ namespace accesoadatos
                 MessageBox.Show($"Ocurrió un error al ingresar la orden: {ex.Message}\n\nDetalles: {ex.InnerException?.Message}",
                                 "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
-
         }
+
+
+
+
         public class OrderDetalisData
         {
             private readonly OrderDetail _orderDetail;
@@ -246,7 +268,13 @@ namespace accesoadatos
 
         private void button1_Click_1(object sender, EventArgs e)
         {
-            
+        
+
+
+
         }
+
+
+
     }
 }
