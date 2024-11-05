@@ -1,157 +1,125 @@
-﻿using Dapper;
+﻿using accesoadatos.Data;
 using FluentValidation;
-using Microsoft.Data.SqlClient;
-using Serilog;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using static accesoadatos.SUPLIDOR;
+
 
 namespace accesoadatos
 {
+
     public partial class CATEGORIA : Form
     {
 
-      
-        public CATEGORIA()
-        {
-            InitializeComponent();
+        private readonly NorthwindContext _context;
 
-            
+
+        public CATEGORIA(NorthwindContext context)
+        {
+
+            InitializeComponent();
+            _context = context;
+
+        }
+
+        private void CATEGORIA_Load(object sender, EventArgs e)
+        {
+
+            LoadComboBox();
+
         }
 
 
-      
+        private void Cleartextfilds()
+        {
+            textBoxCategoryName.Clear();
+            textBoxDescription.Clear();
+        }
+        private void LoadComboBox()
+        {
+
+            var category = _context.Categories
+                .Select(c => new
+                {
+                    c.CategoryID,
+                    c.CategoryName,
+                }).ToList();
+
+
+            comboBox1.DataSource = category;
+            comboBox1.ValueMember = "CategoryID";
+            comboBox1.DisplayMember = "CategoryName";
+            comboBox1.Refresh();
+        }
+
+
+
 
         private void buttonInsert_Click(object sender, EventArgs e)
         {
-
-           
-
-            var Category = new Category
+            try
             {
-                CategoryName = textBoxCategoryName.Text,
-                Description = textBoxDescription.Text,
-            };
-
-            var validator = new CategoryValidator();
-            var results = validator.Validate(Category);
-
-            if (!results.IsValid)
-            {
-                string error = string.Join(Environment.NewLine, results.Errors.Select(error => error.ErrorMessage));
-                MessageBox.Show(error, "Errores de validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
-
-            else
-            {
-                DialogResult dialogResult = MessageBox.Show("¿Deseas insertar un nuevo registro?", "Confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-                if (dialogResult == DialogResult.Yes)
+                if (string.IsNullOrWhiteSpace(textBoxCategoryName.Text) || string.IsNullOrWhiteSpace(textBoxDescription.Text))
                 {
-                    using (var connection = new SqlConnection(Conexion.Connectionstring))
-                    {
-                        connection.Open();
-
-                        string insert = "INSERT INTO Categories (CategoryName, Description) VALUES(@CategoryName, @Description)";
-
-                        using (SqlCommand cmd = new SqlCommand(insert, connection))
-                        {
-                            cmd.Parameters.AddWithValue("@CategoryName", textBoxCategoryName.Text);
-                            cmd.Parameters.AddWithValue("@Description", textBoxDescription.Text);
-
-                            cmd.ExecuteNonQuery();
-                            MessageBox.Show("Los datos se insertaron correctamente");
-                        }
-
-
-                        comboBox1.DataSource = GetDataTable("SELECT * FROM Categories");
-                        comboBox1.Refresh();
-
-
-                        textBoxCategoryName.Clear();
-                        textBoxDescription.Clear();
-                    }
+                    MessageBox.Show("Todos los campos son obligatorios.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
                 }
-                else
+
+                var newCategory = new Data.Category()
                 {
-                    MessageBox.Show("Operación cancelada", "Cancelación", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-            }
+                    CategoryName = textBoxCategoryName.Text,
+                    Description = textBoxDescription.Text
+                };
+                _context.Categories.Add(newCategory);
+                _context.SaveChanges();
 
+                Cleartextfilds();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ocurrió un error al insertar el suplidor: {ex.Message}\n\nDetalles: {ex.InnerException?.Message}",
+                                "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
-        public DataTable GetDataTable(string sql, object parameters = null)
 
-
-        {
-
-           
-            using (var connection = new SqlConnection(Conexion.Connectionstring))
-            {
-                connection.Open();
-
-
-                var reader = connection.ExecuteReader(sql, parameters);
-
-
-                var dataTable = new DataTable();
-                dataTable.Load(reader);
-
-                return dataTable;
-            }
-        }
 
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
 
         }
 
-        private void CATEGORIA_Load(object sender, EventArgs e)
-        {
-            comboBox1.DataSource = GetDataTable("SELECT * FROM Categories");
-            comboBox1.ValueMember = "CategoryID";
-            comboBox1.DisplayMember = "CategoryName";
 
-
-            comboBox1.Refresh();
-        }
 
         private void buttonupdate_Click(object sender, EventArgs e)
         {
-            
-            
+
+
+
             DialogResult dialogResult = MessageBox.Show("¿Deseas actualizar este registro?", "Confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
             if (dialogResult == DialogResult.Yes)
             {
-                using (var connection = new SqlConnection(Conexion.Connectionstring))
+                int categoryId = (int)comboBox1.SelectedValue;
+                var category = _context.Categories.Find(categoryId);
+
+                if (category != null)
                 {
-                    connection.Open();
+                    category.CategoryName = textBoxCategoryName.Text;
+                    category.Description = textBoxDescription.Text;
 
-                    string update = "UPDATE Categories SET CategoryName = @CategoryName, Description = @Description WHERE CategoryID = @CategoryID";
+                    _context.Categories.Add(category);
+                    _context.SaveChanges();
+                    MessageBox.Show("Los datos se actualizaron correctamente");
 
-                    using (SqlCommand cmd = new SqlCommand(update, connection))
-                    {
-                        cmd.Parameters.AddWithValue("@CategoryName", textBoxCategoryName.Text);
-                        cmd.Parameters.AddWithValue("@Description", textBoxDescription.Text);
-                        cmd.Parameters.AddWithValue("@CategoryID", int.Parse(comboBox1.SelectedValue.ToString()));
-
-                        cmd.ExecuteNonQuery();
-                        MessageBox.Show("Los datos se actualizaron correctamente");
-                    }
-
-                    comboBox1.DataSource = GetDataTable("SELECT * FROM Categories");
-                    comboBox1.Update();
-
-                    textBoxCategoryName.Clear();
-                    textBoxDescription.Clear();
+                    LoadComboBox();
+                    Cleartextfilds();
+                }
+                else
+                {
+                    MessageBox.Show("No se encontró el registro", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
             else
@@ -163,77 +131,86 @@ namespace accesoadatos
 
         }
 
+
         private void buttonFilter_Click(object sender, EventArgs e)
         {
-           
-            
+
+
+
             DialogResult dialogResult = MessageBox.Show("Vas a actualizar o eliminar un registro", "Confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
             if (dialogResult == DialogResult.Yes)
             {
 
-                DataTable dt = GetDataTable("SELECT CategoryName, Description FROM Categories WHERE CategoryID = @CategoryID", new
+                if (dialogResult == DialogResult.Yes)
                 {
-                    CategoryID = int.Parse(comboBox1.SelectedValue.ToString())
-                });
+                    int categoryId = (int)comboBox1.SelectedValue;
 
-                MessageBox.Show("Los datos se filtraron correctamente");
+                    var category = _context.Categories
+                        .Where(p => p.CategoryID == categoryId)
+                        .Select(p => new
+                        {
+                            p.CategoryName,
+                            p.Description
+                        }).FirstOrDefault();
 
 
-                if (dt.Rows.Count > 0)
+                    if (category != null)
+                    {
+                        textBoxCategoryName.Text = category.CategoryName;
+                        textBoxDescription.Text = category.Description;
+
+                        LoadComboBox();
+                        Cleartextfilds();
+
+                        MessageBox.Show("Los datos de la categoria se han cargado correctamente.");
+                    }
+                    else
+                    {
+                        MessageBox.Show("No se encontró categoria", "Informacla ", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+                else
                 {
-                    textBoxCategoryName.Text = dt.Rows[0]["CategoryName"].ToString();
-                    textBoxDescription.Text = dt.Rows[0]["Description"].ToString();
+
+                    textBoxCategoryName.Clear();
+                    textBoxDescription.Clear();
+                }
+
+                textBoxCategoryName.Refresh();
+                textBoxDescription.Refresh();
+
+            }
+
+
+        }
+
+
+
+
+
+        private void buttonDelete_Click(object sender, EventArgs e)
+        {
+
+            DialogResult dialogResult = MessageBox.Show("¿Deseas eliminar este registro?", "Confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (dialogResult == DialogResult.Yes)
+            {
+                int categoryId = (int)comboBox1.SelectedValue;
+                var category = _context.Categories.Find(categoryId);
+
+                if (category != null)
+                {
+                    _context.Categories.Remove(category);
+                    _context.SaveChanges();
+                    MessageBox.Show("El registro se eliminó correctamente");
+
+                    LoadComboBox();
+                    Cleartextfilds();
                 }
                 else
                 {
                     MessageBox.Show("No se encontró el registro", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
-            }
-            else
-            {
-
-                textBoxCategoryName.Clear();
-                textBoxDescription.Clear();
-            }
-
-            textBoxCategoryName.Refresh();
-            textBoxDescription.Refresh();
-
-        }
-
-        private void buttonDelete_Click(object sender, EventArgs e)
-        {
-            
-            
-            DialogResult dialogResult = MessageBox.Show("¿Deseas eliminar este registro?", "Confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-            if (dialogResult == DialogResult.Yes)
-            {
-                using (var connection = new SqlConnection(Conexion.Connectionstring))
-                {
-                    connection.Open();
-
-                    string delete = "DELETE FROM Categories WHERE CategoryID = @CategoryID";
-
-                    using (SqlCommand cmd = new SqlCommand(delete, connection))
-                    {
-                        cmd.Parameters.AddWithValue("@CategoryID", int.Parse(comboBox1.SelectedValue.ToString()));
-
-                        cmd.ExecuteNonQuery();
-                        MessageBox.Show("El registro se eliminó correctamente");
-                    }
-
-
-                    comboBox1.DataSource = GetDataTable("SELECT * FROM Categories");
-                    comboBox1.Refresh();
-
-                    textBoxCategoryName.Clear();
-                    textBoxDescription.Clear();
-                }
-            }
-            else
-            {
                 MessageBox.Show("Operación cancelada", "Cancelación", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
 
@@ -249,8 +226,9 @@ namespace accesoadatos
 
         private void button1_Click(object sender, EventArgs e)
         {
+            var context = new NorthwindContext();
             this.Hide();
-            var supplidor = new SUPLIDOR();
+            var supplidor = new SUPLIDOR(context);
 
             supplidor.Show();
         }
@@ -264,7 +242,8 @@ namespace accesoadatos
 
         private void button3_Click(object sender, EventArgs e)
         {
-            var Products = new ACCESOADATOSFORM();
+            var context = new NorthwindContext();
+            var Products = new ACCESOADATOSFORM(context);
             Products.Show();
             this.Hide();
         }
@@ -281,15 +260,17 @@ namespace accesoadatos
 
         private void suppliersToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var supplier = new SUPLIDOR();
+            var context = new NorthwindContext();
+            var supplier = new SUPLIDOR(context);
             supplier.Show();
             this.Hide();
         }
 
         private void productsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var products = new ACCESOADATOSFORM();
-            products.Show();
+            var context = new NorthwindContext();
+            var productsForm = new ACCESOADATOSFORM(context);
+            productsForm.Show();
             this.Hide();
         }
 
@@ -309,6 +290,13 @@ namespace accesoadatos
                 RuleFor(Category => Category.Description).NotEmpty().WithMessage("La descripcion es obligatoria.").Matches(@"^[a-zA-Z\s]+$").WithMessage("La descripcion de la categoria solo debe contener letras.");
 
             }
+        }
+
+        private void menuToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var menu = new MenuPrincipal();
+            menu.Show();
+            this.Hide();
         }
     }
 }

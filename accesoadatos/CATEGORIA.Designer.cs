@@ -54,6 +54,7 @@
             button1 = new Button();
             pictureBox1 = new PictureBox();
             errorProvider1 = new ErrorProvider(components);
+            menuToolStripMenuItem = new ToolStripMenuItem();
             tableLayoutPanel1.SuspendLayout();
             panel1.SuspendLayout();
             menuStrip1.SuspendLayout();
@@ -175,7 +176,7 @@
             // menuStrip1
             // 
             menuStrip1.ImageScalingSize = new Size(20, 20);
-            menuStrip1.Items.AddRange(new ToolStripItem[] { suppliersToolStripMenuItem, productsToolStripMenuItem });
+            menuStrip1.Items.AddRange(new ToolStripItem[] { menuToolStripMenuItem, suppliersToolStripMenuItem, productsToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
             menuStrip1.Size = new Size(657, 28);
@@ -304,6 +305,13 @@
             // 
             errorProvider1.ContainerControl = this;
             // 
+            // menuToolStripMenuItem
+            // 
+            menuToolStripMenuItem.Name = "menuToolStripMenuItem";
+            menuToolStripMenuItem.Size = new Size(60, 24);
+            menuToolStripMenuItem.Text = "Menu";
+            menuToolStripMenuItem.Click += menuToolStripMenuItem_Click;
+            // 
             // CATEGORIA
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -356,5 +364,6 @@
         private MenuStrip menuStrip1;
         private ToolStripMenuItem suppliersToolStripMenuItem;
         private ToolStripMenuItem productsToolStripMenuItem;
+        private ToolStripMenuItem menuToolStripMenuItem;
     }
 }

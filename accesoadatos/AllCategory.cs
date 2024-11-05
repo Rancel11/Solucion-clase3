@@ -1,4 +1,5 @@
-﻿using Dapper;
+﻿using accesoadatos.Data;
+using Dapper;
 using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
@@ -61,7 +62,8 @@ namespace accesoadatos
 
         private void atrasToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var categorias = new CATEGORIA();
+            var context = new NorthwindContext();
+            var categorias = new CATEGORIA(context);
             categorias.Show();
             this.Hide();
         }

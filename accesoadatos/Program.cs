@@ -1,3 +1,4 @@
+using accesoadatos.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Identity.Client;
 using Serilog;
@@ -24,6 +25,8 @@ namespace accesoadatos
                 .MinimumLevel.Debug()
                 .WriteTo.File("logs/myapp.txt", rollingInterval: RollingInterval.Day)
                 .CreateLogger();
+            
+
 
             try
             {
@@ -33,9 +36,9 @@ namespace accesoadatos
                     .Build();
 
                 Log.Information("La aplicación está iniciando.");
-
+             
                 ApplicationConfiguration.Initialize();
-                Application.Run(new SUPLIDOR());
+                Application.Run(new MenuPrincipal());
             }
             catch (Exception ex)
             {

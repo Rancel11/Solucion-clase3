@@ -57,6 +57,7 @@
             button2 = new Button();
             button1 = new Button();
             errorProvider1 = new ErrorProvider(components);
+            menuToolStripMenuItem = new ToolStripMenuItem();
             tableLayoutPanel1.SuspendLayout();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
@@ -271,7 +272,7 @@
             // menuStrip1
             // 
             menuStrip1.ImageScalingSize = new Size(20, 20);
-            menuStrip1.Items.AddRange(new ToolStripItem[] { productsToolStripMenuItem, categoryToolStripMenuItem });
+            menuStrip1.Items.AddRange(new ToolStripItem[] { menuToolStripMenuItem, productsToolStripMenuItem, categoryToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
             menuStrip1.Size = new Size(644, 28);
@@ -308,7 +309,7 @@
             pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
             pictureBox1.Location = new Point(0, 3);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(219, 216);
+            pictureBox1.Size = new Size(219, 256);
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox1.TabIndex = 1;
             pictureBox1.TabStop = false;
@@ -336,6 +337,13 @@
             // errorProvider1
             // 
             errorProvider1.ContainerControl = this;
+            // 
+            // menuToolStripMenuItem
+            // 
+            menuToolStripMenuItem.Name = "menuToolStripMenuItem";
+            menuToolStripMenuItem.Size = new Size(60, 24);
+            menuToolStripMenuItem.Text = "Menu";
+            menuToolStripMenuItem.Click += menuToolStripMenuItem_Click;
             // 
             // SUPLIDOR
             // 
@@ -393,5 +401,6 @@
         private MenuStrip menuStrip1;
         private ToolStripMenuItem productsToolStripMenuItem;
         private ToolStripMenuItem categoryToolStripMenuItem;
+        private ToolStripMenuItem menuToolStripMenuItem;
     }
 }
