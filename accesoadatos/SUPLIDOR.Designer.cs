@@ -50,6 +50,7 @@
             label2 = new Label();
             label1 = new Label();
             menuStrip1 = new MenuStrip();
+            menuToolStripMenuItem = new ToolStripMenuItem();
             productsToolStripMenuItem = new ToolStripMenuItem();
             categoryToolStripMenuItem = new ToolStripMenuItem();
             panel3 = new Panel();
@@ -57,7 +58,6 @@
             button2 = new Button();
             button1 = new Button();
             errorProvider1 = new ErrorProvider(components);
-            menuToolStripMenuItem = new ToolStripMenuItem();
             tableLayoutPanel1.SuspendLayout();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
@@ -279,6 +279,13 @@
             menuStrip1.TabIndex = 10;
             menuStrip1.Text = "menuStrip1";
             // 
+            // menuToolStripMenuItem
+            // 
+            menuToolStripMenuItem.Image = (Image)resources.GetObject("menuToolStripMenuItem.Image");
+            menuToolStripMenuItem.Name = "menuToolStripMenuItem";
+            menuToolStripMenuItem.Size = new Size(34, 24);
+            menuToolStripMenuItem.Click += menuToolStripMenuItem_Click;
+            // 
             // productsToolStripMenuItem
             // 
             productsToolStripMenuItem.Name = "productsToolStripMenuItem";
@@ -337,13 +344,6 @@
             // errorProvider1
             // 
             errorProvider1.ContainerControl = this;
-            // 
-            // menuToolStripMenuItem
-            // 
-            menuToolStripMenuItem.Name = "menuToolStripMenuItem";
-            menuToolStripMenuItem.Size = new Size(60, 24);
-            menuToolStripMenuItem.Text = "Menu";
-            menuToolStripMenuItem.Click += menuToolStripMenuItem_Click;
             // 
             // SUPLIDOR
             // 

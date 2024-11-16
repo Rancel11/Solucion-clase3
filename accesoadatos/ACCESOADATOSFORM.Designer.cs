@@ -29,15 +29,10 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ACCESOADATOSFORM));
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             dataGridView1 = new DataGridView();
-            ColumnProductID = new DataGridViewTextBoxColumn();
-            ColumnProductName = new DataGridViewTextBoxColumn();
-            ColumnCompanyName = new DataGridViewTextBoxColumn();
-            ColumnCategoryName = new DataGridViewTextBoxColumn();
-            ColumnQtyPerUnit = new DataGridViewTextBoxColumn();
-            ColumnUnitprice = new DataGridViewTextBoxColumn();
             panel1 = new Panel();
             button3 = new Button();
             label3 = new Label();
@@ -48,6 +43,7 @@
             buttonDelete = new Button();
             buttonUpdate = new Button();
             groupBox1 = new GroupBox();
+            pictureBox1 = new PictureBox();
             button2 = new Button();
             buttonInsert = new Button();
             textBoxUnitPrice = new TextBox();
@@ -58,13 +54,20 @@
             label4 = new Label();
             listBox1 = new ListBox();
             menuStrip1 = new MenuStrip();
+            menuToolStripMenuItem = new ToolStripMenuItem();
             atrasToolStripMenuItem = new ToolStripMenuItem();
             suppliersToolStripMenuItem = new ToolStripMenuItem();
             errorProvider1 = new ErrorProvider(components);
-            menuToolStripMenuItem = new ToolStripMenuItem();
+            ColumnProductID = new DataGridViewTextBoxColumn();
+            ColumnProductName = new DataGridViewTextBoxColumn();
+            ColumnCompanyName = new DataGridViewTextBoxColumn();
+            ColumnCategoryName = new DataGridViewTextBoxColumn();
+            ColumnQtyPerUnit = new DataGridViewTextBoxColumn();
+            ColumnUnitprice = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             panel1.SuspendLayout();
             groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)errorProvider1).BeginInit();
             SuspendLayout();
@@ -79,61 +82,6 @@
             dataGridView1.Size = new Size(861, 507);
             dataGridView1.TabIndex = 0;
             dataGridView1.CellContentClick += dataGridView1_CellContentClick;
-            // 
-            // ColumnProductID
-            // 
-            ColumnProductID.DataPropertyName = "ProductID";
-            ColumnProductID.HeaderText = "ProductID";
-            ColumnProductID.MinimumWidth = 6;
-            ColumnProductID.Name = "ColumnProductID";
-            ColumnProductID.Visible = false;
-            ColumnProductID.Width = 125;
-            // 
-            // ColumnProductName
-            // 
-            ColumnProductName.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            ColumnProductName.DataPropertyName = "ProductName";
-            ColumnProductName.HeaderText = "ProductName";
-            ColumnProductName.MinimumWidth = 6;
-            ColumnProductName.Name = "ColumnProductName";
-            // 
-            // ColumnCompanyName
-            // 
-            ColumnCompanyName.DataPropertyName = "CompanyName";
-            ColumnCompanyName.HeaderText = "CompanyName";
-            ColumnCompanyName.MinimumWidth = 6;
-            ColumnCompanyName.Name = "ColumnCompanyName";
-            ColumnCompanyName.Width = 125;
-            // 
-            // ColumnCategoryName
-            // 
-            ColumnCategoryName.DataPropertyName = "CategoryName";
-            ColumnCategoryName.HeaderText = "CategoryName";
-            ColumnCategoryName.MinimumWidth = 6;
-            ColumnCategoryName.Name = "ColumnCategoryName";
-            ColumnCategoryName.Width = 125;
-            // 
-            // ColumnQtyPerUnit
-            // 
-            ColumnQtyPerUnit.DataPropertyName = "QuantityPerUnit";
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleRight;
-            ColumnQtyPerUnit.DefaultCellStyle = dataGridViewCellStyle1;
-            ColumnQtyPerUnit.HeaderText = "QuantityPerUnit";
-            ColumnQtyPerUnit.MinimumWidth = 6;
-            ColumnQtyPerUnit.Name = "ColumnQtyPerUnit";
-            ColumnQtyPerUnit.Width = 125;
-            // 
-            // ColumnUnitprice
-            // 
-            ColumnUnitprice.DataPropertyName = "UnitPrice";
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle2.Format = "N2";
-            dataGridViewCellStyle2.NullValue = null;
-            ColumnUnitprice.DefaultCellStyle = dataGridViewCellStyle2;
-            ColumnUnitprice.HeaderText = "UnitPrice";
-            ColumnUnitprice.MinimumWidth = 6;
-            ColumnUnitprice.Name = "ColumnUnitprice";
-            ColumnUnitprice.Width = 125;
             // 
             // panel1
             // 
@@ -234,6 +182,7 @@
             // groupBox1
             // 
             groupBox1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            groupBox1.Controls.Add(pictureBox1);
             groupBox1.Controls.Add(button2);
             groupBox1.Controls.Add(buttonDelete);
             groupBox1.Controls.Add(buttonUpdate);
@@ -251,6 +200,17 @@
             groupBox1.TabIndex = 2;
             groupBox1.TabStop = false;
             groupBox1.Text = "Insert Product";
+            // 
+            // pictureBox1
+            // 
+            pictureBox1.BackColor = Color.Transparent;
+            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
+            pictureBox1.Location = new Point(6, 48);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(209, 223);
+            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBox1.TabIndex = 7;
+            pictureBox1.TabStop = false;
             // 
             // button2
             // 
@@ -277,7 +237,7 @@
             // textBoxUnitPrice
             // 
             textBoxUnitPrice.Font = new Font("Segoe UI", 10.8F);
-            textBoxUnitPrice.Location = new Point(787, 92);
+            textBoxUnitPrice.Location = new Point(807, 92);
             textBoxUnitPrice.Name = "textBoxUnitPrice";
             textBoxUnitPrice.Size = new Size(155, 31);
             textBoxUnitPrice.TabIndex = 1;
@@ -286,7 +246,7 @@
             // textBoxQuantityPerUnit
             // 
             textBoxQuantityPerUnit.Font = new Font("Segoe UI", 12F);
-            textBoxQuantityPerUnit.Location = new Point(296, 168);
+            textBoxQuantityPerUnit.Location = new Point(418, 168);
             textBoxQuantityPerUnit.Name = "textBoxQuantityPerUnit";
             textBoxQuantityPerUnit.Size = new Size(154, 34);
             textBoxQuantityPerUnit.TabIndex = 1;
@@ -295,7 +255,7 @@
             // textBoxProductName
             // 
             textBoxProductName.Font = new Font("Segoe UI", 10.8F);
-            textBoxProductName.Location = new Point(296, 92);
+            textBoxProductName.Location = new Point(418, 92);
             textBoxProductName.Name = "textBoxProductName";
             textBoxProductName.Size = new Size(155, 31);
             textBoxProductName.TabIndex = 1;
@@ -305,7 +265,7 @@
             // 
             label6.AutoSize = true;
             label6.Font = new Font("Segoe UI", 12F);
-            label6.Location = new Point(604, 92);
+            label6.Location = new Point(624, 92);
             label6.Name = "label6";
             label6.Size = new Size(91, 28);
             label6.TabIndex = 0;
@@ -315,7 +275,7 @@
             // 
             label5.AutoSize = true;
             label5.Font = new Font("Segoe UI", 12F);
-            label5.Location = new Point(113, 174);
+            label5.Location = new Point(235, 174);
             label5.Name = "label5";
             label5.Size = new Size(152, 28);
             label5.TabIndex = 0;
@@ -325,7 +285,7 @@
             // 
             label4.AutoSize = true;
             label4.Font = new Font("Segoe UI", 12F);
-            label4.Location = new Point(113, 92);
+            label4.Location = new Point(235, 92);
             label4.Name = "label4";
             label4.Size = new Size(133, 28);
             label4.TabIndex = 0;
@@ -350,6 +310,13 @@
             menuStrip1.TabIndex = 5;
             menuStrip1.Text = "menuStrip1";
             // 
+            // menuToolStripMenuItem
+            // 
+            menuToolStripMenuItem.Image = (Image)resources.GetObject("menuToolStripMenuItem.Image");
+            menuToolStripMenuItem.Name = "menuToolStripMenuItem";
+            menuToolStripMenuItem.Size = new Size(34, 24);
+            menuToolStripMenuItem.Click += menuToolStripMenuItem_Click;
+            // 
             // atrasToolStripMenuItem
             // 
             atrasToolStripMenuItem.Name = "atrasToolStripMenuItem";
@@ -368,12 +335,60 @@
             // 
             errorProvider1.ContainerControl = this;
             // 
-            // menuToolStripMenuItem
+            // ColumnProductID
             // 
-            menuToolStripMenuItem.Name = "menuToolStripMenuItem";
-            menuToolStripMenuItem.Size = new Size(60, 24);
-            menuToolStripMenuItem.Text = "Menu";
-            menuToolStripMenuItem.Click += menuToolStripMenuItem_Click;
+            ColumnProductID.DataPropertyName = "ProductID";
+            ColumnProductID.HeaderText = "ProductID";
+            ColumnProductID.MinimumWidth = 6;
+            ColumnProductID.Name = "ColumnProductID";
+            ColumnProductID.Visible = false;
+            ColumnProductID.Width = 125;
+            // 
+            // ColumnProductName
+            // 
+            ColumnProductName.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            ColumnProductName.DataPropertyName = "ProductName";
+            ColumnProductName.HeaderText = "ProductName";
+            ColumnProductName.MinimumWidth = 6;
+            ColumnProductName.Name = "ColumnProductName";
+            // 
+            // ColumnCompanyName
+            // 
+            ColumnCompanyName.DataPropertyName = "CompanyName";
+            ColumnCompanyName.HeaderText = "CompanyName";
+            ColumnCompanyName.MinimumWidth = 6;
+            ColumnCompanyName.Name = "ColumnCompanyName";
+            ColumnCompanyName.Width = 125;
+            // 
+            // ColumnCategoryName
+            // 
+            ColumnCategoryName.DataPropertyName = "CategoryName";
+            ColumnCategoryName.HeaderText = "CategoryName";
+            ColumnCategoryName.MinimumWidth = 6;
+            ColumnCategoryName.Name = "ColumnCategoryName";
+            ColumnCategoryName.Width = 125;
+            // 
+            // ColumnQtyPerUnit
+            // 
+            ColumnQtyPerUnit.DataPropertyName = "QuantityPerUnit";
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleRight;
+            ColumnQtyPerUnit.DefaultCellStyle = dataGridViewCellStyle1;
+            ColumnQtyPerUnit.HeaderText = "QuantityPerUnit";
+            ColumnQtyPerUnit.MinimumWidth = 6;
+            ColumnQtyPerUnit.Name = "ColumnQtyPerUnit";
+            ColumnQtyPerUnit.Width = 125;
+            // 
+            // ColumnUnitprice
+            // 
+            ColumnUnitprice.DataPropertyName = "UnitPrice";
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle2.Format = "N2";
+            dataGridViewCellStyle2.NullValue = null;
+            ColumnUnitprice.DefaultCellStyle = dataGridViewCellStyle2;
+            ColumnUnitprice.HeaderText = "UnitPrice";
+            ColumnUnitprice.MinimumWidth = 6;
+            ColumnUnitprice.Name = "ColumnUnitprice";
+            ColumnUnitprice.Width = 125;
             // 
             // ACCESOADATOSFORM
             // 
@@ -398,6 +413,7 @@
             panel1.PerformLayout();
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)errorProvider1).EndInit();
@@ -431,12 +447,13 @@
         private ErrorProvider errorProvider1;
         private ToolStripMenuItem suppliersToolStripMenuItem;
         private Button button2;
+        private ToolStripMenuItem menuToolStripMenuItem;
+        private PictureBox pictureBox1;
         private DataGridViewTextBoxColumn ColumnProductID;
         private DataGridViewTextBoxColumn ColumnProductName;
         private DataGridViewTextBoxColumn ColumnCompanyName;
         private DataGridViewTextBoxColumn ColumnCategoryName;
         private DataGridViewTextBoxColumn ColumnQtyPerUnit;
         private DataGridViewTextBoxColumn ColumnUnitprice;
-        private ToolStripMenuItem menuToolStripMenuItem;
     }
 }

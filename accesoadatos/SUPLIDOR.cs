@@ -87,50 +87,59 @@ namespace accesoadatos
         }
         private void buttonFilter_Click(object sender, EventArgs e)
         {
-            DialogResult dialogResult = MessageBox.Show("Vas a actualizar o eliminar un registro", "Confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-            if (dialogResult == DialogResult.Yes)
+            try
             {
+                DialogResult dialogResult = MessageBox.Show("Vas a actualizar o eliminar un registro", "Confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
-                int supplierId = (int)comboBox1.SelectedValue;
-
-
-                var supplier = _context.Suppliers
-                    .Where(p => p.SupplierID == supplierId)
-                    .Select(p => new
-                    {
-                        p.CompanyName,
-                        p.ContactName,
-                        p.ContactTitle,
-                        p.Phone
-                    }).FirstOrDefault();
-
-
-
-                if (supplier != null)
+                if (dialogResult == DialogResult.Yes)
                 {
 
-                    textBoxCompanyName.Text = supplier.CompanyName;
-                    textBoxContactName.Text = supplier.ContactName;
-                    textBoxContactTitle.Text = supplier.ContactTitle;
-                    textBoxPhone.Text = supplier.Phone.ToString();
+                    int supplierId = (int)comboBox1.SelectedValue;
 
-                    MessageBox.Show("Los datos del suplidor se han cargado correctamente.");
+
+                    var supplier = _context.Suppliers
+                        .Where(p => p.SupplierID == supplierId)
+                        .Select(p => new
+                        {
+                            p.CompanyName,
+                            p.ContactName,
+                            p.ContactTitle,
+                            p.Phone
+                        }).FirstOrDefault();
+
+
+
+                    if (supplier != null)
+                    {
+
+                        textBoxCompanyName.Text = supplier.CompanyName;
+                        textBoxContactName.Text = supplier.ContactName;
+                        textBoxContactTitle.Text = supplier.ContactTitle;
+                        textBoxPhone.Text = supplier.Phone.ToString();
+
+                        MessageBox.Show("Los datos del suplidor se han cargado correctamente.");
+                    }
+                    else
+                    {
+                        MessageBox.Show("No se encontró el suplidor.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
                 }
                 else
                 {
-                    MessageBox.Show("No se encontró el suplidor.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    ClearTextFields();
                 }
             }
-            else
+            catch (Exception ex)
             {
-                ClearTextFields();
+                MessageBox.Show($"Ocurrió un error al insertar los datos del suplidor: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+
+
         }
 
 
 
-        private void buttonupdate_Click(object sender, EventArgs e)
+    private void buttonupdate_Click(object sender, EventArgs e)
         {
             DialogResult dialogResult = MessageBox.Show("¿Deseas actualizar este registro?", "Confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
@@ -225,11 +234,12 @@ namespace accesoadatos
 
         private void button1_Click(object sender, EventArgs e)
         {
-            this.Hide();
+            var context = new NorthwindContext();
 
-
-            var allsupplier = new AllSuppliers();
+            
+            var allsupplier = new AllSuppliers(context);
             allsupplier.Show();
+            this.Hide();
 
 
         }

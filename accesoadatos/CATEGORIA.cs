@@ -75,11 +75,16 @@ namespace accesoadatos
                 _context.Categories.Add(newCategory);
                 _context.SaveChanges();
 
+                MessageBox.Show("Los datos se insertaron correctamente");
+
+                LoadComboBox();
+             
+
                 Cleartextfilds();
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ocurrió un error al insertar el suplidor: {ex.Message}\n\nDetalles: {ex.InnerException?.Message}",
+                MessageBox.Show($"Ocurrió un error al insertar la categoria : {ex.Message}\n\nDetalles: {ex.InnerException?.Message}",
                                 "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -96,36 +101,45 @@ namespace accesoadatos
         private void buttonupdate_Click(object sender, EventArgs e)
         {
 
-
-
-            DialogResult dialogResult = MessageBox.Show("¿Deseas actualizar este registro?", "Confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-            if (dialogResult == DialogResult.Yes)
+            try
             {
-                int categoryId = (int)comboBox1.SelectedValue;
-                var category = _context.Categories.Find(categoryId);
+                DialogResult dialogResult = MessageBox.Show("¿Deseas actualizar este registro?", "Confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
-                if (category != null)
+                if (dialogResult == DialogResult.Yes)
                 {
-                    category.CategoryName = textBoxCategoryName.Text;
-                    category.Description = textBoxDescription.Text;
+                    int categoryId = (int)comboBox1.SelectedValue;
+                    var category = _context.Categories.Find(categoryId);
 
-                    _context.Categories.Add(category);
-                    _context.SaveChanges();
-                    MessageBox.Show("Los datos se actualizaron correctamente");
+                    if (category != null)
+                    {
+                        category.CategoryName = textBoxCategoryName.Text;
+                        category.Description = textBoxDescription.Text;
 
-                    LoadComboBox();
-                    Cleartextfilds();
+                        _context.Categories.Update(category);
+                        _context.SaveChanges();
+                        MessageBox.Show("Los datos se actualizaron correctamente");
+
+                        LoadComboBox();
+                        Cleartextfilds();
+                    }
+                    else
+                    {
+                        MessageBox.Show("No se encontró el registro", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
                 }
                 else
                 {
-                    MessageBox.Show("No se encontró el registro", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Operación cancelada", "Cancelación", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show("Operación cancelada", "Cancelación", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show($"Ocurrió un error al actualizar los datos de la categoria: {ex.Message}\n\nDetalles: {ex.InnerException?.Message}",
+                                "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+
+
+
 
 
 
@@ -137,50 +151,62 @@ namespace accesoadatos
 
 
 
-            DialogResult dialogResult = MessageBox.Show("Vas a actualizar o eliminar un registro", "Confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-            if (dialogResult == DialogResult.Yes)
+            try
             {
+                DialogResult dialogResult = MessageBox.Show("Vas a actualizar o eliminar un registro", "Confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
                 if (dialogResult == DialogResult.Yes)
                 {
-                    int categoryId = (int)comboBox1.SelectedValue;
 
-                    var category = _context.Categories
-                        .Where(p => p.CategoryID == categoryId)
-                        .Select(p => new
-                        {
-                            p.CategoryName,
-                            p.Description
-                        }).FirstOrDefault();
-
-
-                    if (category != null)
+                    if (dialogResult == DialogResult.Yes)
                     {
-                        textBoxCategoryName.Text = category.CategoryName;
-                        textBoxDescription.Text = category.Description;
+                        int categoryId = (int)comboBox1.SelectedValue;
 
-                        LoadComboBox();
-                        Cleartextfilds();
+                        var category = _context.Categories
+                            .Where(p => p.CategoryID == categoryId)
+                            .Select(p => new
+                            {
+                                p.CategoryName,
+                                p.Description
+                            }).FirstOrDefault();
 
-                        MessageBox.Show("Los datos de la categoria se han cargado correctamente.");
+
+                        if (category != null)
+                        {
+                            textBoxCategoryName.Text = category.CategoryName;
+                            textBoxDescription.Text = category.Description;
+
+                            LoadComboBox();
+
+
+                            MessageBox.Show("Los datos de la categoria se han cargado correctamente.");
+
+
+                        }
+                        else
+                        {
+                            MessageBox.Show("No se encontró categoria", "Informacla ", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
                     }
                     else
                     {
-                        MessageBox.Show("No se encontró categoria", "Informacla ", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                        textBoxCategoryName.Clear();
+                        textBoxDescription.Clear();
                     }
+
+                    textBoxCategoryName.Refresh();
+                    textBoxDescription.Refresh();
+
+
                 }
-                else
-                {
-
-                    textBoxCategoryName.Clear();
-                    textBoxDescription.Clear();
-                }
-
-                textBoxCategoryName.Refresh();
-                textBoxDescription.Refresh();
-
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ocurrió un error al Filtrar los datos la categoria: {ex.Message}\n\nDetalles: {ex.InnerException?.Message}",
+                                "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
 
 
         }
@@ -191,28 +217,35 @@ namespace accesoadatos
 
         private void buttonDelete_Click(object sender, EventArgs e)
         {
-
-            DialogResult dialogResult = MessageBox.Show("¿Deseas eliminar este registro?", "Confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            if (dialogResult == DialogResult.Yes)
+            try
             {
-                int categoryId = (int)comboBox1.SelectedValue;
-                var category = _context.Categories.Find(categoryId);
-
-                if (category != null)
+                DialogResult dialogResult = MessageBox.Show("¿Deseas eliminar este registro?", "Confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (dialogResult == DialogResult.Yes)
                 {
-                    _context.Categories.Remove(category);
-                    _context.SaveChanges();
-                    MessageBox.Show("El registro se eliminó correctamente");
+                    int categoryId = (int)comboBox1.SelectedValue;
+                    var category = _context.Categories.Find(categoryId);
 
-                    LoadComboBox();
-                    Cleartextfilds();
+                    if (category != null)
+                    {
+                        _context.Categories.Remove(category);
+                        _context.SaveChanges();
+                        MessageBox.Show("El registro se eliminó correctamente");
+
+                        LoadComboBox();
+                        Cleartextfilds();
+                    }
+                    else
+                    {
+                        MessageBox.Show("No se encontró el registro", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    MessageBox.Show("Operación cancelada", "Cancelación", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
-                else
-                {
-                    MessageBox.Show("No se encontró el registro", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                MessageBox.Show("Operación cancelada", "Cancelación", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Esta categoria no se puede eliminar, ya que esta enlasada a uno o varios productos: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        
 
 
 
@@ -226,6 +259,7 @@ namespace accesoadatos
 
         private void button1_Click(object sender, EventArgs e)
         {
+
             var context = new NorthwindContext();
             this.Hide();
             var supplidor = new SUPLIDOR(context);
@@ -235,7 +269,8 @@ namespace accesoadatos
 
         private void button2_Click(object sender, EventArgs e)
         {
-            var allcategory = new AllCategory();
+            var context = new NorthwindContext();
+            var allcategory = new AllCategory(context);
             allcategory.Show();
             this.Hide();
         }

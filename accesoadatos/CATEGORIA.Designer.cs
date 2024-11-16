@@ -41,6 +41,7 @@
             label2 = new Label();
             label1 = new Label();
             menuStrip1 = new MenuStrip();
+            menuToolStripMenuItem = new ToolStripMenuItem();
             suppliersToolStripMenuItem = new ToolStripMenuItem();
             productsToolStripMenuItem = new ToolStripMenuItem();
             panel2 = new Panel();
@@ -54,7 +55,6 @@
             button1 = new Button();
             pictureBox1 = new PictureBox();
             errorProvider1 = new ErrorProvider(components);
-            menuToolStripMenuItem = new ToolStripMenuItem();
             tableLayoutPanel1.SuspendLayout();
             panel1.SuspendLayout();
             menuStrip1.SuspendLayout();
@@ -78,7 +78,7 @@
             tableLayoutPanel1.RowCount = 2;
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 87.5208F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 12.4792013F));
-            tableLayoutPanel1.Size = new Size(829, 601);
+            tableLayoutPanel1.Size = new Size(906, 601);
             tableLayoutPanel1.TabIndex = 0;
             // 
             // panel1
@@ -93,9 +93,9 @@
             panel1.Controls.Add(label1);
             panel1.Controls.Add(menuStrip1);
             panel1.Dock = DockStyle.Fill;
-            panel1.Location = new Point(169, 3);
+            panel1.Location = new Point(184, 3);
             panel1.Name = "panel1";
-            panel1.Size = new Size(657, 520);
+            panel1.Size = new Size(719, 520);
             panel1.TabIndex = 0;
             panel1.Paint += panel1_Paint;
             // 
@@ -139,17 +139,18 @@
             // 
             // textBoxDescription
             // 
-            textBoxDescription.Location = new Point(338, 313);
+            textBoxDescription.Location = new Point(338, 310);
+            textBoxDescription.Multiline = true;
             textBoxDescription.Name = "textBoxDescription";
-            textBoxDescription.Size = new Size(224, 27);
+            textBoxDescription.Size = new Size(322, 131);
             textBoxDescription.TabIndex = 1;
             textBoxDescription.Validated += textBoxDescription_Validated;
             // 
             // textBoxCategoryName
             // 
-            textBoxCategoryName.Location = new Point(338, 247);
+            textBoxCategoryName.Location = new Point(338, 261);
             textBoxCategoryName.Name = "textBoxCategoryName";
-            textBoxCategoryName.Size = new Size(224, 27);
+            textBoxCategoryName.Size = new Size(225, 27);
             textBoxCategoryName.TabIndex = 1;
             textBoxCategoryName.Validated += textBoxCategoryName_Validated;
             // 
@@ -157,7 +158,7 @@
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            label2.Location = new Point(106, 315);
+            label2.Location = new Point(106, 329);
             label2.Name = "label2";
             label2.Size = new Size(121, 28);
             label2.TabIndex = 0;
@@ -167,7 +168,7 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            label1.Location = new Point(106, 243);
+            label1.Location = new Point(106, 257);
             label1.Name = "label1";
             label1.Size = new Size(145, 28);
             label1.TabIndex = 0;
@@ -179,9 +180,16 @@
             menuStrip1.Items.AddRange(new ToolStripItem[] { menuToolStripMenuItem, suppliersToolStripMenuItem, productsToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(657, 28);
+            menuStrip1.Size = new Size(719, 28);
             menuStrip1.TabIndex = 13;
             menuStrip1.Text = "menuStrip1";
+            // 
+            // menuToolStripMenuItem
+            // 
+            menuToolStripMenuItem.Image = (Image)resources.GetObject("menuToolStripMenuItem.Image");
+            menuToolStripMenuItem.Name = "menuToolStripMenuItem";
+            menuToolStripMenuItem.Size = new Size(34, 24);
+            menuToolStripMenuItem.Click += menuToolStripMenuItem_Click;
             // 
             // suppliersToolStripMenuItem
             // 
@@ -204,9 +212,9 @@
             panel2.Controls.Add(buttonupdate);
             panel2.Controls.Add(buttonInsert);
             panel2.Dock = DockStyle.Fill;
-            panel2.Location = new Point(169, 529);
+            panel2.Location = new Point(184, 529);
             panel2.Name = "panel2";
-            panel2.Size = new Size(657, 69);
+            panel2.Size = new Size(719, 69);
             panel2.TabIndex = 1;
             // 
             // buttonnew
@@ -258,7 +266,7 @@
             panel3.Dock = DockStyle.Fill;
             panel3.Location = new Point(3, 3);
             panel3.Name = "panel3";
-            panel3.Size = new Size(160, 520);
+            panel3.Size = new Size(175, 520);
             panel3.TabIndex = 2;
             // 
             // button3
@@ -293,10 +301,11 @@
             // 
             // pictureBox1
             // 
+            pictureBox1.BackColor = Color.Transparent;
             pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
             pictureBox1.Location = new Point(3, 0);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(154, 185);
+            pictureBox1.Size = new Size(169, 204);
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox1.TabIndex = 0;
             pictureBox1.TabStop = false;
@@ -305,18 +314,11 @@
             // 
             errorProvider1.ContainerControl = this;
             // 
-            // menuToolStripMenuItem
-            // 
-            menuToolStripMenuItem.Name = "menuToolStripMenuItem";
-            menuToolStripMenuItem.Size = new Size(60, 24);
-            menuToolStripMenuItem.Text = "Menu";
-            menuToolStripMenuItem.Click += menuToolStripMenuItem_Click;
-            // 
             // CATEGORIA
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(829, 601);
+            ClientSize = new Size(906, 601);
             Controls.Add(tableLayoutPanel1);
             MainMenuStrip = menuStrip1;
             MaximizeBox = false;

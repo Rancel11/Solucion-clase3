@@ -28,10 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle7 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle8 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Order));
             panel2 = new Panel();
             dateTimePicker3 = new DateTimePicker();
@@ -83,7 +83,10 @@
             buttonDELETE = new Button();
             buttonCANCEL = new Button();
             buttonOrdersMade = new Button();
+            comboBoxCategory = new ComboBox();
+            label1 = new Label();
             button1 = new Button();
+            button2 = new Button();
             panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
@@ -360,13 +363,14 @@
             ColumnProductID.HeaderText = "ProductID";
             ColumnProductID.MinimumWidth = 6;
             ColumnProductID.Name = "ColumnProductID";
+            ColumnProductID.Visible = false;
             ColumnProductID.Width = 125;
             // 
             // ColumnUnitPrice
             // 
             ColumnUnitPrice.DataPropertyName = "UnitPrice";
-            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.TopRight;
-            ColumnUnitPrice.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.TopRight;
+            ColumnUnitPrice.DefaultCellStyle = dataGridViewCellStyle1;
             ColumnUnitPrice.HeaderText = "UnitPrice";
             ColumnUnitPrice.MinimumWidth = 6;
             ColumnUnitPrice.Name = "ColumnUnitPrice";
@@ -375,8 +379,8 @@
             // ColumnQuantityPerUnit
             // 
             ColumnQuantityPerUnit.DataPropertyName = "Quantity";
-            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.TopRight;
-            ColumnQuantityPerUnit.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.TopRight;
+            ColumnQuantityPerUnit.DefaultCellStyle = dataGridViewCellStyle2;
             ColumnQuantityPerUnit.HeaderText = "Quantity";
             ColumnQuantityPerUnit.MinimumWidth = 6;
             ColumnQuantityPerUnit.Name = "ColumnQuantityPerUnit";
@@ -385,8 +389,8 @@
             // ColumnDiscount
             // 
             ColumnDiscount.DataPropertyName = "Discount";
-            dataGridViewCellStyle7.Alignment = DataGridViewContentAlignment.TopRight;
-            ColumnDiscount.DefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.TopRight;
+            ColumnDiscount.DefaultCellStyle = dataGridViewCellStyle3;
             ColumnDiscount.HeaderText = "Discount";
             ColumnDiscount.MinimumWidth = 6;
             ColumnDiscount.Name = "ColumnDiscount";
@@ -411,8 +415,8 @@
             // ColumnExtendedPrice
             // 
             ColumnExtendedPrice.DataPropertyName = "ExtendedPrice";
-            dataGridViewCellStyle8.Alignment = DataGridViewContentAlignment.TopRight;
-            ColumnExtendedPrice.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.TopRight;
+            ColumnExtendedPrice.DefaultCellStyle = dataGridViewCellStyle4;
             ColumnExtendedPrice.HeaderText = "ExtendedPrice";
             ColumnExtendedPrice.MinimumWidth = 6;
             ColumnExtendedPrice.Name = "ColumnExtendedPrice";
@@ -522,13 +526,15 @@
             // 
             // textBoxFrieght
             // 
+            textBoxFrieght.Enabled = false;
             textBoxFrieght.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
             textBoxFrieght.Location = new Point(1080, 840);
             textBoxFrieght.Name = "textBoxFrieght";
             textBoxFrieght.Size = new Size(134, 30);
             textBoxFrieght.TabIndex = 1;
-            textBoxFrieght.Text = "10";
+            textBoxFrieght.Text = "1000";
             textBoxFrieght.TextAlign = HorizontalAlignment.Right;
+            textBoxFrieght.TextChanged += textBoxFrieght_TextChanged;
             // 
             // textBoxTotal
             // 
@@ -541,23 +547,27 @@
             // 
             // menuStrip1
             // 
+            menuStrip1.GripStyle = ToolStripGripStyle.Visible;
             menuStrip1.ImageScalingSize = new Size(20, 20);
             menuStrip1.Items.AddRange(new ToolStripItem[] { atrasToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
+            menuStrip1.MaximumSize = new Size(50, 50);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(1259, 28);
+            menuStrip1.RenderMode = ToolStripRenderMode.Professional;
+            menuStrip1.Size = new Size(50, 28);
             menuStrip1.TabIndex = 5;
             menuStrip1.Text = "menuStrip1";
             // 
             // atrasToolStripMenuItem
             // 
+            atrasToolStripMenuItem.Image = (Image)resources.GetObject("atrasToolStripMenuItem.Image");
             atrasToolStripMenuItem.Name = "atrasToolStripMenuItem";
-            atrasToolStripMenuItem.Size = new Size(57, 24);
-            atrasToolStripMenuItem.Text = "Atras";
+            atrasToolStripMenuItem.Size = new Size(34, 24);
             atrasToolStripMenuItem.Click += atrasToolStripMenuItem_Click;
             // 
             // buttonOK
             // 
+            buttonOK.Cursor = Cursors.Hand;
             buttonOK.FlatStyle = FlatStyle.Flat;
             buttonOK.Location = new Point(902, 950);
             buttonOK.Name = "buttonOK";
@@ -569,6 +579,7 @@
             // 
             // buttonDELETE
             // 
+            buttonDELETE.Cursor = Cursors.Hand;
             buttonDELETE.FlatStyle = FlatStyle.Flat;
             buttonDELETE.Location = new Point(1017, 950);
             buttonDELETE.Name = "buttonDELETE";
@@ -580,6 +591,7 @@
             // 
             // buttonCANCEL
             // 
+            buttonCANCEL.Cursor = Cursors.Hand;
             buttonCANCEL.FlatStyle = FlatStyle.Flat;
             buttonCANCEL.Location = new Point(1126, 950);
             buttonCANCEL.Name = "buttonCANCEL";
@@ -591,29 +603,65 @@
             // buttonOrdersMade
             // 
             buttonOrdersMade.FlatStyle = FlatStyle.Flat;
-            buttonOrdersMade.Location = new Point(30, 950);
+            buttonOrdersMade.Location = new Point(1072, 97);
             buttonOrdersMade.Name = "buttonOrdersMade";
             buttonOrdersMade.Size = new Size(148, 29);
             buttonOrdersMade.TabIndex = 9;
             buttonOrdersMade.Text = "Orders Made";
             buttonOrdersMade.UseVisualStyleBackColor = true;
+            buttonOrdersMade.Click += buttonOrdersMade_Click;
+            // 
+            // comboBoxCategory
+            // 
+            comboBoxCategory.FormattingEnabled = true;
+            comboBoxCategory.Location = new Point(929, 502);
+            comboBoxCategory.Name = "comboBoxCategory";
+            comboBoxCategory.Size = new Size(151, 28);
+            comboBoxCategory.TabIndex = 10;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label1.Location = new Point(803, 502);
+            label1.Name = "label1";
+            label1.Size = new Size(98, 28);
+            label1.TabIndex = 11;
+            label1.Text = "Category";
             // 
             // button1
             // 
-            button1.Location = new Point(17, 503);
+            button1.Cursor = Cursors.Hand;
+            button1.FlatStyle = FlatStyle.Popup;
+            button1.Location = new Point(1134, 502);
             button1.Name = "button1";
             button1.Size = new Size(94, 29);
-            button1.TabIndex = 10;
-            button1.Text = "Add Item";
+            button1.TabIndex = 12;
+            button1.Text = "Apply";
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click_1;
+            // 
+            // button2
+            // 
+            button2.Cursor = Cursors.Hand;
+            button2.FlatStyle = FlatStyle.Popup;
+            button2.Location = new Point(12, 501);
+            button2.Name = "button2";
+            button2.Size = new Size(137, 29);
+            button2.TabIndex = 13;
+            button2.Text = "All Products";
+            button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
             // 
             // Order
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1259, 992);
+            Controls.Add(button2);
             Controls.Add(button1);
+            Controls.Add(label1);
+            Controls.Add(comboBoxCategory);
             Controls.Add(buttonOrdersMade);
             Controls.Add(buttonCANCEL);
             Controls.Add(buttonDELETE);
@@ -633,7 +681,7 @@
             Controls.Add(label6);
             Controls.Add(label4);
             Controls.Add(menuStrip1);
-            Cursor = Cursors.IBeam;
+            Cursor = Cursors.Hand;
             MainMenuStrip = menuStrip1;
             MaximizeBox = false;
             MinimizeBox = false;
@@ -696,6 +744,10 @@
         private Button buttonDELETE;
         private Button buttonCANCEL;
         private Button buttonOrdersMade;
+        private ComboBox comboBoxCategory;
+        private Label label1;
+        private Button button1;
+        private Button button2;
         private DataGridViewTextBoxColumn ColumnProductName;
         private DataGridViewTextBoxColumn ColumnProductID;
         private DataGridViewTextBoxColumn ColumnUnitPrice;
@@ -704,6 +756,5 @@
         private DataGridViewTextBoxColumn ColumnProductCategoryName;
         private DataGridViewTextBoxColumn ColumnCompanyName;
         private DataGridViewTextBoxColumn ColumnExtendedPrice;
-        private Button button1;
     }
 }

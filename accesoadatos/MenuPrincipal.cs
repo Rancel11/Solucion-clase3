@@ -56,6 +56,56 @@ namespace accesoadatos
             products.Show();
             this.Hide();
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+            var context = new NorthwindContext();
+
+
+            var Orders = new Order(context);
+            Orders.Show();
+            this.Hide();
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            var context = new NorthwindContext();
+            var suppliers = new SUPLIDOR(context);
+            suppliers.Show();
+            this.Hide();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            var context = new NorthwindContext();
+            var category = new CATEGORIA(context);
+            category.Show();
+            this.Hide();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            var context = new NorthwindContext();
+            var products = new ACCESOADATOSFORM(context);
+            products.Show();
+            this.Hide();
+        }
+
+        private void pictureBox2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void panel1_Paint_1(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 
 }

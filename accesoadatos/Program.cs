@@ -36,6 +36,7 @@ namespace accesoadatos
                     .Build();
 
                 Log.Information("La aplicación está iniciando.");
+               
              
                 ApplicationConfiguration.Initialize();
                 Application.Run(new MenuPrincipal());

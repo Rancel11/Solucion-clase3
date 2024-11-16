@@ -29,6 +29,14 @@ namespace accesoadatos.Data
             base.OnConfiguring(optionsBuilder);
             optionsBuilder.UseSqlServer("Server=RANCEL\\SQLEXPRESS;Database=Northwind;Integrated Security=True;TrustServerCertificate=True");
         }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<OrderDetail>()
+                .HasKey(od => new { od.OrderID, od.ProductID });
+
+            base.OnModelCreating(modelBuilder);
+        }
+
     }
     public class Product
     {
@@ -80,27 +88,26 @@ namespace accesoadatos.Data
         public string ShipPostalCode { get; set; }
         public string ShipCountry { get; set; }
 
-        public OrderDetail orderDetail { get; set; }
-
-      
+        public ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
     }
+
     [Table("Order Details")]
     public class OrderDetail
     {
         [Key]
-        public int OrderID { get; set; }        
+        public int OrderID { get; set; }
         public int ProductID { get; set; }       
-        public decimal UnitPrice { get; set; }   
-        public short Quantity { get; set; }      
+        public decimal UnitPrice { get; set; }
+        public short Quantity { get; set; }
         public float Discount { get; set; }
+
         
-        [ForeignKey("ProductID")]
-        public Product Product { get; set; }
+        public virtual Order Order { get; set; }         
 
-        public virtual Order Order { get; set; }
-       
-
+        
+        public virtual Product Product { get; set; }     
     }
+
     public class Employees
     {
         [Key]

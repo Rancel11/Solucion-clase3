@@ -28,12 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             dataGridView1 = new DataGridView();
-            ColumnCategoryName = new DataGridViewTextBoxColumn();
-            ColumnDescription = new DataGridViewTextBoxColumn();
             menuStrip1 = new MenuStrip();
             atrasToolStripMenuItem = new ToolStripMenuItem();
+            ColumnCategoryName = new DataGridViewTextBoxColumn();
+            ColumnDescription = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             menuStrip1.SuspendLayout();
             SuspendLayout();
@@ -49,24 +49,6 @@
             dataGridView1.Size = new Size(800, 592);
             dataGridView1.TabIndex = 0;
             dataGridView1.CellContentClick += dataGridView1_CellContentClick;
-            // 
-            // ColumnCategoryName
-            // 
-            ColumnCategoryName.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            ColumnCategoryName.DataPropertyName = "CategoryName";
-            ColumnCategoryName.HeaderText = "CategoryName";
-            ColumnCategoryName.MinimumWidth = 6;
-            ColumnCategoryName.Name = "ColumnCategoryName";
-            // 
-            // ColumnDescription
-            // 
-            ColumnDescription.DataPropertyName = "Description";
-            dataGridViewCellStyle2.BackColor = Color.White;
-            ColumnDescription.DefaultCellStyle = dataGridViewCellStyle2;
-            ColumnDescription.HeaderText = "Description";
-            ColumnDescription.MinimumWidth = 6;
-            ColumnDescription.Name = "ColumnDescription";
-            ColumnDescription.Width = 125;
             // 
             // menuStrip1
             // 
@@ -84,6 +66,24 @@
             atrasToolStripMenuItem.Size = new Size(57, 24);
             atrasToolStripMenuItem.Text = "Atras";
             atrasToolStripMenuItem.Click += atrasToolStripMenuItem_Click;
+            // 
+            // ColumnCategoryName
+            // 
+            ColumnCategoryName.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            ColumnCategoryName.DataPropertyName = "CategoryName";
+            ColumnCategoryName.HeaderText = "CategoryName";
+            ColumnCategoryName.MinimumWidth = 6;
+            ColumnCategoryName.Name = "ColumnCategoryName";
+            // 
+            // ColumnDescription
+            // 
+            ColumnDescription.DataPropertyName = "Description";
+            dataGridViewCellStyle1.BackColor = Color.White;
+            ColumnDescription.DefaultCellStyle = dataGridViewCellStyle1;
+            ColumnDescription.HeaderText = "Description";
+            ColumnDescription.MinimumWidth = 6;
+            ColumnDescription.Name = "ColumnDescription";
+            ColumnDescription.Width = 300;
             // 
             // AllCategory
             // 
@@ -109,9 +109,9 @@
         #endregion
 
         private DataGridView dataGridView1;
-        private DataGridViewTextBoxColumn ColumnCategoryName;
-        private DataGridViewTextBoxColumn ColumnDescription;
         private MenuStrip menuStrip1;
         private ToolStripMenuItem atrasToolStripMenuItem;
+        private DataGridViewTextBoxColumn ColumnCategoryName;
+        private DataGridViewTextBoxColumn ColumnDescription;
     }
 }

@@ -15,21 +15,23 @@ namespace accesoadatos
 {
     public partial class AllCategory : Form
     {
-        public AllCategory()
+        public readonly NorthwindContext _context;
+        public AllCategory(NorthwindContext context)
         {
             InitializeComponent();
+            _context = context;
             dataGridView1.AutoGenerateColumns = false;
         }
 
         private void AllCategory_Load(object sender, EventArgs e)
         {
-            var conncetion = new SqlConnection(Conexion.Connectionstring);
-
-            conncetion.Open();
 
 
-            dataGridView1.DataSource = GetDataTable("Select * from Categories");
-
+            
+            
+            
+           
+            LoadDatagrid();
 
 
 
@@ -38,22 +40,20 @@ namespace accesoadatos
 
 
         }
-        public DataTable GetDataTable(string sql, object parameters = null)
+
+        private void LoadDatagrid()
         {
-            using (var connection = new SqlConnection(Conexion.Connectionstring))
-            {
-                connection.Open();
+            var category = _context.Categories
+                .Select(c => new
+                {
+                    c.CategoryName,
+                    c.Description
+                }).ToList();
 
-
-                var reader = connection.ExecuteReader(sql, parameters);
-
-
-                var dataTable = new DataTable();
-                dataTable.Load(reader);
-
-                return dataTable;
-            }
+            dataGridView1.DataSource = category;
+            dataGridView1.Refresh();
         }
+      
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {

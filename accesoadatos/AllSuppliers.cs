@@ -15,38 +15,20 @@ namespace accesoadatos
 {
     public partial class AllSuppliers : Form
     {
-        public AllSuppliers()
+        public readonly NorthwindContext _context;
+        public AllSuppliers(NorthwindContext context)
         {
             InitializeComponent();
             dataGridView1.AutoGenerateColumns = false;
+            _context = context;
         }
 
         private void AllSuppliers_Load(object sender, EventArgs e)
         {
-            var connection = new SqlConnection(Conexion.Connectionstring);
-            connection.Open();
-
-
-            dataGridView1.DataSource = GetDataTable("Select * from Suppliers");
-            dataGridView1.Refresh();
+            loaddatagridview();
 
         }
-        public DataTable GetDataTable(string sql, object parameters = null)
-        {
-            using (var connection = new SqlConnection(Conexion.Connectionstring))
-            {
-                connection.Open();
-
-
-                var reader = connection.ExecuteReader(sql, parameters);
-
-
-                var dataTable = new DataTable();
-                dataTable.Load(reader);
-
-                return dataTable;
-            }
-        }
+       
 
         private void atrasToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -54,6 +36,23 @@ namespace accesoadatos
             this.Hide();
             var supplierform = new SUPLIDOR(context);
             supplierform.Show();
+        }
+
+        private void loaddatagridview()
+        {
+            var suppliers = _context.Suppliers
+                .Select(s=> new
+                {
+                    s.CompanyName,
+                    s.ContactName,
+                    s.ContactTitle,
+                    s.Phone,
+                }).ToList();
+
+            dataGridView1 .DataSource = suppliers;
+            dataGridView1.Refresh();
+
+
         }
     }
 }

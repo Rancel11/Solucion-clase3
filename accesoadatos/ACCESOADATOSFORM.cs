@@ -41,7 +41,9 @@ namespace accesoadatos
                     p.QuantityPerUnit,
                     p.UnitPrice,
                     p.Supplier.CompanyName,
-                    p.Category.CategoryName
+                    p.Category.CategoryName,
+                    p.CategoryID,
+                    p.SupplierID
                 }).ToList();
 
             dataGridView1.DataSource = products;
@@ -82,25 +84,37 @@ namespace accesoadatos
 
         private void button1_Click(object sender, EventArgs e)
         {
-            var supplierId = (int)comboBox1.SelectedValue;
-            var categoryId = (int)listBox1.SelectedValue;
+            try
+            {
+                var supplierId = (int)comboBox1.SelectedValue;
+                var categoryId = (int)listBox1.SelectedValue;
 
-            var filteredProducts = _context.Products
-                .Include(p => p.Supplier)
-                .Include(p => p.Category)
-                .Where(p => p.SupplierID == supplierId && p.CategoryID == categoryId)
-                .Select(p => new
-                {
-                    p.ProductID,
-                    p.ProductName,
-                    p.QuantityPerUnit,
-                    p.UnitPrice,
-                    p.Supplier.CompanyName,
-                    p.Category.CategoryName
-                }).ToList();
+                var filteredProducts = _context.Products
+                    .Include(p => p.Supplier)
+                    .Include(p => p.Category)
+                    .Where(p => p.SupplierID == supplierId && p.CategoryID == categoryId)
+                    .Select(p => new
+                    {
+                        p.ProductID,
+                        p.ProductName,
+                        p.QuantityPerUnit,
+                        p.UnitPrice,
+                        p.Supplier.CompanyName,
+                        p.Category.CategoryName,
+                    }).ToList();
 
-            dataGridView1.DataSource = filteredProducts;
-            dataGridView1.Refresh();
+                dataGridView1.DataSource = filteredProducts;
+                dataGridView1.Refresh();
+
+                MessageBox.Show("Los datos se filtraron correctamente");
+            }
+         
+            catch (Exception ex)
+            {
+                MessageBox.Show("Se produjo un error inesperado al filtral los datos, verifique que haya selecionado la categoria o el suplidor: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+
         }
 
 
@@ -161,9 +175,12 @@ namespace accesoadatos
             try
             {
                 var product = _context.Products.FirstOrDefault(p => p.ProductID == selectedProductId);
+                
+                
 
                 if (product != null)
                 {
+                   
                     _context.Products.Remove(product);
                     _context.SaveChanges();
                     MessageBox.Show("El producto ha sido eliminado correctamente.");
@@ -179,7 +196,7 @@ namespace accesoadatos
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ocurrió un error: {ex.Message}\n\nDetalles: {ex.InnerException?.Message}",
+                MessageBox.Show($"Ocurrió un error al eliminar el producto: {ex.Message}\n\nDetalles: {ex.InnerException?.Message}",
                                 "Error al eliminar", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
