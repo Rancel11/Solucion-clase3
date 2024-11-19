@@ -25,22 +25,23 @@ namespace accesoadatos
                 .MinimumLevel.Debug()
                 .WriteTo.File("logs/myapp.txt", rollingInterval: RollingInterval.Day)
                 .CreateLogger();
-            
+
 
 
             try
             {
-               
+
                 configuration = new ConfigurationBuilder()
                     .AddJsonFile("appsettings.json")
                     .Build();
 
                 Log.Information("La aplicación está iniciando.");
-               
-             
+                var CONTEXT = new NorthwindContext();
+
                 ApplicationConfiguration.Initialize();
                 Application.Run(new MenuPrincipal());
             }
+
             catch (Exception ex)
             {
                 Log.Fatal(ex, "Error fatal en la aplicación.");

@@ -45,11 +45,14 @@
             ColumnProductCategoryName = new DataGridViewTextBoxColumn();
             ColumnCompanyName = new DataGridViewTextBoxColumn();
             ColumnExtendedPrice = new DataGridViewTextBoxColumn();
+            ColumnOrderID = new DataGridViewTextBoxColumn();
             menuStrip1 = new MenuStrip();
             fhghToolStripMenuItem = new ToolStripMenuItem();
             button1 = new Button();
             textBox1 = new TextBox();
             label2 = new Label();
+            button2 = new Button();
+            label3 = new Label();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             menuStrip1.SuspendLayout();
             SuspendLayout();
@@ -75,13 +78,14 @@
             // dataGridView1
             // 
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { ColumnCustomer, ColumnProductName, ColumnProductID, ColumnUnitPrice, ColumnQuantityPerUnit, ColumnDiscount, ColumnProductCategoryName, ColumnCompanyName, ColumnExtendedPrice });
+            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { ColumnCustomer, ColumnProductName, ColumnProductID, ColumnUnitPrice, ColumnQuantityPerUnit, ColumnDiscount, ColumnProductCategoryName, ColumnCompanyName, ColumnExtendedPrice, ColumnOrderID });
             dataGridView1.Dock = DockStyle.Bottom;
-            dataGridView1.Location = new Point(0, 139);
+            dataGridView1.Location = new Point(0, 175);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowHeadersWidth = 51;
-            dataGridView1.Size = new Size(1122, 481);
+            dataGridView1.Size = new Size(1237, 445);
             dataGridView1.TabIndex = 3;
+            dataGridView1.CellContentClick += dataGridView1_CellContentClick;
             // 
             // ColumnCustomer
             // 
@@ -93,6 +97,7 @@
             // 
             // ColumnProductName
             // 
+            ColumnProductName.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
             ColumnProductName.DataPropertyName = "ProductName";
             ColumnProductName.HeaderText = "ProductName";
             ColumnProductName.MinimumWidth = 6;
@@ -164,6 +169,15 @@
             ColumnExtendedPrice.Name = "ColumnExtendedPrice";
             ColumnExtendedPrice.Width = 125;
             // 
+            // ColumnOrderID
+            // 
+            ColumnOrderID.DataPropertyName = "OrderID";
+            ColumnOrderID.HeaderText = "OrderID";
+            ColumnOrderID.MinimumWidth = 6;
+            ColumnOrderID.Name = "ColumnOrderID";
+            ColumnOrderID.Visible = false;
+            ColumnOrderID.Width = 125;
+            // 
             // menuStrip1
             // 
             menuStrip1.AutoSize = false;
@@ -173,20 +187,23 @@
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
             menuStrip1.RenderMode = ToolStripRenderMode.System;
-            menuStrip1.Size = new Size(1122, 49);
+            menuStrip1.Size = new Size(1237, 49);
             menuStrip1.TabIndex = 4;
             menuStrip1.Text = "menuStrip1";
+            menuStrip1.ItemClicked += menuStrip1_ItemClicked;
             // 
             // fhghToolStripMenuItem
             // 
             fhghToolStripMenuItem.Image = (Image)resources.GetObject("fhghToolStripMenuItem.Image");
             fhghToolStripMenuItem.Name = "fhghToolStripMenuItem";
-            fhghToolStripMenuItem.Size = new Size(77, 45);
-            fhghToolStripMenuItem.Text = "Atras";
+            fhghToolStripMenuItem.Size = new Size(34, 45);
             fhghToolStripMenuItem.Click += fhghToolStripMenuItem_Click;
             // 
             // button1
             // 
+            button1.Cursor = Cursors.Hand;
+            button1.FlatStyle = FlatStyle.Popup;
+            button1.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             button1.Location = new Point(343, 73);
             button1.Name = "button1";
             button1.Size = new Size(94, 29);
@@ -198,7 +215,7 @@
             // textBox1
             // 
             textBox1.Enabled = false;
-            textBox1.Location = new Point(956, 79);
+            textBox1.Location = new Point(1073, 75);
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(125, 27);
             textBox1.TabIndex = 6;
@@ -208,17 +225,43 @@
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label2.Location = new Point(775, 78);
+            label2.Location = new Point(892, 74);
             label2.Name = "label2";
             label2.Size = new Size(134, 28);
             label2.TabIndex = 7;
             label2.Text = "Total Orders ";
             // 
+            // button2
+            // 
+            button2.Cursor = Cursors.Hand;
+            button2.FlatStyle = FlatStyle.Popup;
+            button2.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            button2.Location = new Point(181, 125);
+            button2.Name = "button2";
+            button2.Size = new Size(94, 29);
+            button2.TabIndex = 8;
+            button2.Text = "Delete";
+            button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click_1;
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label3.Location = new Point(12, 129);
+            label3.Name = "label3";
+            label3.Size = new Size(146, 20);
+            label3.TabIndex = 9;
+            label3.Text = "Delete OrderDetails";
+            // 
             // OrdersMade
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1122, 620);
+            BackColor = Color.Ivory;
+            ClientSize = new Size(1237, 620);
+            Controls.Add(label3);
+            Controls.Add(button2);
             Controls.Add(label2);
             Controls.Add(textBox1);
             Controls.Add(button1);
@@ -246,6 +289,11 @@
         private DataGridView dataGridView1;
         private MenuStrip menuStrip1;
         private Button button1;
+        private TextBox textBox1;
+        private Label label2;
+        private ToolStripMenuItem fhghToolStripMenuItem;
+        private Button button2;
+        private Label label3;
         private DataGridViewTextBoxColumn ColumnCustomer;
         private DataGridViewTextBoxColumn ColumnProductName;
         private DataGridViewTextBoxColumn ColumnProductID;
@@ -255,8 +303,6 @@
         private DataGridViewTextBoxColumn ColumnProductCategoryName;
         private DataGridViewTextBoxColumn ColumnCompanyName;
         private DataGridViewTextBoxColumn ColumnExtendedPrice;
-        private TextBox textBox1;
-        private Label label2;
-        private ToolStripMenuItem fhghToolStripMenuItem;
+        private DataGridViewTextBoxColumn ColumnOrderID;
     }
 }

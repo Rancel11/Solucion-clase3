@@ -98,6 +98,9 @@
             // 
             // buttonnew
             // 
+            buttonnew.Cursor = Cursors.Hand;
+            buttonnew.FlatStyle = FlatStyle.Popup;
+            buttonnew.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             buttonnew.Location = new Point(450, 35);
             buttonnew.Name = "buttonnew";
             buttonnew.Size = new Size(94, 29);
@@ -108,6 +111,9 @@
             // 
             // buttonDelete
             // 
+            buttonDelete.Cursor = Cursors.Hand;
+            buttonDelete.FlatStyle = FlatStyle.Popup;
+            buttonDelete.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             buttonDelete.Location = new Point(325, 35);
             buttonDelete.Name = "buttonDelete";
             buttonDelete.Size = new Size(94, 29);
@@ -118,6 +124,9 @@
             // 
             // buttonupdate
             // 
+            buttonupdate.Cursor = Cursors.Hand;
+            buttonupdate.FlatStyle = FlatStyle.Popup;
+            buttonupdate.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             buttonupdate.Location = new Point(201, 35);
             buttonupdate.Name = "buttonupdate";
             buttonupdate.Size = new Size(94, 29);
@@ -128,6 +137,9 @@
             // 
             // buttonInsert
             // 
+            buttonInsert.Cursor = Cursors.Hand;
+            buttonInsert.FlatStyle = FlatStyle.Popup;
+            buttonInsert.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             buttonInsert.Location = new Point(76, 35);
             buttonInsert.Name = "buttonInsert";
             buttonInsert.Size = new Size(94, 29);
@@ -170,6 +182,9 @@
             // 
             // buttonFilter
             // 
+            buttonFilter.Cursor = Cursors.Hand;
+            buttonFilter.FlatStyle = FlatStyle.Popup;
+            buttonFilter.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             buttonFilter.Location = new Point(497, 43);
             buttonFilter.Name = "buttonFilter";
             buttonFilter.Size = new Size(94, 29);
@@ -271,6 +286,7 @@
             // 
             // menuStrip1
             // 
+            menuStrip1.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             menuStrip1.ImageScalingSize = new Size(20, 20);
             menuStrip1.Items.AddRange(new ToolStripItem[] { menuToolStripMenuItem, productsToolStripMenuItem, categoryToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
@@ -289,14 +305,14 @@
             // productsToolStripMenuItem
             // 
             productsToolStripMenuItem.Name = "productsToolStripMenuItem";
-            productsToolStripMenuItem.Size = new Size(80, 24);
+            productsToolStripMenuItem.Size = new Size(85, 24);
             productsToolStripMenuItem.Text = "Products";
             productsToolStripMenuItem.Click += productsToolStripMenuItem_Click;
             // 
             // categoryToolStripMenuItem
             // 
             categoryToolStripMenuItem.Name = "categoryToolStripMenuItem";
-            categoryToolStripMenuItem.Size = new Size(83, 24);
+            categoryToolStripMenuItem.Size = new Size(87, 24);
             categoryToolStripMenuItem.Text = "Category";
             categoryToolStripMenuItem.Click += categoryToolStripMenuItem_Click;
             // 
@@ -323,6 +339,9 @@
             // 
             // button2
             // 
+            button2.Cursor = Cursors.Hand;
+            button2.FlatStyle = FlatStyle.Popup;
+            button2.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             button2.Location = new Point(27, 425);
             button2.Name = "button2";
             button2.Size = new Size(142, 29);
@@ -333,6 +352,9 @@
             // 
             // button1
             // 
+            button1.Cursor = Cursors.Hand;
+            button1.FlatStyle = FlatStyle.Popup;
+            button1.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             button1.Location = new Point(27, 374);
             button1.Name = "button1";
             button1.Size = new Size(142, 29);
@@ -349,6 +371,7 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.Ivory;
             ClientSize = new Size(875, 569);
             Controls.Add(tableLayoutPanel1);
             FormBorderStyle = FormBorderStyle.FixedSingle;

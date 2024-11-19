@@ -50,6 +50,7 @@ namespace accesoadatos.Data
 
         public Supplier Supplier { get; set; }
         public Category Category { get; set; }
+        public OrderDetail OrderDetail { get; set; }
 
     }
 
@@ -89,6 +90,12 @@ namespace accesoadatos.Data
         public string ShipCountry { get; set; }
 
         public ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
+        
+        [ForeignKey("CustomerID")]
+        public  Customer customer { get; set; }
+        
+        [ForeignKey("ShipVia")]
+        public Shipper Shipper { get; set; }
     }
 
     [Table("Order Details")]
@@ -138,6 +145,8 @@ namespace accesoadatos.Data
         public string CompanyName { get; set; }
         
         public string Phone { get; set; }
+
+        public ICollection<Order> Orders { get; set; } = new List<Order>();
     }
     public class Customer
     {

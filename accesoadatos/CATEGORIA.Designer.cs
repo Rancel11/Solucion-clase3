@@ -52,7 +52,6 @@
             panel3 = new Panel();
             button3 = new Button();
             button2 = new Button();
-            button1 = new Button();
             pictureBox1 = new PictureBox();
             errorProvider1 = new ErrorProvider(components);
             tableLayoutPanel1.SuspendLayout();
@@ -111,6 +110,9 @@
             // 
             // buttonFilter
             // 
+            buttonFilter.Cursor = Cursors.Hand;
+            buttonFilter.FlatStyle = FlatStyle.Popup;
+            buttonFilter.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             buttonFilter.Location = new Point(527, 52);
             buttonFilter.Name = "buttonFilter";
             buttonFilter.Size = new Size(94, 29);
@@ -176,6 +178,7 @@
             // 
             // menuStrip1
             // 
+            menuStrip1.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             menuStrip1.ImageScalingSize = new Size(20, 20);
             menuStrip1.Items.AddRange(new ToolStripItem[] { menuToolStripMenuItem, suppliersToolStripMenuItem, productsToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
@@ -194,14 +197,14 @@
             // suppliersToolStripMenuItem
             // 
             suppliersToolStripMenuItem.Name = "suppliersToolStripMenuItem";
-            suppliersToolStripMenuItem.Size = new Size(84, 24);
+            suppliersToolStripMenuItem.Size = new Size(87, 24);
             suppliersToolStripMenuItem.Text = "Suppliers";
             suppliersToolStripMenuItem.Click += suppliersToolStripMenuItem_Click;
             // 
             // productsToolStripMenuItem
             // 
             productsToolStripMenuItem.Name = "productsToolStripMenuItem";
-            productsToolStripMenuItem.Size = new Size(80, 24);
+            productsToolStripMenuItem.Size = new Size(85, 24);
             productsToolStripMenuItem.Text = "Products";
             productsToolStripMenuItem.Click += productsToolStripMenuItem_Click;
             // 
@@ -216,9 +219,13 @@
             panel2.Name = "panel2";
             panel2.Size = new Size(719, 69);
             panel2.TabIndex = 1;
+            panel2.Paint += panel2_Paint;
             // 
             // buttonnew
             // 
+            buttonnew.Cursor = Cursors.Hand;
+            buttonnew.FlatStyle = FlatStyle.Popup;
+            buttonnew.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             buttonnew.Location = new Point(480, 20);
             buttonnew.Name = "buttonnew";
             buttonnew.Size = new Size(94, 29);
@@ -229,6 +236,9 @@
             // 
             // buttonDelete
             // 
+            buttonDelete.Cursor = Cursors.Hand;
+            buttonDelete.FlatStyle = FlatStyle.Popup;
+            buttonDelete.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             buttonDelete.Location = new Point(355, 20);
             buttonDelete.Name = "buttonDelete";
             buttonDelete.Size = new Size(94, 29);
@@ -239,6 +249,9 @@
             // 
             // buttonupdate
             // 
+            buttonupdate.Cursor = Cursors.Hand;
+            buttonupdate.FlatStyle = FlatStyle.Popup;
+            buttonupdate.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             buttonupdate.Location = new Point(231, 20);
             buttonupdate.Name = "buttonupdate";
             buttonupdate.Size = new Size(94, 29);
@@ -249,6 +262,9 @@
             // 
             // buttonInsert
             // 
+            buttonInsert.Cursor = Cursors.Hand;
+            buttonInsert.FlatStyle = FlatStyle.Popup;
+            buttonInsert.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             buttonInsert.Location = new Point(106, 20);
             buttonInsert.Name = "buttonInsert";
             buttonInsert.Size = new Size(94, 29);
@@ -261,7 +277,6 @@
             // 
             panel3.Controls.Add(button3);
             panel3.Controls.Add(button2);
-            panel3.Controls.Add(button1);
             panel3.Controls.Add(pictureBox1);
             panel3.Dock = DockStyle.Fill;
             panel3.Location = new Point(3, 3);
@@ -271,6 +286,9 @@
             // 
             // button3
             // 
+            button3.Cursor = Cursors.Hand;
+            button3.FlatStyle = FlatStyle.Popup;
+            button3.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             button3.Location = new Point(20, 465);
             button3.Name = "button3";
             button3.Size = new Size(115, 29);
@@ -281,6 +299,9 @@
             // 
             // button2
             // 
+            button2.Cursor = Cursors.Hand;
+            button2.FlatStyle = FlatStyle.Popup;
+            button2.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             button2.Location = new Point(20, 421);
             button2.Name = "button2";
             button2.Size = new Size(115, 29);
@@ -288,16 +309,6 @@
             button2.Text = "All Category";
             button2.UseVisualStyleBackColor = true;
             button2.Click += button2_Click;
-            // 
-            // button1
-            // 
-            button1.Location = new Point(20, 376);
-            button1.Name = "button1";
-            button1.Size = new Size(115, 29);
-            button1.TabIndex = 1;
-            button1.Text = "Atras";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
             // 
             // pictureBox1
             // 
@@ -318,6 +329,7 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.Ivory;
             ClientSize = new Size(906, 601);
             Controls.Add(tableLayoutPanel1);
             MainMenuStrip = menuStrip1;
@@ -360,7 +372,6 @@
         private ComboBox comboBox1;
         private Button button3;
         private Button button2;
-        private Button button1;
         private PictureBox pictureBox1;
         private ErrorProvider errorProvider1;
         private MenuStrip menuStrip1;

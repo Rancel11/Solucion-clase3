@@ -29,10 +29,16 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ACCESOADATOSFORM));
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ACCESOADATOSFORM));
             dataGridView1 = new DataGridView();
+            ColumnProductID = new DataGridViewTextBoxColumn();
+            ColumnProductName = new DataGridViewTextBoxColumn();
+            ColumnCompanyName = new DataGridViewTextBoxColumn();
+            ColumnCategoryName = new DataGridViewTextBoxColumn();
+            ColumnQtyPerUnit = new DataGridViewTextBoxColumn();
+            ColumnUnitprice = new DataGridViewTextBoxColumn();
             panel1 = new Panel();
             button3 = new Button();
             label3 = new Label();
@@ -41,10 +47,10 @@
             comboBox1 = new ComboBox();
             label1 = new Label();
             buttonDelete = new Button();
-            buttonUpdate = new Button();
             groupBox1 = new GroupBox();
             pictureBox1 = new PictureBox();
             button2 = new Button();
+            buttonUpdate = new Button();
             buttonInsert = new Button();
             textBoxUnitPrice = new TextBox();
             textBoxQuantityPerUnit = new TextBox();
@@ -58,12 +64,6 @@
             atrasToolStripMenuItem = new ToolStripMenuItem();
             suppliersToolStripMenuItem = new ToolStripMenuItem();
             errorProvider1 = new ErrorProvider(components);
-            ColumnProductID = new DataGridViewTextBoxColumn();
-            ColumnProductName = new DataGridViewTextBoxColumn();
-            ColumnCompanyName = new DataGridViewTextBoxColumn();
-            ColumnCategoryName = new DataGridViewTextBoxColumn();
-            ColumnQtyPerUnit = new DataGridViewTextBoxColumn();
-            ColumnUnitprice = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             panel1.SuspendLayout();
             groupBox1.SuspendLayout();
@@ -83,6 +83,61 @@
             dataGridView1.TabIndex = 0;
             dataGridView1.CellContentClick += dataGridView1_CellContentClick;
             // 
+            // ColumnProductID
+            // 
+            ColumnProductID.DataPropertyName = "ProductID";
+            ColumnProductID.HeaderText = "ProductID";
+            ColumnProductID.MinimumWidth = 6;
+            ColumnProductID.Name = "ColumnProductID";
+            ColumnProductID.Visible = false;
+            ColumnProductID.Width = 125;
+            // 
+            // ColumnProductName
+            // 
+            ColumnProductName.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            ColumnProductName.DataPropertyName = "ProductName";
+            ColumnProductName.HeaderText = "ProductName";
+            ColumnProductName.MinimumWidth = 6;
+            ColumnProductName.Name = "ColumnProductName";
+            // 
+            // ColumnCompanyName
+            // 
+            ColumnCompanyName.DataPropertyName = "CompanyName";
+            ColumnCompanyName.HeaderText = "CompanyName";
+            ColumnCompanyName.MinimumWidth = 6;
+            ColumnCompanyName.Name = "ColumnCompanyName";
+            ColumnCompanyName.Width = 125;
+            // 
+            // ColumnCategoryName
+            // 
+            ColumnCategoryName.DataPropertyName = "CategoryName";
+            ColumnCategoryName.HeaderText = "CategoryName";
+            ColumnCategoryName.MinimumWidth = 6;
+            ColumnCategoryName.Name = "ColumnCategoryName";
+            ColumnCategoryName.Width = 125;
+            // 
+            // ColumnQtyPerUnit
+            // 
+            ColumnQtyPerUnit.DataPropertyName = "QuantityPerUnit";
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleRight;
+            ColumnQtyPerUnit.DefaultCellStyle = dataGridViewCellStyle1;
+            ColumnQtyPerUnit.HeaderText = "QuantityPerUnit";
+            ColumnQtyPerUnit.MinimumWidth = 6;
+            ColumnQtyPerUnit.Name = "ColumnQtyPerUnit";
+            ColumnQtyPerUnit.Width = 125;
+            // 
+            // ColumnUnitprice
+            // 
+            ColumnUnitprice.DataPropertyName = "UnitPrice";
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle2.Format = "N2";
+            dataGridViewCellStyle2.NullValue = null;
+            ColumnUnitprice.DefaultCellStyle = dataGridViewCellStyle2;
+            ColumnUnitprice.HeaderText = "UnitPrice";
+            ColumnUnitprice.MinimumWidth = 6;
+            ColumnUnitprice.Name = "ColumnUnitprice";
+            ColumnUnitprice.Width = 125;
+            // 
             // panel1
             // 
             panel1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
@@ -100,6 +155,9 @@
             // 
             // button3
             // 
+            button3.Cursor = Cursors.Hand;
+            button3.FlatStyle = FlatStyle.Popup;
+            button3.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             button3.Location = new Point(21, 60);
             button3.Name = "button3";
             button3.Size = new Size(143, 29);
@@ -130,6 +188,9 @@
             // 
             // button1
             // 
+            button1.Cursor = Cursors.Hand;
+            button1.FlatStyle = FlatStyle.Popup;
+            button1.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             button1.Location = new Point(961, 33);
             button1.Name = "button1";
             button1.Size = new Size(94, 29);
@@ -159,7 +220,9 @@
             // 
             // buttonDelete
             // 
-            buttonDelete.Font = new Font("Segoe UI", 9F);
+            buttonDelete.Cursor = Cursors.Hand;
+            buttonDelete.FlatStyle = FlatStyle.Popup;
+            buttonDelete.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             buttonDelete.Location = new Point(859, 216);
             buttonDelete.Name = "buttonDelete";
             buttonDelete.Size = new Size(94, 29);
@@ -167,17 +230,6 @@
             buttonDelete.Text = "Delete";
             buttonDelete.UseVisualStyleBackColor = true;
             buttonDelete.Click += buttonDelete_Click;
-            // 
-            // buttonUpdate
-            // 
-            buttonUpdate.Font = new Font("Segoe UI", 9F);
-            buttonUpdate.Location = new Point(734, 216);
-            buttonUpdate.Name = "buttonUpdate";
-            buttonUpdate.Size = new Size(94, 29);
-            buttonUpdate.TabIndex = 5;
-            buttonUpdate.Text = "Update";
-            buttonUpdate.UseVisualStyleBackColor = true;
-            buttonUpdate.Click += buttonUpdate_Click;
             // 
             // groupBox1
             // 
@@ -214,7 +266,9 @@
             // 
             // button2
             // 
-            button2.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            button2.Cursor = Cursors.Hand;
+            button2.FlatStyle = FlatStyle.Popup;
+            button2.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             button2.Location = new Point(970, 215);
             button2.Name = "button2";
             button2.Size = new Size(94, 29);
@@ -223,9 +277,24 @@
             button2.UseVisualStyleBackColor = true;
             button2.Click += button2_Click;
             // 
+            // buttonUpdate
+            // 
+            buttonUpdate.Cursor = Cursors.Hand;
+            buttonUpdate.FlatStyle = FlatStyle.Popup;
+            buttonUpdate.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            buttonUpdate.Location = new Point(734, 216);
+            buttonUpdate.Name = "buttonUpdate";
+            buttonUpdate.Size = new Size(94, 29);
+            buttonUpdate.TabIndex = 5;
+            buttonUpdate.Text = "Update";
+            buttonUpdate.UseVisualStyleBackColor = true;
+            buttonUpdate.Click += buttonUpdate_Click;
+            // 
             // buttonInsert
             // 
-            buttonInsert.Font = new Font("Segoe UI", 9F);
+            buttonInsert.Cursor = Cursors.Hand;
+            buttonInsert.FlatStyle = FlatStyle.Popup;
+            buttonInsert.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             buttonInsert.Location = new Point(611, 216);
             buttonInsert.Name = "buttonInsert";
             buttonInsert.Size = new Size(104, 29);
@@ -302,6 +371,7 @@
             // 
             // menuStrip1
             // 
+            menuStrip1.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             menuStrip1.ImageScalingSize = new Size(20, 20);
             menuStrip1.Items.AddRange(new ToolStripItem[] { menuToolStripMenuItem, atrasToolStripMenuItem, suppliersToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
@@ -320,14 +390,14 @@
             // atrasToolStripMenuItem
             // 
             atrasToolStripMenuItem.Name = "atrasToolStripMenuItem";
-            atrasToolStripMenuItem.Size = new Size(83, 24);
+            atrasToolStripMenuItem.Size = new Size(87, 24);
             atrasToolStripMenuItem.Text = "Category";
             atrasToolStripMenuItem.Click += atrasToolStripMenuItem_Click;
             // 
             // suppliersToolStripMenuItem
             // 
             suppliersToolStripMenuItem.Name = "suppliersToolStripMenuItem";
-            suppliersToolStripMenuItem.Size = new Size(84, 24);
+            suppliersToolStripMenuItem.Size = new Size(87, 24);
             suppliersToolStripMenuItem.Text = "Suppliers";
             suppliersToolStripMenuItem.Click += suppliersToolStripMenuItem_Click;
             // 
@@ -335,65 +405,11 @@
             // 
             errorProvider1.ContainerControl = this;
             // 
-            // ColumnProductID
-            // 
-            ColumnProductID.DataPropertyName = "ProductID";
-            ColumnProductID.HeaderText = "ProductID";
-            ColumnProductID.MinimumWidth = 6;
-            ColumnProductID.Name = "ColumnProductID";
-            ColumnProductID.Visible = false;
-            ColumnProductID.Width = 125;
-            // 
-            // ColumnProductName
-            // 
-            ColumnProductName.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            ColumnProductName.DataPropertyName = "ProductName";
-            ColumnProductName.HeaderText = "ProductName";
-            ColumnProductName.MinimumWidth = 6;
-            ColumnProductName.Name = "ColumnProductName";
-            // 
-            // ColumnCompanyName
-            // 
-            ColumnCompanyName.DataPropertyName = "CompanyName";
-            ColumnCompanyName.HeaderText = "CompanyName";
-            ColumnCompanyName.MinimumWidth = 6;
-            ColumnCompanyName.Name = "ColumnCompanyName";
-            ColumnCompanyName.Width = 125;
-            // 
-            // ColumnCategoryName
-            // 
-            ColumnCategoryName.DataPropertyName = "CategoryName";
-            ColumnCategoryName.HeaderText = "CategoryName";
-            ColumnCategoryName.MinimumWidth = 6;
-            ColumnCategoryName.Name = "ColumnCategoryName";
-            ColumnCategoryName.Width = 125;
-            // 
-            // ColumnQtyPerUnit
-            // 
-            ColumnQtyPerUnit.DataPropertyName = "QuantityPerUnit";
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleRight;
-            ColumnQtyPerUnit.DefaultCellStyle = dataGridViewCellStyle1;
-            ColumnQtyPerUnit.HeaderText = "QuantityPerUnit";
-            ColumnQtyPerUnit.MinimumWidth = 6;
-            ColumnQtyPerUnit.Name = "ColumnQtyPerUnit";
-            ColumnQtyPerUnit.Width = 125;
-            // 
-            // ColumnUnitprice
-            // 
-            ColumnUnitprice.DataPropertyName = "UnitPrice";
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle2.Format = "N2";
-            dataGridViewCellStyle2.NullValue = null;
-            ColumnUnitprice.DefaultCellStyle = dataGridViewCellStyle2;
-            ColumnUnitprice.HeaderText = "UnitPrice";
-            ColumnUnitprice.MinimumWidth = 6;
-            ColumnUnitprice.Name = "ColumnUnitprice";
-            ColumnUnitprice.Width = 125;
-            // 
             // ACCESOADATOSFORM
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.Ivory;
             ClientSize = new Size(1111, 956);
             Controls.Add(listBox1);
             Controls.Add(groupBox1);
@@ -439,7 +455,6 @@
         private Label label5;
         private Button buttonInsert;
         private Button buttonDelete;
-        private Button buttonUpdate;
         private ListBox listBox1;
         private MenuStrip menuStrip1;
         private ToolStripMenuItem atrasToolStripMenuItem;
@@ -455,5 +470,6 @@
         private DataGridViewTextBoxColumn ColumnCategoryName;
         private DataGridViewTextBoxColumn ColumnQtyPerUnit;
         private DataGridViewTextBoxColumn ColumnUnitprice;
+        private Button buttonUpdate;
     }
 }

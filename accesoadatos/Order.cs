@@ -1,15 +1,9 @@
 ﻿using accesoadatos.Data;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
+using Serilog;
 using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using Serilog;
+using System.Data.SqlTypes;
 
 
 namespace accesoadatos
@@ -17,7 +11,7 @@ namespace accesoadatos
     public partial class Order : Form
     {
         private readonly NorthwindContext _context;
-        
+
 
         BindingList<OrderDetalisData> _orderDetalis = new BindingList<OrderDetalisData>();
 
@@ -64,9 +58,10 @@ namespace accesoadatos
 
             LoadCustomer();
             LoadEmployees();
-            LoadDatagridview();
             LoadShippers();
-            LoadCategory();
+          
+
+
 
 
 
@@ -169,19 +164,7 @@ namespace accesoadatos
             comboBoxShipVIa.ValueMember = nameof(Shipper.ShipperID);
         }
 
-        private void LoadCategory()
-        {
-            var category = _context.Categories
-                .Select(c => new
-                {
-                    c.CategoryID,
-                    c.CategoryName
-                }).ToList();
 
-            comboBoxCategory.DataSource = category;
-            comboBoxCategory.DisplayMember = "CategoryName";
-            comboBoxCategory.ValueMember = "CategoryID";
-        }
 
 
 
@@ -225,9 +208,9 @@ namespace accesoadatos
                         ShipRegion = textBoxRegion.Text,
                         ShipName = textBoxShipName.Text,
                         Freight = decimal.Parse(textBoxFrieght.Text),
-                        OrderDate = dateTimePicker1.Value,
-                        RequiredDate = dateTimePicker2.Value,
-                        ShippedDate = dateTimePicker3.Value
+                        OrderDate = DateTime.Now,
+                        RequiredDate = DateTime.Now,
+                        ShippedDate = DateTime.Now
                     };
 
                     newOrder.OrderDetails = new List<Data.OrderDetail>();
@@ -248,7 +231,7 @@ namespace accesoadatos
 
                         var newOrderDetail = new Data.OrderDetail
                         {
-                            ProductID = Convert.ToInt32(row.Cells[1].Value),
+                            ProductID = Convert.ToInt32(row.Cells[0].Value),
                             UnitPrice = Convert.ToDecimal(row.Cells[2].Value),
                             Quantity = Convert.ToInt16(row.Cells[3].Value),
                             Discount = Convert.ToSingle(row.Cells[4].Value),
@@ -322,16 +305,7 @@ namespace accesoadatos
 
         private void buttonDELETE_Click(object sender, EventArgs e)
         {
-            textBoxAddress.Clear();
-            textBoxCity.Clear();
-            textBoxPostalCode.Clear();
-            textBoxRegion.Clear();
-            textBoxShipCountry.Clear();
-            textBoxSubtotal.Clear();
-            textBoxTotal.Clear();
-            textBox1.Clear();
-            textBoxShipName.Clear();
-
+           
 
         }
 
@@ -340,74 +314,157 @@ namespace accesoadatos
 
         }
 
-        private void button1_Click_1(object sender, EventArgs e)
-        {
 
-
-            DialogResult dialogResult = MessageBox.Show("¿Deseas buscar los productos disponibles por su categoria?", "Confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-            if (dialogResult == DialogResult.Yes)
-            {
-                try
-                {
-                    var categoryID = (int)comboBoxCategory.SelectedValue;
-
-                    var orders = _context.orderDetails
-                        .Include(o => o.Product)
-                        .ThenInclude(p => p.Supplier)
-                        .Include(o => o.Product.Category)
-                        .Where(o => o.Product.Category.CategoryID == categoryID)
-                        .Select(o => new
-                        {
-                            o.ProductID,
-                            o.Product.UnitPrice,
-                            o.Quantity,
-                            Discount = o.Discount,
-                            ProductName = o.Product.ProductName,
-                            CompanyName = o.Product.Supplier.CompanyName,
-                            CategoryName = o.Product.Category.CategoryName,
-                            ExtendedPrice = o.Product.UnitPrice * o.Quantity * (1 - (decimal)(o.Discount))
-                        })
-                        .ToList();
-
-                    dataGridView1.DataSource = orders;
-                    dataGridView1.Refresh();
-
-                    MessageBox.Show("Detalles de la orden cargados exitosamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"Ocurrió un error al cargar los detalles de la orden: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-            else
-            {
-                MessageBox.Show("Operación cancelada", "Cancelación", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-
-        }
 
         private void textBoxFrieght_TextChanged(object sender, EventArgs e)
         {
 
         }
 
-        private void button2_Click(object sender, EventArgs e)
-        {
 
-
-            LoadDatagridview();
-
-            MessageBox.Show("Todos los productos cargados correctamente");
-        }
 
         private void buttonOrdersMade_Click(object sender, EventArgs e)
         {
-            var context = new NorthwindContext();
+            DialogResult result = MessageBox.Show("¿Deseas cargar las orden ordenes hechas?", "Confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
-            var ordermade = new OrdersMade(context);
-            ordermade.Show();
-            this.Hide();
+            if (result == DialogResult.Yes)
+            {
+                var context = new NorthwindContext();
+
+                var ordermade = new OrdersMade(context);
+                ordermade.Show();
+                this.Hide();
+
+            }
+            else
+            {
+                MessageBox.Show("Operacion Cancelada", "Operacion", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+
+        }
+
+        private void buttonAdditems_Click(object sender, EventArgs e)
+        {
+
+
+            DialogResult result = MessageBox.Show("¿Deseas agregar alguna orden?", "Confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if (result == DialogResult.Yes)
+            {
+
+                var context = new NorthwindContext();
+
+                var orderdetails = new OrderDetails(context);
+                orderdetails.Show();
+                this.Hide();
+               
+            }
+            else
+            {
+                MessageBox.Show("Operacion Cancelada", "Operacion", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+
+        }
+
+        public void AgregarProducto(int ProductID, string productName, decimal unitPrice, int quantity, float discount, string categoryName, string companyName, decimal extendedPrice)
+        {
+
+            dataGridView1.Rows.Add(
+                ProductID,
+                productName,
+                unitPrice,
+                quantity,
+                discount,
+                categoryName,
+                companyName,
+                extendedPrice
+            );
+            dataGridView1.Refresh();
+          
+
+        }
+
+        private void label1_Click_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox2_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+
+
+
+        private void buttonCANCEL_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(textBoxAddress.Text) &&
+                   string.IsNullOrWhiteSpace(textBoxCity.Text) &&
+                   string.IsNullOrWhiteSpace(textBoxPostalCode.Text) &&
+                   string.IsNullOrWhiteSpace(textBoxRegion.Text) &&
+                   string.IsNullOrWhiteSpace(textBoxShipCountry.Text) &&
+                   string.IsNullOrWhiteSpace(textBoxSubtotal.Text) &&
+                   string.IsNullOrWhiteSpace(textBoxTotal.Text) &&
+                   string.IsNullOrWhiteSpace(textBox1.Text) &&
+                   string.IsNullOrWhiteSpace(textBoxShipName.Text))
+            {
+               
+                MessageBox.Show("No hay orden para cancelar, todos los campos están vacíos.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                textBoxAddress.Clear();
+                textBoxCity.Clear();
+                textBoxPostalCode.Clear();
+                textBoxRegion.Clear();
+                textBoxShipCountry.Clear();
+                textBoxSubtotal.Clear();
+                textBoxTotal.Clear();
+                textBox1.Clear();
+                textBoxShipName.Clear();
+
+     
+                dataGridView1.DataSource = null;
+                dataGridView1.Rows.Clear();
+            }
+            else
+            {
+                MessageBox.Show(" Orden Cancelada", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+
+                textBoxAddress.Clear();
+                textBoxCity.Clear();
+                textBoxPostalCode.Clear();
+                textBoxRegion.Clear();
+                textBoxShipCountry.Clear();
+                textBoxSubtotal.Clear();
+                textBoxTotal.Clear();
+                textBox1.Clear();
+                textBoxShipName.Clear();
+
+             
+                dataGridView1.DataSource = null;
+                dataGridView1.Rows.Clear();
+            }
+                
+        
+            
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+           
+          
         }
     }
 }

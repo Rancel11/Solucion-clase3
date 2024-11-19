@@ -15,6 +15,9 @@ namespace accesoadatos
     public partial class OrdersMade : Form
     {
         private readonly NorthwindContext _context;
+        private  string seletecustomer;
+        private int orderID;
+
         public OrdersMade(NorthwindContext context)
         {
             InitializeComponent();
@@ -70,7 +73,7 @@ namespace accesoadatos
                 .Include(o => o.Product.Category)
                 .Select(o => new
                 {
-
+                    o.OrderID,
                     o.Order.CustomerID,
                     o.ProductID,
                     o.Product.UnitPrice,
@@ -113,6 +116,7 @@ namespace accesoadatos
                 .Where(od => od.Order.CustomerID == customerId)
                 .Select(od => new
                 {
+                    od.OrderID,
                     od.Order.CustomerID,
                     od.ProductID,
                     od.Product.UnitPrice,
@@ -141,6 +145,70 @@ namespace accesoadatos
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+
+        }
+
+        private void button2_Click_1(object sender, EventArgs e)
+        {
+            using (var transaction = _context.Database.BeginTransaction())
+            {
+                try
+                {
+                    
+                    var orderDetailsToDelete = _context.orderDetails
+                        .Where(od => od.OrderID == orderID)
+                        .ToList();
+
+               
+                    foreach (var orderDetail in orderDetailsToDelete)
+                    {
+                        _context.orderDetails.Remove(orderDetail);
+                    }
+
+                    _context.SaveChanges();
+
+            
+                    transaction.Commit();
+
+                    MessageBox.Show("Los detalles de la orden se han eliminado correctamente.");
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    MessageBox.Show("Ocurrió un error al intentar eliminar los detalles de la orden: " + ex.Message);
+                }
+
+                
+                LoadDatagridview();
+                dataGridView1.Refresh();
+            }
+
+
+
+        }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+                
+                seletecustomer = (string)dataGridView1.CurrentRow.Cells[0].Value;
+                orderID = (int)dataGridView1.CurrentRow.Cells[9].Value;
+               
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al seleccionar la orden: " + ex.Message);
+            }
         }
     }
 }

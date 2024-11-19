@@ -34,9 +34,6 @@
             DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Order));
             panel2 = new Panel();
-            dateTimePicker3 = new DateTimePicker();
-            dateTimePicker2 = new DateTimePicker();
-            dateTimePicker1 = new DateTimePicker();
             comboBoxCustomer = new ComboBox();
             textBoxShipCountry = new TextBox();
             textBox1 = new TextBox();
@@ -45,9 +42,6 @@
             textBoxRegion = new TextBox();
             textBoxCity = new TextBox();
             textBoxAddress = new TextBox();
-            label10 = new Label();
-            label11 = new Label();
-            label12 = new Label();
             label13 = new Label();
             label19 = new Label();
             label14 = new Label();
@@ -57,8 +51,8 @@
             label18 = new Label();
             sqlCommand1 = new Microsoft.Data.SqlClient.SqlCommand();
             dataGridView1 = new DataGridView();
-            ColumnProductName = new DataGridViewTextBoxColumn();
             ColumnProductID = new DataGridViewTextBoxColumn();
+            ColumnProductName = new DataGridViewTextBoxColumn();
             ColumnUnitPrice = new DataGridViewTextBoxColumn();
             ColumnQuantityPerUnit = new DataGridViewTextBoxColumn();
             ColumnDiscount = new DataGridViewTextBoxColumn();
@@ -80,13 +74,9 @@
             menuStrip1 = new MenuStrip();
             atrasToolStripMenuItem = new ToolStripMenuItem();
             buttonOK = new Button();
-            buttonDELETE = new Button();
             buttonCANCEL = new Button();
             buttonOrdersMade = new Button();
-            comboBoxCategory = new ComboBox();
-            label1 = new Label();
-            button1 = new Button();
-            button2 = new Button();
+            buttonAdditems = new Button();
             panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
@@ -97,9 +87,6 @@
             // 
             panel2.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             panel2.BorderStyle = BorderStyle.FixedSingle;
-            panel2.Controls.Add(dateTimePicker3);
-            panel2.Controls.Add(dateTimePicker2);
-            panel2.Controls.Add(dateTimePicker1);
             panel2.Controls.Add(comboBoxCustomer);
             panel2.Controls.Add(textBoxShipCountry);
             panel2.Controls.Add(textBox1);
@@ -108,9 +95,6 @@
             panel2.Controls.Add(textBoxRegion);
             panel2.Controls.Add(textBoxCity);
             panel2.Controls.Add(textBoxAddress);
-            panel2.Controls.Add(label10);
-            panel2.Controls.Add(label11);
-            panel2.Controls.Add(label12);
             panel2.Controls.Add(label13);
             panel2.Controls.Add(label19);
             panel2.Controls.Add(label14);
@@ -125,44 +109,11 @@
             panel2.TabIndex = 0;
             panel2.Paint += panel2_Paint;
             // 
-            // dateTimePicker3
-            // 
-            dateTimePicker3.CalendarFont = new Font("Segoe UI", 10.2F);
-            dateTimePicker3.CustomFormat = "yyyy/MM/dd";
-            dateTimePicker3.Font = new Font("Segoe UI", 10.2F);
-            dateTimePicker3.Format = DateTimePickerFormat.Custom;
-            dateTimePicker3.Location = new Point(158, 248);
-            dateTimePicker3.Name = "dateTimePicker3";
-            dateTimePicker3.Size = new Size(324, 30);
-            dateTimePicker3.TabIndex = 3;
-            // 
-            // dateTimePicker2
-            // 
-            dateTimePicker2.CalendarFont = new Font("Segoe UI", 10.2F);
-            dateTimePicker2.CustomFormat = "yyyy/MM/dd";
-            dateTimePicker2.Font = new Font("Segoe UI", 10.2F);
-            dateTimePicker2.Format = DateTimePickerFormat.Custom;
-            dateTimePicker2.Location = new Point(156, 188);
-            dateTimePicker2.Name = "dateTimePicker2";
-            dateTimePicker2.Size = new Size(326, 30);
-            dateTimePicker2.TabIndex = 3;
-            // 
-            // dateTimePicker1
-            // 
-            dateTimePicker1.CalendarFont = new Font("Segoe UI", 10.2F);
-            dateTimePicker1.CustomFormat = "yyyy/MM/dd";
-            dateTimePicker1.Font = new Font("Segoe UI", 10.2F);
-            dateTimePicker1.Format = DateTimePickerFormat.Custom;
-            dateTimePicker1.Location = new Point(156, 136);
-            dateTimePicker1.Name = "dateTimePicker1";
-            dateTimePicker1.Size = new Size(326, 30);
-            dateTimePicker1.TabIndex = 3;
-            // 
             // comboBoxCustomer
             // 
             comboBoxCustomer.Font = new Font("Segoe UI", 10.2F);
             comboBoxCustomer.FormattingEnabled = true;
-            comboBoxCustomer.Location = new Point(158, 34);
+            comboBoxCustomer.Location = new Point(158, 25);
             comboBoxCustomer.Name = "comboBoxCustomer";
             comboBoxCustomer.Size = new Size(166, 31);
             comboBoxCustomer.TabIndex = 2;
@@ -170,7 +121,7 @@
             // textBoxShipCountry
             // 
             textBoxShipCountry.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBoxShipCountry.Location = new Point(857, 243);
+            textBoxShipCountry.Location = new Point(158, 250);
             textBoxShipCountry.Name = "textBoxShipCountry";
             textBoxShipCountry.Size = new Size(238, 30);
             textBoxShipCountry.TabIndex = 1;
@@ -187,7 +138,7 @@
             // textBoxPostalCode
             // 
             textBoxPostalCode.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBoxPostalCode.Location = new Point(857, 196);
+            textBoxPostalCode.Location = new Point(158, 203);
             textBoxPostalCode.Name = "textBoxPostalCode";
             textBoxPostalCode.Size = new Size(238, 30);
             textBoxPostalCode.TabIndex = 1;
@@ -197,7 +148,7 @@
             // 
             comboBoxEmployee.Font = new Font("Segoe UI", 10.2F);
             comboBoxEmployee.FormattingEnabled = true;
-            comboBoxEmployee.Location = new Point(158, 84);
+            comboBoxEmployee.Location = new Point(158, 75);
             comboBoxEmployee.Name = "comboBoxEmployee";
             comboBoxEmployee.Size = new Size(166, 31);
             comboBoxEmployee.TabIndex = 1;
@@ -205,7 +156,7 @@
             // textBoxRegion
             // 
             textBoxRegion.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBoxRegion.Location = new Point(857, 138);
+            textBoxRegion.Location = new Point(158, 145);
             textBoxRegion.Name = "textBoxRegion";
             textBoxRegion.Size = new Size(238, 30);
             textBoxRegion.TabIndex = 1;
@@ -213,7 +164,7 @@
             // textBoxCity
             // 
             textBoxCity.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBoxCity.Location = new Point(857, 92);
+            textBoxCity.Location = new Point(823, 227);
             textBoxCity.Name = "textBoxCity";
             textBoxCity.Size = new Size(238, 30);
             textBoxCity.TabIndex = 1;
@@ -221,48 +172,17 @@
             // textBoxAddress
             // 
             textBoxAddress.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBoxAddress.Location = new Point(857, 22);
+            textBoxAddress.Location = new Point(823, 25);
             textBoxAddress.Multiline = true;
             textBoxAddress.Name = "textBoxAddress";
-            textBoxAddress.Size = new Size(318, 62);
+            textBoxAddress.Size = new Size(318, 171);
             textBoxAddress.TabIndex = 1;
-            // 
-            // label10
-            // 
-            label10.AutoSize = true;
-            label10.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label10.Location = new Point(27, 252);
-            label10.Name = "label10";
-            label10.Size = new Size(125, 23);
-            label10.TabIndex = 0;
-            label10.Text = "Shipped Date:";
-            label10.Click += label5_Click;
-            // 
-            // label11
-            // 
-            label11.AutoSize = true;
-            label11.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label11.Location = new Point(27, 188);
-            label11.Name = "label11";
-            label11.Size = new Size(83, 46);
-            label11.TabIndex = 0;
-            label11.Text = "Required\r\nDate:";
-            // 
-            // label12
-            // 
-            label12.AutoSize = true;
-            label12.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label12.Location = new Point(27, 143);
-            label12.Name = "label12";
-            label12.Size = new Size(105, 23);
-            label12.TabIndex = 0;
-            label12.Text = "Order Date:";
             // 
             // label13
             // 
             label13.AutoSize = true;
             label13.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label13.Location = new Point(27, 92);
+            label13.Location = new Point(27, 83);
             label13.Name = "label13";
             label13.Size = new Size(93, 23);
             label13.TabIndex = 0;
@@ -272,7 +192,7 @@
             // 
             label19.AutoSize = true;
             label19.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label19.Location = new Point(692, 248);
+            label19.Location = new Point(27, 255);
             label19.Name = "label19";
             label19.Size = new Size(121, 23);
             label19.TabIndex = 0;
@@ -283,7 +203,7 @@
             // 
             label14.AutoSize = true;
             label14.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label14.Location = new Point(692, 199);
+            label14.Location = new Point(27, 206);
             label14.Name = "label14";
             label14.Size = new Size(108, 23);
             label14.TabIndex = 0;
@@ -294,7 +214,7 @@
             // 
             label15.AutoSize = true;
             label15.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label15.Location = new Point(692, 141);
+            label15.Location = new Point(27, 148);
             label15.Name = "label15";
             label15.Size = new Size(71, 23);
             label15.TabIndex = 0;
@@ -305,7 +225,7 @@
             // 
             label16.AutoSize = true;
             label16.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label16.Location = new Point(692, 99);
+            label16.Location = new Point(672, 234);
             label16.Name = "label16";
             label16.Size = new Size(47, 23);
             label16.TabIndex = 0;
@@ -316,7 +236,7 @@
             // 
             label17.AutoSize = true;
             label17.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label17.Location = new Point(692, 34);
+            label17.Location = new Point(672, 33);
             label17.Name = "label17";
             label17.Size = new Size(79, 23);
             label17.TabIndex = 0;
@@ -326,7 +246,7 @@
             // 
             label18.AutoSize = true;
             label18.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label18.Location = new Point(27, 42);
+            label18.Location = new Point(27, 33);
             label18.Name = "label18";
             label18.Size = new Size(93, 23);
             label18.TabIndex = 0;
@@ -341,21 +261,13 @@
             // 
             dataGridView1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { ColumnProductName, ColumnProductID, ColumnUnitPrice, ColumnQuantityPerUnit, ColumnDiscount, ColumnProductCategoryName, ColumnCompanyName, ColumnExtendedPrice });
+            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { ColumnProductID, ColumnProductName, ColumnUnitPrice, ColumnQuantityPerUnit, ColumnDiscount, ColumnProductCategoryName, ColumnCompanyName, ColumnExtendedPrice });
             dataGridView1.Location = new Point(12, 549);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowHeadersWidth = 51;
             dataGridView1.Size = new Size(1235, 229);
             dataGridView1.TabIndex = 2;
             dataGridView1.CellContentClick += dataGridView1_CellContentClick;
-            // 
-            // ColumnProductName
-            // 
-            ColumnProductName.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            ColumnProductName.DataPropertyName = "ProductName";
-            ColumnProductName.HeaderText = "ProductName";
-            ColumnProductName.MinimumWidth = 6;
-            ColumnProductName.Name = "ColumnProductName";
             // 
             // ColumnProductID
             // 
@@ -365,6 +277,14 @@
             ColumnProductID.Name = "ColumnProductID";
             ColumnProductID.Visible = false;
             ColumnProductID.Width = 125;
+            // 
+            // ColumnProductName
+            // 
+            ColumnProductName.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            ColumnProductName.DataPropertyName = "ProductName";
+            ColumnProductName.HeaderText = "ProductName";
+            ColumnProductName.MinimumWidth = 6;
+            ColumnProductName.Name = "ColumnProductName";
             // 
             // ColumnUnitPrice
             // 
@@ -569,7 +489,8 @@
             // 
             buttonOK.Cursor = Cursors.Hand;
             buttonOK.FlatStyle = FlatStyle.Flat;
-            buttonOK.Location = new Point(902, 950);
+            buttonOK.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            buttonOK.Location = new Point(1003, 950);
             buttonOK.Name = "buttonOK";
             buttonOK.Size = new Size(94, 29);
             buttonOK.TabIndex = 6;
@@ -577,32 +498,23 @@
             buttonOK.UseVisualStyleBackColor = true;
             buttonOK.Click += button1_Click;
             // 
-            // buttonDELETE
-            // 
-            buttonDELETE.Cursor = Cursors.Hand;
-            buttonDELETE.FlatStyle = FlatStyle.Flat;
-            buttonDELETE.Location = new Point(1017, 950);
-            buttonDELETE.Name = "buttonDELETE";
-            buttonDELETE.Size = new Size(94, 29);
-            buttonDELETE.TabIndex = 6;
-            buttonDELETE.Text = "Delete";
-            buttonDELETE.UseVisualStyleBackColor = true;
-            buttonDELETE.Click += buttonDELETE_Click;
-            // 
             // buttonCANCEL
             // 
             buttonCANCEL.Cursor = Cursors.Hand;
             buttonCANCEL.FlatStyle = FlatStyle.Flat;
+            buttonCANCEL.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             buttonCANCEL.Location = new Point(1126, 950);
             buttonCANCEL.Name = "buttonCANCEL";
             buttonCANCEL.Size = new Size(94, 29);
             buttonCANCEL.TabIndex = 6;
             buttonCANCEL.Text = "Cancel";
             buttonCANCEL.UseVisualStyleBackColor = true;
+            buttonCANCEL.Click += buttonCANCEL_Click;
             // 
             // buttonOrdersMade
             // 
             buttonOrdersMade.FlatStyle = FlatStyle.Flat;
+            buttonOrdersMade.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             buttonOrdersMade.Location = new Point(1072, 97);
             buttonOrdersMade.Name = "buttonOrdersMade";
             buttonOrdersMade.Size = new Size(148, 29);
@@ -611,60 +523,27 @@
             buttonOrdersMade.UseVisualStyleBackColor = true;
             buttonOrdersMade.Click += buttonOrdersMade_Click;
             // 
-            // comboBoxCategory
+            // buttonAdditems
             // 
-            comboBoxCategory.FormattingEnabled = true;
-            comboBoxCategory.Location = new Point(929, 502);
-            comboBoxCategory.Name = "comboBoxCategory";
-            comboBoxCategory.Size = new Size(151, 28);
-            comboBoxCategory.TabIndex = 10;
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(803, 502);
-            label1.Name = "label1";
-            label1.Size = new Size(98, 28);
-            label1.TabIndex = 11;
-            label1.Text = "Category";
-            // 
-            // button1
-            // 
-            button1.Cursor = Cursors.Hand;
-            button1.FlatStyle = FlatStyle.Popup;
-            button1.Location = new Point(1134, 502);
-            button1.Name = "button1";
-            button1.Size = new Size(94, 29);
-            button1.TabIndex = 12;
-            button1.Text = "Apply";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click_1;
-            // 
-            // button2
-            // 
-            button2.Cursor = Cursors.Hand;
-            button2.FlatStyle = FlatStyle.Popup;
-            button2.Location = new Point(12, 501);
-            button2.Name = "button2";
-            button2.Size = new Size(137, 29);
-            button2.TabIndex = 13;
-            button2.Text = "All Products";
-            button2.UseVisualStyleBackColor = true;
-            button2.Click += button2_Click;
+            buttonAdditems.FlatStyle = FlatStyle.Popup;
+            buttonAdditems.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            buttonAdditems.Location = new Point(12, 504);
+            buttonAdditems.Name = "buttonAdditems";
+            buttonAdditems.Size = new Size(133, 30);
+            buttonAdditems.TabIndex = 0;
+            buttonAdditems.Text = "Add Items";
+            buttonAdditems.UseVisualStyleBackColor = true;
+            buttonAdditems.Click += buttonAdditems_Click;
             // 
             // Order
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.Ivory;
             ClientSize = new Size(1259, 992);
-            Controls.Add(button2);
-            Controls.Add(button1);
-            Controls.Add(label1);
-            Controls.Add(comboBoxCategory);
+            Controls.Add(buttonAdditems);
             Controls.Add(buttonOrdersMade);
             Controls.Add(buttonCANCEL);
-            Controls.Add(buttonDELETE);
             Controls.Add(buttonOK);
             Controls.Add(comboBoxShipVIa);
             Controls.Add(textBoxTotal);
@@ -681,7 +560,7 @@
             Controls.Add(label6);
             Controls.Add(label4);
             Controls.Add(menuStrip1);
-            Cursor = Cursors.Hand;
+            Cursor = Cursors.Arrow;
             MainMenuStrip = menuStrip1;
             MaximizeBox = false;
             MinimizeBox = false;
@@ -703,9 +582,6 @@
         #endregion
 
         private Panel panel2;
-        private Label label10;
-        private Label label11;
-        private Label label12;
         private Label label13;
         private Label label19;
         private Label label14;
@@ -737,19 +613,12 @@
         private ToolStripMenuItem atrasToolStripMenuItem;
         private ComboBox comboBoxEmployee;
         private ComboBox comboBoxCustomer;
-        private DateTimePicker dateTimePicker3;
-        private DateTimePicker dateTimePicker2;
-        private DateTimePicker dateTimePicker1;
         private Button buttonOK;
-        private Button buttonDELETE;
         private Button buttonCANCEL;
         private Button buttonOrdersMade;
-        private ComboBox comboBoxCategory;
-        private Label label1;
-        private Button button1;
-        private Button button2;
-        private DataGridViewTextBoxColumn ColumnProductName;
+        private Button buttonAdditems;
         private DataGridViewTextBoxColumn ColumnProductID;
+        private DataGridViewTextBoxColumn ColumnProductName;
         private DataGridViewTextBoxColumn ColumnUnitPrice;
         private DataGridViewTextBoxColumn ColumnQuantityPerUnit;
         private DataGridViewTextBoxColumn ColumnDiscount;

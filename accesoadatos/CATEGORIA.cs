@@ -78,7 +78,7 @@ namespace accesoadatos
                 MessageBox.Show("Los datos se insertaron correctamente");
 
                 LoadComboBox();
-             
+
 
                 Cleartextfilds();
             }
@@ -245,7 +245,7 @@ namespace accesoadatos
             {
                 MessageBox.Show($"Esta categoria no se puede eliminar, ya que esta enlasada a uno o varios productos: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-        
+
 
 
 
@@ -332,6 +332,11 @@ namespace accesoadatos
             var menu = new MenuPrincipal();
             menu.Show();
             this.Hide();
+        }
+
+        private void panel2_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }
