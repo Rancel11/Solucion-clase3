@@ -20,13 +20,20 @@ namespace accesoadatos
     public partial class OrderDetails : Form
     {
         private readonly NorthwindContext _context;
+      
+
         public OrderDetails(NorthwindContext context)
         {
 
             InitializeComponent();
             _context = context;
             dataGridView1.AutoGenerateColumns = false;
+            
         }
+
+     
+
+     
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -140,10 +147,12 @@ namespace accesoadatos
 
                     order.AgregarProducto(ProductID, productName, unitPrice, quantity, discount, categoryName, companyName, extendedPrice);
                 }
-
+               
+              
                 order.Show();
+  
 
-                this.Hide();
+                this.Close();
             }
             else
             {

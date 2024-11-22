@@ -1,9 +1,13 @@
 ﻿using accesoadatos.Data;
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Serilog;
 using System.ComponentModel;
+
 using System.Data;
 using System.Data.SqlTypes;
+
 
 
 namespace accesoadatos
@@ -13,7 +17,7 @@ namespace accesoadatos
         private readonly NorthwindContext _context;
 
 
-        BindingList<OrderDetalisData> _orderDetalis = new BindingList<OrderDetalisData>();
+
 
         public Order(NorthwindContext context)
 
@@ -21,7 +25,17 @@ namespace accesoadatos
             InitializeComponent();
             _context = context;
             dataGridView1.AutoGenerateColumns = false;
+            dataGridView1.Refresh();
+
+            Log.Logger = new LoggerConfiguration()
+               .MinimumLevel.Debug()
+               .WriteTo.File("logs\\log-.txt", rollingInterval: RollingInterval.Day)
+               .CreateLogger();
+
+            Log.Information("Formulario Order inicializado.");
         }
+
+       
 
         private void label1_Click(object sender, EventArgs e)
         {
@@ -59,7 +73,8 @@ namespace accesoadatos
             LoadCustomer();
             LoadEmployees();
             LoadShippers();
-          
+            dataGridView1.Refresh();
+
 
 
 
@@ -89,7 +104,7 @@ namespace accesoadatos
            }).ToList();
 
             comboBoxCustomer.DataSource = customers;
-            comboBoxCustomer.DisplayMember = nameof(Customer.CustomerID);
+            comboBoxCustomer.DisplayMember = nameof(Customer.CompanyName);
             comboBoxCustomer.ValueMember = nameof(Customer.CustomerID);
             comboBoxCustomer.Refresh();
 
@@ -176,38 +191,57 @@ namespace accesoadatos
 
         private void button1_Click(object sender, EventArgs e)
         {
-
             DialogResult dialogResult = MessageBox.Show("¿Desea ingresar la orden?", "Confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
             if (dialogResult == DialogResult.Yes)
             {
                 try
                 {
-                    if (string.IsNullOrWhiteSpace(textBoxAddress.Text) ||
-                        string.IsNullOrWhiteSpace(textBoxCity.Text) ||
-                        string.IsNullOrWhiteSpace(textBoxPostalCode.Text) ||
-                        string.IsNullOrWhiteSpace(textBoxRegion.Text) ||
-                        string.IsNullOrWhiteSpace(textBoxShipCountry.Text) ||
-                        comboBoxCustomer.SelectedValue == null ||
-                        comboBoxEmployee.SelectedValue == null ||
-                        comboBoxShipVIa.SelectedValue == null)
-                    {
-                        MessageBox.Show("Todos los campos son obligatorios y deben ingresarse  correctamente.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        return;
-                    }
 
-                    var newOrder = new Data.Order()
+                    OrderInputValidator validator = new OrderInputValidator();
+
+
+                    OrderValidator orderValidator = new OrderValidator
                     {
-                        CustomerID = (string)comboBoxCustomer.SelectedValue,
-                        EmployeeID = (int)comboBoxEmployee.SelectedValue,
-                        ShipVia = (int)comboBoxShipVIa.SelectedValue,
+                        CustomerId = (string)comboBoxCustomer.SelectedValue,
+                        EmployeeId = (int?)comboBoxEmployee.SelectedValue,
+                        ShipVia = (int?)comboBoxShipVIa.SelectedValue,
                         ShipAddress = textBoxAddress.Text,
                         ShipCity = textBoxCity.Text,
                         ShipPostalCode = textBoxPostalCode.Text,
                         ShipCountry = textBoxShipCountry.Text,
                         ShipRegion = textBoxRegion.Text,
                         ShipName = textBoxShipName.Text,
-                        Freight = decimal.Parse(textBoxFrieght.Text),
+                        FreightText = textBoxFrieght.Text
+                    };
+
+
+                    var validationResult = validator.Validate(orderValidator);
+
+
+                    if (!validationResult.IsValid)
+                    {
+                        string errorMessages = string.Join("\n", validationResult.Errors.Select(error => error.ErrorMessage));
+                        MessageBox.Show($"Errores de validación:\n{errorMessages}", "Error de Validación", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+
+                        Log.Warning("Errores de validación al ingresar la orden: {ErrorMessages}", errorMessages);
+                        return;
+                    }
+
+
+                    var newOrder = new Data.Order()
+                    {
+                        CustomerID = orderValidator.CustomerId,
+                        EmployeeID = orderValidator.EmployeeId.Value,
+                        ShipVia = orderValidator.ShipVia.Value,
+                        ShipAddress = orderValidator.ShipAddress,
+                        ShipCity = orderValidator.ShipCity,
+                        ShipPostalCode = orderValidator.ShipPostalCode,
+                        ShipCountry = orderValidator.ShipCountry,
+                        ShipRegion = orderValidator.ShipRegion,
+                        ShipName = orderValidator.ShipName,
+                        Freight = decimal.Parse(orderValidator.FreightText),
                         OrderDate = DateTime.Now,
                         RequiredDate = DateTime.Now,
                         ShippedDate = DateTime.Now
@@ -255,13 +289,17 @@ namespace accesoadatos
                     _context.orders.Add(newOrder);
                     _context.SaveChanges();
 
+                    Log.Information("Orden ingresada exitosamente.");
+
                     MessageBox.Show("Orden ingresada exitosamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show($"Ocurrió un error al ingresar la orden: {ex.Message}\n\nDetalles: {ex.InnerException?.Message}",
                                     "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    Log.Fatal(ex, "Error fatal en la aplicación.");
+                    Log.Fatal(ex, "Ocurrió un error al ingresar la orden.");
                 }
                 finally
                 {
@@ -272,31 +310,14 @@ namespace accesoadatos
             {
                 MessageBox.Show("Operación cancelada", "Cancelación", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-
         }
 
 
 
 
-        public class OrderDetalisData
-        {
-            private readonly OrderDetail _orderDetail;
 
-            public int ProductID => _orderDetail.ProductID;
 
-            public string ProductName => _orderDetail.Product.ProductName;
 
-            public decimal UnitPrice => _orderDetail.UnitPrice;
-
-            public short Quantity => _orderDetail.Quantity;
-
-            public OrderDetail OrderDetail => _orderDetail;
-
-            public OrderDetalisData(OrderDetail orderDetail)
-            {
-                this._orderDetail = orderDetail;
-            }
-        }
 
 
 
@@ -305,7 +326,7 @@ namespace accesoadatos
 
         private void buttonDELETE_Click(object sender, EventArgs e)
         {
-           
+
 
         }
 
@@ -334,7 +355,7 @@ namespace accesoadatos
                 var ordermade = new OrdersMade(context);
                 ordermade.Show();
                 this.Hide();
-
+                
             }
             else
             {
@@ -355,14 +376,17 @@ namespace accesoadatos
                 var context = new NorthwindContext();
 
                 var orderdetails = new OrderDetails(context);
-                orderdetails.Show();
+                orderdetails.ShowDialog();
                 this.Hide();
-               
+
+
+
             }
             else
             {
                 MessageBox.Show("Operacion Cancelada", "Operacion", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
+           
 
         }
 
@@ -380,7 +404,7 @@ namespace accesoadatos
                 extendedPrice
             );
             dataGridView1.Refresh();
-          
+
 
         }
 
@@ -409,7 +433,7 @@ namespace accesoadatos
                    string.IsNullOrWhiteSpace(textBox1.Text) &&
                    string.IsNullOrWhiteSpace(textBoxShipName.Text))
             {
-               
+
                 MessageBox.Show("No hay orden para cancelar, todos los campos están vacíos.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 textBoxAddress.Clear();
@@ -422,7 +446,7 @@ namespace accesoadatos
                 textBox1.Clear();
                 textBoxShipName.Clear();
 
-     
+
                 dataGridView1.DataSource = null;
                 dataGridView1.Rows.Clear();
             }
@@ -441,14 +465,55 @@ namespace accesoadatos
                 textBox1.Clear();
                 textBoxShipName.Clear();
 
-             
+
                 dataGridView1.DataSource = null;
                 dataGridView1.Rows.Clear();
             }
-                
-        
-            
 
+
+
+
+
+
+
+
+
+
+        }
+
+        private void Filterorder()
+        {
+
+
+            var customer = (string)comboBoxCustomer.SelectedValue;
+
+
+
+            var order = _context.orders
+
+                .Where(o => o.CustomerID == customer)
+                .Select(o => new
+                {
+                    o.CustomerID,
+                    ShipAddress = o.ShipAddress ?? string.Empty,
+                    ShipCity = o.ShipCity ?? string.Empty,
+                    ShipPostalCode = o.ShipPostalCode,
+                    ShipCountry = o.ShipCountry ?? string.Empty,
+                    ShipName = o.ShipName ?? string.Empty,
+                    ShipRegion = o.ShipRegion ?? string.Empty,
+
+                }).FirstOrDefault();
+
+
+            if (order != null)
+            {
+                textBoxShipName.Text = order.ShipName ?? string.Empty;
+                textBoxAddress.Text = order.ShipAddress ?? string.Empty;
+                textBoxCity.Text = order.ShipCity ?? string.Empty;
+                textBoxPostalCode.Text = order.ShipPostalCode?.ToString() ?? string.Empty;
+                textBoxShipCountry.Text = order.ShipCountry ?? string.Empty;
+                textBoxRegion.Text = order.ShipRegion?.ToString() ?? string.Empty;
+            }
 
 
 
@@ -461,10 +526,91 @@ namespace accesoadatos
 
 
 
+
+
         private void button1_Click_1(object sender, EventArgs e)
         {
-           
-          
+
+
+        }
+
+        private void button1_Click_2(object sender, EventArgs e)
+        {
+            try
+            {
+                Filterorder();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ocurrió un error al filtral la orden: {ex.Message}\n\nDetalles: {ex.InnerException?.Message}",
+                                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+
+
+
+
+        }
+
+        private void button2_Click_1(object sender, EventArgs e)
+        {
+
+        }
+
+
+        public class OrderValidator
+        {
+            public string CustomerId { get; set; }
+            public int? EmployeeId { get; set; }
+            public int? ShipVia { get; set; }
+            public string ShipAddress { get; set; }
+            public string ShipCity { get; set; }
+            public string ShipPostalCode { get; set; }
+            public string ShipCountry { get; set; }
+            public string ShipRegion { get; set; }
+            public string ShipName { get; set; }
+            public string FreightText { get; set; }
+
+        }
+
+        public class OrderInputValidator : AbstractValidator<OrderValidator>
+        {
+            public OrderInputValidator()
+            {
+                RuleFor(x => x.CustomerId)
+                    .NotEmpty().WithMessage("El cliente es obligatorio.");
+
+                RuleFor(x => x.EmployeeId)
+                    .NotNull().WithMessage("Debe seleccionar un empleado.")
+                    .GreaterThan(0).WithMessage("Debe seleccionar un empleado válido.");
+
+                RuleFor(x => x.ShipVia)
+                    .NotNull().WithMessage("Debe seleccionar un método de envío.")
+                    .GreaterThan(0).WithMessage("Debe seleccionar un método de envío válido.");
+
+                RuleFor(x => x.ShipAddress)
+                    .NotEmpty().WithMessage("La dirección de envío es obligatoria.");
+
+                RuleFor(x => x.ShipCity)
+                    .NotEmpty().WithMessage("La ciudad de envío es obligatoria.");
+
+                RuleFor(x => x.ShipPostalCode)
+                    .NotEmpty().WithMessage("El código postal es obligatorio.");
+
+                RuleFor(x => x.ShipCountry)
+                    .NotEmpty().WithMessage("El país de envío es obligatorio.");
+            }
+        }
+
+        private void button2_Click_2(object sender, EventArgs e)
+        {
+            dataGridView1.Refresh();
+            dataGridView1.Update();
         }
     }
 }

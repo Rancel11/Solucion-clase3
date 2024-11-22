@@ -6,6 +6,7 @@ using System.Windows.Forms.Layout;
 using accesoadatos.Data;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 
 namespace accesoadatos
 {
@@ -18,7 +19,12 @@ namespace accesoadatos
         {
             InitializeComponent();
             _context = context;
+            
+
+
         }
+        
+     
 
 
         private void LoadComboBoxSuppliers()
@@ -83,6 +89,12 @@ namespace accesoadatos
             {
                 MessageBox.Show($"Ocurrió un error al insertar el suplidor: {ex.Message}\n\nDetalles: {ex.InnerException?.Message}",
                                 "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Log.Fatal(ex,"Ocurrió un error al insertar el suplidor");
+
+            }
+            finally
+            {
+                Log.CloseAndFlush();
             }
         }
         private void buttonFilter_Click(object sender, EventArgs e)
@@ -132,7 +144,14 @@ namespace accesoadatos
             catch (Exception ex)
             {
                 MessageBox.Show($"Ocurrió un error al insertar los datos del suplidor: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Log.Fatal(ex,"Ocurrió un error al insertar los datos del suplidor");
             }
+            finally
+            {
+                Log.CloseAndFlush();
+            }
+
+       
 
 
         }
@@ -173,6 +192,11 @@ namespace accesoadatos
                 catch (Exception ex)
                 {
                     MessageBox.Show($"Ocurrió un error al actualizar el suplidor: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    Log.Fatal(ex,"currió un error al actualizar el suplidor");
+                }
+                finally
+                {
+                    Log.CloseAndFlush();
                 }
             }
             else
@@ -210,6 +234,11 @@ namespace accesoadatos
                 catch (Exception ex)
                 {
                     MessageBox.Show($"Ocurrió un error al eliminar el suplidor: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    Log.Fatal(ex,"Ocurrió un error al eliminar el suplidor");
+                }
+                finally
+                {
+                    Log.CloseAndFlush();
                 }
             }
             else
@@ -222,6 +251,8 @@ namespace accesoadatos
         private void SUPLIDOR_Load(object sender, EventArgs e)
         {
             LoadComboBoxSuppliers();
+           
+           
         }
 
 

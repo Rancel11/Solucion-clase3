@@ -5,6 +5,8 @@ using Microsoft.Extensions.Configuration;
 using System;
 using System.Linq;
 using System.Windows.Forms;
+using Serilog;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 
 namespace accesoadatos
@@ -86,6 +88,12 @@ namespace accesoadatos
             {
                 MessageBox.Show($"Ocurrió un error al insertar la categoria : {ex.Message}\n\nDetalles: {ex.InnerException?.Message}",
                                 "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Log.Fatal(ex,"Ocurrió un error al insertar la categoria");
+
+            }
+            finally
+            {
+                Log.CloseAndFlush();
             }
         }
 
@@ -136,8 +144,13 @@ namespace accesoadatos
             {
                 MessageBox.Show($"Ocurrió un error al actualizar los datos de la categoria: {ex.Message}\n\nDetalles: {ex.InnerException?.Message}",
                                 "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
 
+                Log.Fatal(ex,"Ocurrió un error al actualizar los datos de la categoria");
+            }
+            finally
+            {
+                Log.CloseAndFlush();
+            }
 
 
 
@@ -205,7 +218,14 @@ namespace accesoadatos
             {
                 MessageBox.Show($"Ocurrió un error al Filtrar los datos la categoria: {ex.Message}\n\nDetalles: {ex.InnerException?.Message}",
                                 "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                
+                Log.Fatal(ex,"Ocurrió un error al Filtrar los datos la categoria");
             }
+            finally
+            {
+                Log.CloseAndFlush();
+            }
+           
 
 
 
@@ -244,6 +264,11 @@ namespace accesoadatos
             catch (Exception ex)
             {
                 MessageBox.Show($"Esta categoria no se puede eliminar, ya que esta enlasada a uno o varios productos: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Log.Fatal(ex,"Ocurrio un error al eliminar el registro");
+            }
+            finally
+            {
+                Log.CloseAndFlush();
             }
 
 

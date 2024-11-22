@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using System;
 using System.Linq;
 using System.Windows.Forms;
+using Serilog;
 
 namespace accesoadatos
 {
@@ -112,6 +113,11 @@ namespace accesoadatos
             catch (Exception ex)
             {
                 MessageBox.Show("Se produjo un error inesperado al filtral los datos, verifique que haya selecionado la categoria o el suplidor: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Log.Fatal(ex,"Se produjo un error inesperado al filtral los datos, verifique que haya selecionado la categoria o el suplidor");
+            }
+            finally
+            {
+                Log.CloseAndFlush();
             }
 
 
@@ -160,6 +166,12 @@ namespace accesoadatos
             {
                 MessageBox.Show($"Ocurrió un error: {ex.Message}\n\nDetalles: {ex.InnerException?.Message}",
                                 "Error al actualizar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                
+                Log.Fatal(ex,"Ocurrio un error al actualizar el producto");
+            }
+            finally
+            {
+                Log.CloseAndFlush();
             }
         }
 
@@ -198,6 +210,11 @@ namespace accesoadatos
             {
                 MessageBox.Show($"Ocurrió un error al eliminar el producto: {ex.Message}\n\nDetalles: {ex.InnerException?.Message}",
                                 "Error al eliminar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Log.Fatal(ex,"Ocurrió un error al eliminar el producto");
+            }
+            finally
+            {
+                Log.CloseAndFlush();
             }
         }
 
@@ -425,6 +442,11 @@ namespace accesoadatos
 
                 MessageBox.Show($"Ocurrió un error al insertar el producto: {ex.Message}\n\nDetalles: {ex.InnerException?.Message}",
                                 "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Log.Fatal(ex, "Ocurrió un error al insertar el producto");
+            }
+            finally
+            {
+                Log.CloseAndFlush();
             }
         }
 

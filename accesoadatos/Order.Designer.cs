@@ -77,6 +77,7 @@
             buttonCANCEL = new Button();
             buttonOrdersMade = new Button();
             buttonAdditems = new Button();
+            button1 = new Button();
             panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
@@ -490,7 +491,7 @@
             buttonOK.Cursor = Cursors.Hand;
             buttonOK.FlatStyle = FlatStyle.Flat;
             buttonOK.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            buttonOK.Location = new Point(1003, 950);
+            buttonOK.Location = new Point(1012, 950);
             buttonOK.Name = "buttonOK";
             buttonOK.Size = new Size(94, 29);
             buttonOK.TabIndex = 6;
@@ -535,12 +536,25 @@
             buttonAdditems.UseVisualStyleBackColor = true;
             buttonAdditems.Click += buttonAdditems_Click;
             // 
+            // button1
+            // 
+            button1.FlatStyle = FlatStyle.Popup;
+            button1.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            button1.Location = new Point(184, 504);
+            button1.Name = "button1";
+            button1.Size = new Size(160, 30);
+            button1.TabIndex = 10;
+            button1.Text = "Filter Customer";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click_2;
+            // 
             // Order
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Ivory;
             ClientSize = new Size(1259, 992);
+            Controls.Add(button1);
             Controls.Add(buttonAdditems);
             Controls.Add(buttonOrdersMade);
             Controls.Add(buttonCANCEL);
@@ -560,7 +574,6 @@
             Controls.Add(label6);
             Controls.Add(label4);
             Controls.Add(menuStrip1);
-            Cursor = Cursors.Arrow;
             MainMenuStrip = menuStrip1;
             MaximizeBox = false;
             MinimizeBox = false;
@@ -625,5 +638,6 @@
         private DataGridViewTextBoxColumn ColumnProductCategoryName;
         private DataGridViewTextBoxColumn ColumnCompanyName;
         private DataGridViewTextBoxColumn ColumnExtendedPrice;
+        private Button button1;
     }
 }

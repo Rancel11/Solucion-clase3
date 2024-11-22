@@ -49,7 +49,7 @@ namespace accesoadatos
            }).ToList();
 
             comboBox1.DataSource = customers;
-            comboBox1.DisplayMember = nameof(Customer.CustomerID);
+            comboBox1.DisplayMember = nameof(Customer.CompanyName);
             comboBox1.ValueMember = nameof(Customer.CustomerID);
             comboBox1.Refresh();
 
