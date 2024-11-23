@@ -9,6 +9,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static accesoadatos.Models.NorthwindModels;
+using accesoadatos.Clases;
 
 namespace accesoadatos
 {
@@ -25,6 +27,8 @@ namespace accesoadatos
             dataGridView1.AutoGenerateColumns = false;
 
         }
+
+      
 
         private void OrdersMade_Load(object sender, EventArgs e)
         {
@@ -93,7 +97,10 @@ namespace accesoadatos
         private void fffToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var context = new NorthwindContext();
-            var order = new Order(context);
+             var lista = new List<Productos>();
+
+
+            var order = new Order(context,lista);
             order.Show();
             this.Hide();
         }
@@ -137,7 +144,9 @@ namespace accesoadatos
         private void fhghToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var context = new NorthwindContext();
-            var order = new Order(context);
+            var lista = new List<Productos>();
+
+            var order = new Order(context, lista);
             order.Show();
             this.Hide();
         }

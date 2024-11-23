@@ -1,4 +1,5 @@
-﻿using accesoadatos.Data;
+﻿using accesoadatos.Clases;
+using accesoadatos.Data;
 using accesoadatos.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -15,18 +16,20 @@ namespace accesoadatos
 
 {
 
-
+   
 
     public partial class OrderDetails : Form
     {
         private readonly NorthwindContext _context;
-      
+        private List<Productos> _listaProductos;
 
-        public OrderDetails(NorthwindContext context)
+
+        public OrderDetails(NorthwindContext context, List<Productos> listaProductos)
         {
 
             InitializeComponent();
             _context = context;
+            _listaProductos = listaProductos;
             dataGridView1.AutoGenerateColumns = false;
             
         }
@@ -106,69 +109,89 @@ namespace accesoadatos
             comboBox1.ValueMember = "CategoryID";
 
         }
+        
+        public List<Productos> ObtenerProductosGuardados()
+        {
+            return _listaProductos; 
+        }
 
         private void button1_Click_1(object sender, EventArgs e)
         {
-
-            var order = new Order(_context);
-
-
-            DialogResult result = MessageBox.Show("¿Deseas cargar la orden?", "Confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-
-            if (result == DialogResult.Yes)
+            try
             {
-                foreach (DataGridViewRow row in dataGridView1.SelectedRows)
+                DialogResult result = MessageBox.Show("¿Deseas guardar estos productos seleccionados?", "Confirmacion", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                if (result == DialogResult.Yes)
                 {
-                    if (row.IsNewRow) continue;
+                    List<Productos> listaProductos = new List<Productos>();
 
-                    int ProductID = Convert.ToInt32(row.Cells[0].Value);
-                    string productName = Convert.ToString(row.Cells[1].Value);
-                    string companyName = Convert.ToString(row.Cells[6].Value);
-                    string categoryName = Convert.ToString(row.Cells[5].Value);
-                    decimal unitPrice = Convert.ToDecimal(row.Cells[2].Value);
-                    int quantity = Convert.ToInt16(row.Cells[3].Value);
-                    float discount = Convert.ToSingle(row.Cells[4].Value);
-
-                    if (quantity <= 0)
+                    foreach (DataGridViewRow fila in dataGridView1.Rows)
                     {
-                        MessageBox.Show("La cantidad debe ser mayor que cero.");
-                        return;
+                        if (fila.Selected)
+                        {
+                       
+                            var productos = new Productos
+                            {
+                                ProductID = Convert.ToInt32(fila.Cells[0].Value),
+                                ProductName = Convert.ToString(fila.Cells[1].Value),
+                                CompanyName = Convert.ToString(fila.Cells[6].Value),
+                                CategoryName = Convert.ToString(fila.Cells[5].Value),
+                                UnitPrice = Convert.ToDecimal(fila.Cells[2].Value),
+                                Quantity = Convert.ToInt16(fila.Cells[3].Value),
+                                Discount = Convert.ToSingle(fila.Cells[4].Value),
+                            };
+
+                          
+                            if (productos.Quantity <= 0)
+                            {
+                                MessageBox.Show("La cantidad debe ser mayor que cero.");
+                                return;
+                            }
+
+                            if (productos.Discount < 0 || productos.Discount > 1)
+                            {
+                                MessageBox.Show("El descuento debe estar entre 0 y 1.");
+                                return;
+                            }
+
+                            
+                            productos.ExtendedPrice = productos.UnitPrice * productos.Quantity * (1 - (decimal)productos.Discount);
+                            listaProductos.Add(productos);
+                        }
                     }
 
-                    if (discount < 0 || discount > 1)
+                    if (listaProductos.Count > 0)
                     {
-                        MessageBox.Show("El descuento debe estar entre 0 y 1.");
-                        return;
+                       
+                        this._listaProductos = listaProductos; 
+                        this.DialogResult = DialogResult.OK;
+                        this.Close(); 
                     }
-
-                    decimal extendedPrice = unitPrice * quantity * (1 - (decimal)discount);
-
-
-                    order.AgregarProducto(ProductID, productName, unitPrice, quantity, discount, categoryName, companyName, extendedPrice);
+                    else
+                    {
+                        MessageBox.Show("No se seleccionaron productos.");
+                    }
                 }
-               
-              
-                order.Show();
-  
-
-                this.Close();
+                else
+                {
+                    MessageBox.Show("Operacion cancelada.", "Informacion", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show("Operacion Cancelada");
+                MessageBox.Show($"Error: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
-
-
-
         }
+
+
+
 
         private void atrasToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var context = new NorthwindContext();
+           var lista = new List<Productos>();
 
-            var orders = new Order(context);
+            var orders = new Order(context,lista);
             orders.Show();
             this.Hide();
         }

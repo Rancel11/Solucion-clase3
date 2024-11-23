@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using accesoadatos.Clases;
 
 namespace accesoadatos
 {
@@ -26,9 +27,10 @@ namespace accesoadatos
         private void ordersToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var context = new NorthwindContext();
+           var lista = new List<Productos>();
 
 
-            var Orders = new Order(context);
+            var Orders = new Order(context, lista);
             Orders.Show();
             this.Hide();
         }
@@ -62,8 +64,12 @@ namespace accesoadatos
 
             var context = new NorthwindContext();
 
+            var lista = new List<Productos>();
 
-            var Orders = new Order(context);
+
+
+
+            var Orders = new Order(context,lista);
             Orders.Show();
             this.Hide();
         }

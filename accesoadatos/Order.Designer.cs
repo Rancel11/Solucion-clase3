@@ -78,6 +78,7 @@
             buttonOrdersMade = new Button();
             buttonAdditems = new Button();
             button1 = new Button();
+            button2 = new Button();
             panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
@@ -548,12 +549,25 @@
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click_2;
             // 
+            // button2
+            // 
+            button2.FlatStyle = FlatStyle.Popup;
+            button2.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            button2.Location = new Point(393, 505);
+            button2.Name = "button2";
+            button2.Size = new Size(94, 29);
+            button2.TabIndex = 11;
+            button2.Text = "Delete";
+            button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click_3;
+            // 
             // Order
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Ivory;
             ClientSize = new Size(1259, 992);
+            Controls.Add(button2);
             Controls.Add(button1);
             Controls.Add(buttonAdditems);
             Controls.Add(buttonOrdersMade);
@@ -639,5 +653,6 @@
         private DataGridViewTextBoxColumn ColumnCompanyName;
         private DataGridViewTextBoxColumn ColumnExtendedPrice;
         private Button button1;
+        private Button button2;
     }
 }

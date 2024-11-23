@@ -4,9 +4,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Serilog;
 using System.ComponentModel;
-
+using accesoadatos.Clases;
 using System.Data;
 using System.Data.SqlTypes;
+using static accesoadatos.Models.NorthwindModels;
 
 
 
@@ -14,19 +15,22 @@ namespace accesoadatos
 {
     public partial class Order : Form
     {
+        private List<Productos> _listaProductos;
+
         private readonly NorthwindContext _context;
+    
 
 
 
-
-        public Order(NorthwindContext context)
+        public Order(NorthwindContext context, List<Productos> listaProductos)
 
         {
             InitializeComponent();
             _context = context;
             dataGridView1.AutoGenerateColumns = false;
-            dataGridView1.Refresh();
+            _listaProductos = listaProductos;
 
+          
             Log.Logger = new LoggerConfiguration()
                .MinimumLevel.Debug()
                .WriteTo.File("logs\\log-.txt", rollingInterval: RollingInterval.Day)
@@ -35,7 +39,10 @@ namespace accesoadatos
             Log.Information("Formulario Order inicializado.");
         }
 
-       
+
+
+
+
 
         private void label1_Click(object sender, EventArgs e)
         {
@@ -70,6 +77,13 @@ namespace accesoadatos
         private void Order_Load(object sender, EventArgs e)
         {
 
+
+            foreach (var productos in _listaProductos)
+            {
+                dataGridView1.Rows.Add(productos.ProductID, productos.ProductName, productos.UnitPrice, productos.Quantity, productos.Discount, productos.CategoryName, productos.CompanyName, productos.ExtendedPrice);
+            }
+
+          
             LoadCustomer();
             LoadEmployees();
             LoadShippers();
@@ -85,6 +99,10 @@ namespace accesoadatos
 
 
         }
+
+
+
+       
 
         private void atrasToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -355,7 +373,7 @@ namespace accesoadatos
                 var ordermade = new OrdersMade(context);
                 ordermade.Show();
                 this.Hide();
-                
+
             }
             else
             {
@@ -366,47 +384,51 @@ namespace accesoadatos
 
         private void buttonAdditems_Click(object sender, EventArgs e)
         {
-
-
-            DialogResult result = MessageBox.Show("¿Deseas agregar alguna orden?", "Confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-            if (result == DialogResult.Yes)
+            try
             {
+                DialogResult result = MessageBox.Show("¿Deseas agregar alguna orden?", "Confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
-                var context = new NorthwindContext();
+                if (result == DialogResult.Yes)
+                {
+                    var context = new NorthwindContext();
+                    var lista = new List<Productos>();
+                    var orderdetails = new OrderDetails(context,lista); 
 
-                var orderdetails = new OrderDetails(context);
-                orderdetails.ShowDialog();
-                this.Hide();
+                   
+                    if (orderdetails.ShowDialog() == DialogResult.OK)
+                    {
+                       
+                        var listaProductos = orderdetails.ObtenerProductosGuardados(); 
 
-
-
+                        if (listaProductos != null && listaProductos.Count > 0)
+                        {
+                            
+                            foreach (var producto in listaProductos)
+                            {
+                                
+                                dataGridView1.Rows.Add(producto.ProductID, producto.ProductName, producto.UnitPrice, producto.Quantity, producto.Discount,producto.CategoryName,producto.CategoryName, producto.ExtendedPrice);
+                            }
+                            MessageBox.Show("Productos guardados correctamente.", "Exito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                        else
+                        {
+                            MessageBox.Show("No se han guardado productos.", "Informacion", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Operacion cancelada.", "Informacion", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show("Operacion Cancelada", "Operacion", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show($"Error: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-           
-
         }
 
-        public void AgregarProducto(int ProductID, string productName, decimal unitPrice, int quantity, float discount, string categoryName, string companyName, decimal extendedPrice)
-        {
-
-            dataGridView1.Rows.Add(
-                ProductID,
-                productName,
-                unitPrice,
-                quantity,
-                discount,
-                categoryName,
-                companyName,
-                extendedPrice
-            );
-            dataGridView1.Refresh();
 
 
-        }
 
         private void label1_Click_1(object sender, EventArgs e)
         {
@@ -598,6 +620,9 @@ namespace accesoadatos
 
                 RuleFor(x => x.ShipCity)
                     .NotEmpty().WithMessage("La ciudad de envío es obligatoria.");
+                
+                RuleFor(x => x.ShipName)
+                    .NotEmpty().WithMessage("El nombre del destinatario es obligatoria.");
 
                 RuleFor(x => x.ShipPostalCode)
                     .NotEmpty().WithMessage("El código postal es obligatorio.");
@@ -612,5 +637,27 @@ namespace accesoadatos
             dataGridView1.Refresh();
             dataGridView1.Update();
         }
+        private void button2_Click_3(object sender, EventArgs e)
+        {
+          
+            if (dataGridView1.SelectedRows.Count > 0)
+            {
+                
+                foreach (DataGridViewRow row in dataGridView1.SelectedRows)
+                {
+                    if (!row.IsNewRow) 
+                    {
+                        dataGridView1.Rows.Remove(row);
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Por favor, selecciona una fila para eliminar.");
+            }
+        }
+
+
+
     }
 }
