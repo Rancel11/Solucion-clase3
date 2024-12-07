@@ -1,5 +1,6 @@
-using accesoadatos.Data;
+
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Identity.Client;
 using Serilog;
 
@@ -35,11 +36,22 @@ namespace accesoadatos
                     .AddJsonFile("appsettings.json")
                     .Build();
 
+                
+                
+                
+                // presentacion 
+                var serviceColletion = new ServiceCollection();
+
+                serviceColletion.AddTransient<MenuPrincipal>();
+
+                var serviceprovaider = serviceColletion.BuildServiceProvider();
+
+
                 Log.Information("La aplicación está iniciando.");
-                var CONTEXT = new NorthwindContext();
+                
 
                 ApplicationConfiguration.Initialize();
-                Application.Run(new MenuPrincipal());
+                Application.Run(serviceprovaider.GetRequiredService<MenuPrincipal>());
             }
 
             catch (Exception ex)

@@ -1,4 +1,4 @@
-﻿using accesoadatos.Data;
+﻿
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -26,7 +26,7 @@ namespace accesoadatos
 
         private void ordersToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var context = new NorthwindContext();
+            var context = new NorthwindContext.NorthwindContext();
            var lista = new List<Productos>();
 
 
@@ -37,7 +37,7 @@ namespace accesoadatos
 
         private void suppliersToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var context = new NorthwindContext();
+            var context = new NorthwindContext.NorthwindContext();
             var suppliers = new SUPLIDOR(context);
             suppliers.Show();
             this.Hide();
@@ -45,7 +45,7 @@ namespace accesoadatos
 
         private void categoryToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var context = new NorthwindContext();
+            var context = new NorthwindContext.NorthwindContext();
             var category = new CATEGORIA(context);
             category.Show();
             this.Hide();
@@ -53,7 +53,7 @@ namespace accesoadatos
 
         private void productsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var context = new NorthwindContext();
+            var context = new NorthwindContext.NorthwindContext();
             var products = new ACCESOADATOSFORM(context);
             products.Show();
             this.Hide();
@@ -62,7 +62,7 @@ namespace accesoadatos
         private void button1_Click(object sender, EventArgs e)
         {
 
-            var context = new NorthwindContext();
+            var context = new NorthwindContext.NorthwindContext();
 
             var lista = new List<Productos>();
 
@@ -76,7 +76,7 @@ namespace accesoadatos
 
         private void button1_Click_1(object sender, EventArgs e)
         {
-            var context = new NorthwindContext();
+            var context = new NorthwindContext.NorthwindContext();
             var suppliers = new SUPLIDOR(context);
             suppliers.Show();
             this.Hide();
@@ -84,7 +84,7 @@ namespace accesoadatos
 
         private void button2_Click(object sender, EventArgs e)
         {
-            var context = new NorthwindContext();
+            var context = new NorthwindContext.NorthwindContext();
             var category = new CATEGORIA(context);
             category.Show();
             this.Hide();
@@ -92,7 +92,7 @@ namespace accesoadatos
 
         private void button3_Click(object sender, EventArgs e)
         {
-            var context = new NorthwindContext();
+            var context = new NorthwindContext.NorthwindContext();
             var products = new ACCESOADATOSFORM(context);
             products.Show();
             this.Hide();

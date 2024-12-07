@@ -3,19 +3,20 @@ using System.ComponentModel;
 using System.Data;
 using System.Windows.Forms;
 using System.Windows.Forms.Layout;
-using accesoadatos.Data;
+using accesoadatos.Clases;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
+using static accesoadatos.Models.NorthwindModels;
 
 namespace accesoadatos
 {
     public partial class SUPLIDOR : Form
     {
-        private readonly NorthwindContext _context;
+        private readonly NorthwindContext.NorthwindContext _context;
+       
 
-
-        public SUPLIDOR(NorthwindContext context)
+        public SUPLIDOR(NorthwindContext.NorthwindContext context)
         {
             InitializeComponent();
             _context = context;
@@ -23,9 +24,8 @@ namespace accesoadatos
 
 
         }
-        
-     
 
+     
 
         private void LoadComboBoxSuppliers()
         {
@@ -67,7 +67,7 @@ namespace accesoadatos
                 }
 
 
-                var newSupplier = new Data.Supplier()
+                var newSupplier = new NorthwindContext.Supplier()
                 {
                     CompanyName = textBoxCompanyName.Text,
                     ContactName = textBoxContactName.Text,
@@ -265,7 +265,7 @@ namespace accesoadatos
 
         private void button1_Click(object sender, EventArgs e)
         {
-            var context = new NorthwindContext();
+            var context = new NorthwindContext.NorthwindContext();
 
             
             var allsupplier = new AllSuppliers(context);
@@ -290,7 +290,7 @@ namespace accesoadatos
 
         private void button2_Click(object sender, EventArgs e)
         {
-            var context = new NorthwindContext();
+            var context = new NorthwindContext.NorthwindContext();
             this.Hide();
             var category = new CATEGORIA(context);
             category.Show();
@@ -325,7 +325,7 @@ namespace accesoadatos
 
         private void productsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var context = new NorthwindContext();
+            var context = new NorthwindContext.NorthwindContext();
             var productsForm = new ACCESOADATOSFORM(context);
             productsForm.Show();
             this.Hide();
@@ -336,7 +336,7 @@ namespace accesoadatos
         {
 
 
-            var context = new NorthwindContext();
+            var context = new NorthwindContext.NorthwindContext();
             var category = new CATEGORIA(context);
             category.Show();
             this.Hide();
@@ -348,16 +348,10 @@ namespace accesoadatos
             base.WndProc(ref m);
         }
 
-        public class Supplier
-        {
-            public string CompanyName { get; set; }
-            public string ContactName { get; set; }
-            public string ContactTitle { get; set; }
-            public string Phone { get; set; }
-        }
 
 
-        public class SupplierValidator : AbstractValidator<Supplier>
+
+        public class SupplierValidator : AbstractValidator<Clases.Supplier>
         {
             public SupplierValidator()
             {
@@ -369,9 +363,6 @@ namespace accesoadatos
 
                 RuleFor(supplier => supplier.Phone).NotEmpty().WithMessage("El número de teléfono es obligatorio.").Matches(@"^\d+$").WithMessage("El número de teléfono solo debe contener dígitos.");
             }
-
-
-
 
 
 

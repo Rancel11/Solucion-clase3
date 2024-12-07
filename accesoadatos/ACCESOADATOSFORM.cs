@@ -1,4 +1,4 @@
-using accesoadatos.Data;
+
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -6,6 +6,8 @@ using System;
 using System.Linq;
 using System.Windows.Forms;
 using Serilog;
+using NorthwindContext;
+using Product = NorthwindContext.Product;
 
 namespace accesoadatos
 {
@@ -13,15 +15,20 @@ namespace accesoadatos
 
     public partial class ACCESOADATOSFORM : Form
     {
-        private readonly NorthwindContext _context;
+        private readonly NorthwindContext.NorthwindContext _context;
         private int selectedProductId;
-        public ACCESOADATOSFORM(NorthwindContext context)
+
+        public NorthwindContext.NorthwindContext Context { get; }
+
+        public ACCESOADATOSFORM(NorthwindContext.NorthwindContext context)
         {
             InitializeComponent();
             _context = context;
             dataGridView1.AutoGenerateColumns = false;
 
         }
+
+      
 
         private void ACCESOADATOSFORM_Load(object sender, EventArgs e)
         {
@@ -290,7 +297,7 @@ namespace accesoadatos
 
         private void button3_Click(object sender, EventArgs e)
         {
-            var context = new NorthwindContext();
+            var context = new NorthwindContext.NorthwindContext();
             var b = new SUPLIDOR(context);
 
             b.Show();
@@ -303,7 +310,7 @@ namespace accesoadatos
 
         private void atrasToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var context = new NorthwindContext();
+            var context = new NorthwindContext.NorthwindContext();
             var category = new CATEGORIA(context);
             category.Show();
             this.Hide();
@@ -378,7 +385,7 @@ namespace accesoadatos
 
         private void suppliersToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var context = new NorthwindContext();
+            var context = new NorthwindContext.NorthwindContext();
             var suplidor = new SUPLIDOR(context);
             suplidor.Show();
             this.Hide();

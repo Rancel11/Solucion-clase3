@@ -1,4 +1,4 @@
-﻿using accesoadatos.Data;
+﻿
 using Dapper;
 using Microsoft.Data.SqlClient;
 using System;
@@ -15,8 +15,8 @@ namespace accesoadatos
 {
     public partial class AllCategory : Form
     {
-        public readonly NorthwindContext _context;
-        public AllCategory(NorthwindContext context)
+        public readonly NorthwindContext.NorthwindContext _context;
+        public AllCategory(NorthwindContext.NorthwindContext context)
         {
             InitializeComponent();
             _context = context;
@@ -62,7 +62,7 @@ namespace accesoadatos
 
         private void atrasToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var context = new NorthwindContext();
+            var context = new NorthwindContext.NorthwindContext();
             var categorias = new CATEGORIA(context);
             categorias.Show();
             this.Hide();

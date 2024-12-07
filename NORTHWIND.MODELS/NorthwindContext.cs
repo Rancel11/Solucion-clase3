@@ -4,16 +4,16 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
-using static accesoadatos.CATEGORIA;
-using static accesoadatos.SUPLIDOR;
 
 
-namespace accesoadatos.Data
+
+namespace NorthwindContext
 {
-    public  class NorthwindContext : DbContext
-    { 
+    public class NorthwindContext : DbContext
+    {
 
         public DbSet<Product> Products { get; set; }
         public DbSet<Supplier> Suppliers { get; set; }
@@ -21,7 +21,7 @@ namespace accesoadatos.Data
         public DbSet<Order> orders { get; set; }
         public DbSet<OrderDetail> orderDetails { get; set; }
         public DbSet<Employees> Employees { get; set; }
-        public DbSet<Shipper> shippers {  get; set; }
+        public DbSet<Shipper> shippers { get; set; }
         public DbSet<Customer> customers { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -90,12 +90,13 @@ namespace accesoadatos.Data
         public string ShipCountry { get; set; }
 
         public ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
-        
+
         [ForeignKey("CustomerID")]
-        public  Customer customer { get; set; }
-        
+        public Customer customer { get; set; }
+
         [ForeignKey("ShipVia")]
         public Shipper Shipper { get; set; }
+
     }
 
     [Table("Order Details")]
@@ -103,16 +104,16 @@ namespace accesoadatos.Data
     {
         [Key]
         public int OrderID { get; set; }
-        public int ProductID { get; set; }       
+        public int ProductID { get; set; }
         public decimal UnitPrice { get; set; }
         public short Quantity { get; set; }
         public float Discount { get; set; }
 
-        
-        public virtual Order Order { get; set; }         
 
-        
-        public virtual Product Product { get; set; }     
+        public virtual Order Order { get; set; }
+
+
+        public virtual Product Product { get; set; }
     }
 
     public class Employees
@@ -132,8 +133,8 @@ namespace accesoadatos.Data
         public byte[] Photo { get; set; }
         public string Notes { get; set; }
         public int ReportsTo { get; set; }
-     
-        
+
+
         public DateTime HireDate { get; set; }
     }
 
@@ -143,7 +144,7 @@ namespace accesoadatos.Data
         public int ShipperID { get; set; }
 
         public string CompanyName { get; set; }
-        
+
         public string Phone { get; set; }
 
         public ICollection<Order> Orders { get; set; } = new List<Order>();

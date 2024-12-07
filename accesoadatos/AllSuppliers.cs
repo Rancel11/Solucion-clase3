@@ -1,4 +1,4 @@
-﻿using accesoadatos.Data;
+﻿
 using Dapper;
 using Microsoft.Data.SqlClient;
 using System;
@@ -15,13 +15,18 @@ namespace accesoadatos
 {
     public partial class AllSuppliers : Form
     {
-        public readonly NorthwindContext _context;
-        public AllSuppliers(NorthwindContext context)
+        public readonly NorthwindContext.NorthwindContext _context;
+        private NorthwindContext.NorthwindContext context;
+
+        public AllSuppliers(NorthwindContext.NorthwindContext context)
         {
             InitializeComponent();
             dataGridView1.AutoGenerateColumns = false;
             _context = context;
         }
+
+    
+     
 
         private void AllSuppliers_Load(object sender, EventArgs e)
         {
@@ -32,7 +37,7 @@ namespace accesoadatos
 
         private void atrasToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var context = new NorthwindContext();
+            var context = new NorthwindContext.NorthwindContext();
             this.Hide();
             var supplierform = new SUPLIDOR(context);
             supplierform.Show();

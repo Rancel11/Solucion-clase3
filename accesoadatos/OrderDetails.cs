@@ -1,5 +1,5 @@
 ﻿using accesoadatos.Clases;
-using accesoadatos.Data;
+
 using accesoadatos.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -20,11 +20,11 @@ namespace accesoadatos
 
     public partial class OrderDetails : Form
     {
-        private readonly NorthwindContext _context;
+        private readonly NorthwindContext.NorthwindContext _context;
         private List<Productos> _listaProductos;
 
 
-        public OrderDetails(NorthwindContext context, List<Productos> listaProductos)
+        public OrderDetails(NorthwindContext.NorthwindContext context, List<Productos> listaProductos)
         {
 
             InitializeComponent();
@@ -188,7 +188,7 @@ namespace accesoadatos
 
         private void atrasToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var context = new NorthwindContext();
+            var context = new NorthwindContext.NorthwindContext();
            var lista = new List<Productos>();
 
             var orders = new Order(context,lista);

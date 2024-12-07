@@ -1,4 +1,4 @@
-﻿using accesoadatos.Data;
+﻿
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -11,16 +11,19 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using static accesoadatos.Models.NorthwindModels;
 using accesoadatos.Clases;
+using NorthwindContext;
 
 namespace accesoadatos
 {
     public partial class OrdersMade : Form
     {
-        private readonly NorthwindContext _context;
+        private readonly NorthwindContext.NorthwindContext _context;
         private  string seletecustomer;
         private int orderID;
+      
+        private NorthwindContext.NorthwindContext context1;
 
-        public OrdersMade(NorthwindContext context)
+        public OrdersMade(NorthwindContext.NorthwindContext context)
         {
             InitializeComponent();
             _context = context;
@@ -28,7 +31,7 @@ namespace accesoadatos
 
         }
 
-      
+
 
         private void OrdersMade_Load(object sender, EventArgs e)
         {
@@ -96,7 +99,7 @@ namespace accesoadatos
 
         private void fffToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var context = new NorthwindContext();
+            var context = new NorthwindContext.NorthwindContext();
              var lista = new List<Productos>();
 
 
@@ -143,7 +146,7 @@ namespace accesoadatos
 
         private void fhghToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var context = new NorthwindContext();
+            var context = new NorthwindContext.NorthwindContext();
             var lista = new List<Productos>();
 
             var order = new Order(context, lista);

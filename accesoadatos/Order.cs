@@ -1,4 +1,4 @@
-﻿using accesoadatos.Data;
+﻿
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -8,6 +8,7 @@ using accesoadatos.Clases;
 using System.Data;
 using System.Data.SqlTypes;
 using static accesoadatos.Models.NorthwindModels;
+using NorthwindContext;
 
 
 
@@ -17,12 +18,11 @@ namespace accesoadatos
     {
         private List<Productos> _listaProductos;
 
-        private readonly NorthwindContext _context;
-    
+        private readonly NorthwindContext.NorthwindContext _context;
 
+       
 
-
-        public Order(NorthwindContext context, List<Productos> listaProductos)
+        public Order(NorthwindContext.NorthwindContext context, List<Productos> listaProductos)
 
         {
             InitializeComponent();
@@ -38,10 +38,6 @@ namespace accesoadatos
 
             Log.Information("Formulario Order inicializado.");
         }
-
-
-
-
 
 
         private void label1_Click(object sender, EventArgs e)
@@ -248,8 +244,8 @@ namespace accesoadatos
                     }
 
 
-                    var newOrder = new Data.Order()
-                    {
+                    var newOrder = new NorthwindContext.Order()
+                    { 
                         CustomerID = orderValidator.CustomerId,
                         EmployeeID = orderValidator.EmployeeId.Value,
                         ShipVia = orderValidator.ShipVia.Value,
@@ -265,7 +261,7 @@ namespace accesoadatos
                         ShippedDate = DateTime.Now
                     };
 
-                    newOrder.OrderDetails = new List<Data.OrderDetail>();
+                    newOrder.OrderDetails = new List<NorthwindContext.OrderDetail>();
 
                     decimal subtotal = 0;
                     foreach (DataGridViewRow row in dataGridView1.SelectedRows)
@@ -281,7 +277,7 @@ namespace accesoadatos
 
                         textBoxSubtotal.Text = subtotal.ToString("C2");
 
-                        var newOrderDetail = new Data.OrderDetail
+                        var newOrderDetail = new NorthwindContext.OrderDetail
                         {
                             ProductID = Convert.ToInt32(row.Cells[0].Value),
                             UnitPrice = Convert.ToDecimal(row.Cells[2].Value),
@@ -368,7 +364,7 @@ namespace accesoadatos
 
             if (result == DialogResult.Yes)
             {
-                var context = new NorthwindContext();
+                var context = new NorthwindContext.NorthwindContext();
 
                 var ordermade = new OrdersMade(context);
                 ordermade.Show();
@@ -390,7 +386,7 @@ namespace accesoadatos
 
                 if (result == DialogResult.Yes)
                 {
-                    var context = new NorthwindContext();
+                    var context = new NorthwindContext.NorthwindContext();
                     var lista = new List<Productos>();
                     var orderdetails = new OrderDetails(context,lista); 
 
@@ -587,20 +583,7 @@ namespace accesoadatos
         }
 
 
-        public class OrderValidator
-        {
-            public string CustomerId { get; set; }
-            public int? EmployeeId { get; set; }
-            public int? ShipVia { get; set; }
-            public string ShipAddress { get; set; }
-            public string ShipCity { get; set; }
-            public string ShipPostalCode { get; set; }
-            public string ShipCountry { get; set; }
-            public string ShipRegion { get; set; }
-            public string ShipName { get; set; }
-            public string FreightText { get; set; }
-
-        }
+        
 
         public class OrderInputValidator : AbstractValidator<OrderValidator>
         {
