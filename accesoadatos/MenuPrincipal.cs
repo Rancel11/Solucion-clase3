@@ -50,7 +50,8 @@ namespace accesoadatos
         private void categoryToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var context = new NorthwindContext.NorthwindContext();
-            var category = new CATEGORIA(context);
+            var categoryrepository = new Categoryrepository(context);
+            var category = new CATEGORIA(context,categoryrepository);
             category.Show();
             this.Hide();
         }
@@ -90,7 +91,8 @@ namespace accesoadatos
         private void button2_Click(object sender, EventArgs e)
         {
             var context = new NorthwindContext.NorthwindContext();
-            var category = new CATEGORIA(context);
+            var categoryrepository = new Categoryrepository(context);
+            var category = new CATEGORIA(context,categoryrepository);
             category.Show();
             this.Hide();
         }

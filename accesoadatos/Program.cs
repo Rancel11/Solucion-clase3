@@ -47,6 +47,8 @@ namespace accesoadatos
                 // infraestructura
                 serviceColletion.AddScoped<Isuppliersreporitory, suppliersrReporitory>();
                 
+                serviceColletion.AddScoped<ICategoryRepository, Categoryrepository>();
+                
                 // presentacion 
               
 

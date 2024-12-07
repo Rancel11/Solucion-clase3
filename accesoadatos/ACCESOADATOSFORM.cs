@@ -313,7 +313,8 @@ namespace accesoadatos
         private void atrasToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var context = new NorthwindContext.NorthwindContext();
-            var category = new CATEGORIA(context);
+            var categoryrepository = new Categoryrepository(context);
+            var category = new CATEGORIA(context,categoryrepository);
             category.Show();
             this.Hide();
         }

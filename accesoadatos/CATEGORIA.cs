@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using Serilog;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using NORTHWIND.INFRACTUTURE;
+using NORTHWIND.APLICACTION.Abstrations;
 
 
 namespace accesoadatos
@@ -16,14 +17,15 @@ namespace accesoadatos
     public partial class CATEGORIA : Form
     {
         private readonly NorthwindContext.NorthwindContext _context;
-
+        private readonly ICategoryRepository _categoryRepository;
        
 
-        public CATEGORIA(NorthwindContext.NorthwindContext context)
+        public CATEGORIA(NorthwindContext.NorthwindContext context, ICategoryRepository categoryRepository)
         {
 
             InitializeComponent();
             _context = context;
+            _categoryRepository = categoryRepository;
 
         }
 
@@ -34,7 +36,10 @@ namespace accesoadatos
         private void CATEGORIA_Load(object sender, EventArgs e)
         {
 
-            LoadComboBox();
+            comboBox1.DataSource = _categoryRepository.LoadCombobox();
+            comboBox1.ValueMember = "CategoryID";
+            comboBox1.DisplayMember = "CategoryName";
+            comboBox1.Refresh();
 
         }
 
@@ -44,22 +49,7 @@ namespace accesoadatos
             textBoxCategoryName.Clear();
             textBoxDescription.Clear();
         }
-        private void LoadComboBox()
-        {
-
-            var category = _context.Categories
-                .Select(c => new
-                {
-                    c.CategoryID,
-                    c.CategoryName,
-                }).ToList();
-
-
-            comboBox1.DataSource = category;
-            comboBox1.ValueMember = "CategoryID";
-            comboBox1.DisplayMember = "CategoryName";
-            comboBox1.Refresh();
-        }
+       
 
 
 
@@ -84,7 +74,7 @@ namespace accesoadatos
 
                 MessageBox.Show("Los datos se insertaron correctamente");
 
-                LoadComboBox();
+                _categoryRepository.LoadCombobox();
 
 
                 Cleartextfilds();
@@ -132,7 +122,7 @@ namespace accesoadatos
                         _context.SaveChanges();
                         MessageBox.Show("Los datos se actualizaron correctamente");
 
-                        LoadComboBox();
+                        _categoryRepository.LoadCombobox();
                         Cleartextfilds();
                     }
                     else
@@ -194,7 +184,7 @@ namespace accesoadatos
                             textBoxCategoryName.Text = category.CategoryName;
                             textBoxDescription.Text = category.Description;
 
-                            LoadComboBox();
+                            _categoryRepository.LoadCombobox();
 
 
                             MessageBox.Show("Los datos de la categoria se han cargado correctamente.");
@@ -256,7 +246,7 @@ namespace accesoadatos
                         _context.SaveChanges();
                         MessageBox.Show("El registro se eliminó correctamente");
 
-                        LoadComboBox();
+                        _categoryRepository.LoadCombobox();
                         Cleartextfilds();
                     }
                     else
@@ -301,7 +291,8 @@ namespace accesoadatos
         private void button2_Click(object sender, EventArgs e)
         {
             var context = new NorthwindContext.NorthwindContext();
-            var allcategory = new AllCategory(context);
+            var categoryrepositorty = new Categoryrepository(context);
+            var allcategory = new AllCategory(context,categoryrepositorty);
             allcategory.Show();
             this.Hide();
         }

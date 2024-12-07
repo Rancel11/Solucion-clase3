@@ -29,21 +29,7 @@ namespace accesoadatos
 
      
 
-        private void LoadComboBoxSuppliers()
-        {
-            var suppliers = _context.Suppliers
-                 .Select(s => new
-                 {
-                     s.SupplierID,
-                     s.CompanyName
-                 }).ToList();
-
-
-            comboBox1.DataSource = suppliers;
-            comboBox1.ValueMember = "SupplierID";
-            comboBox1.DisplayMember = "CompanyName";
-            comboBox1.Refresh();
-        }
+      
 
         private void ClearTextFields()
         {
@@ -83,7 +69,7 @@ namespace accesoadatos
 
                 MessageBox.Show("El suplidor se ha insertado correctamente.");
 
-                LoadComboBoxSuppliers();
+                _suppliersreporitory.LoadComboboxfiltro();
                 ClearTextFields();
 
             }
@@ -184,7 +170,7 @@ namespace accesoadatos
                         MessageBox.Show("Los datos se actualizaron correctamente.");
 
                         ClearTextFields();
-                        LoadComboBoxSuppliers();
+                        _suppliersreporitory.LoadComboboxfiltro();
                     }
                     else
                     {
@@ -225,7 +211,7 @@ namespace accesoadatos
 
                         MessageBox.Show("El registro ha sido eliminado correctamente.");
 
-                        LoadComboBoxSuppliers();
+                        _suppliersreporitory.LoadComboboxfiltro();
                         ClearTextFields();
                     }
                     else
@@ -298,8 +284,9 @@ namespace accesoadatos
         private void button2_Click(object sender, EventArgs e)
         {
             var context = new NorthwindContext.NorthwindContext();
+            var CategoryRepository = new Categoryrepository(context);
             this.Hide();
-            var category = new CATEGORIA(context);
+            var category = new CATEGORIA(context,CategoryRepository);
             category.Show();
         }
 
@@ -344,7 +331,8 @@ namespace accesoadatos
 
 
             var context = new NorthwindContext.NorthwindContext();
-            var category = new CATEGORIA(context);
+            var categoryrepsoritory = new Categoryrepository(context);   
+            var category = new CATEGORIA(context,categoryrepsoritory);
             category.Show();
             this.Hide();
         }
