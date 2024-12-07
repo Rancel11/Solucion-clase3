@@ -9,6 +9,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using accesoadatos.Clases;
+using NORTHWIND.INFRACTUTURE;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace accesoadatos
 {
@@ -38,7 +40,9 @@ namespace accesoadatos
         private void suppliersToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var context = new NorthwindContext.NorthwindContext();
-            var suppliers = new SUPLIDOR(context);
+            var supplierRepository = new suppliersrReporitory(context);
+
+            var suppliers = new SUPLIDOR(context,supplierRepository);
             suppliers.Show();
             this.Hide();
         }
@@ -77,7 +81,8 @@ namespace accesoadatos
         private void button1_Click_1(object sender, EventArgs e)
         {
             var context = new NorthwindContext.NorthwindContext();
-            var suppliers = new SUPLIDOR(context);
+            var supplierRepository = new suppliersrReporitory(context);
+            var suppliers = new SUPLIDOR(context, supplierRepository);
             suppliers.Show();
             this.Hide();
         }

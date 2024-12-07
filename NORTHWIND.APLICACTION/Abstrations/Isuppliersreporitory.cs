@@ -13,7 +13,7 @@ namespace NORTHWIND.APLICACTION.Abstrations
     {
         public IEnumerable<Supplier> GetSuppliers();
         public IEnumerable<Supplier> LoadComboboxfiltro();
-
+        
     }
 
  

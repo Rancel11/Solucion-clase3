@@ -20,6 +20,7 @@ namespace NORTHWIND.INFRACTUTURE
             return _context.Suppliers.ToList();
         }
 
+      
 
         public IEnumerable<Supplier> LoadComboboxfiltro()
         {
