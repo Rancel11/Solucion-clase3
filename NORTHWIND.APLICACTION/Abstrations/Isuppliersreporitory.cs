@@ -12,7 +12,10 @@ namespace NORTHWIND.APLICACTION.Abstrations
     public interface Isuppliersreporitory
     {
         public IEnumerable<Supplier> GetSuppliers();
-        
-        
+        public IEnumerable<Supplier> LoadComboboxfiltro();
+
     }
+
+ 
+
 }

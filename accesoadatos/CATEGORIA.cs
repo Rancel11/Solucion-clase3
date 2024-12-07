@@ -7,6 +7,7 @@ using System.Linq;
 using System.Windows.Forms;
 using Serilog;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using NORTHWIND.INFRACTUTURE;
 
 
 namespace accesoadatos
@@ -290,8 +291,9 @@ namespace accesoadatos
         {
 
             var context = new NorthwindContext.NorthwindContext();
+            var supplierRepository = new suppliersrReporitory(context);
             this.Hide();
-            var supplidor = new SUPLIDOR(context);
+            var supplidor = new SUPLIDOR(context, supplierRepository);
 
             supplidor.Show();
         }
@@ -325,7 +327,8 @@ namespace accesoadatos
         private void suppliersToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var context = new NorthwindContext.NorthwindContext();
-            var supplier = new SUPLIDOR(context);
+            var supplierRepository = new suppliersrReporitory(context);
+            var supplier = new SUPLIDOR(context, supplierRepository);
             supplier.Show();
             this.Hide();
         }

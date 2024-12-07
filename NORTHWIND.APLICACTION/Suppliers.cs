@@ -8,13 +8,23 @@ namespace NORTHWIND.APLICACTION
 {
     public class Suppliers
     {
-        public Suppliers() { }
+        
 
         public void GetSuppliers()
         {
 
         }
+        
+        public void LoadComboboxfiltro()
+        {
+
+        }
+        
+          
     }
+   
+        
+    
 
 
 

@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using Serilog;
 using NorthwindContext;
 using Product = NorthwindContext.Product;
+using NORTHWIND.INFRACTUTURE;
 
 namespace accesoadatos
 {
@@ -298,7 +299,8 @@ namespace accesoadatos
         private void button3_Click(object sender, EventArgs e)
         {
             var context = new NorthwindContext.NorthwindContext();
-            var b = new SUPLIDOR(context);
+            var supplierRepository = new suppliersrReporitory(context);
+            var b = new SUPLIDOR(context, supplierRepository);
 
             b.Show();
         }
@@ -386,7 +388,8 @@ namespace accesoadatos
         private void suppliersToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var context = new NorthwindContext.NorthwindContext();
-            var suplidor = new SUPLIDOR(context);
+            var supplierRepository = new suppliersrReporitory(context);
+            var suplidor = new SUPLIDOR(context, supplierRepository);
             suplidor.Show();
             this.Hide();
 

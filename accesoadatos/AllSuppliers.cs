@@ -1,6 +1,9 @@
 ﻿
 using Dapper;
 using Microsoft.Data.SqlClient;
+using NORTHWIND.APLICACTION;
+using NORTHWIND.APLICACTION.Abstrations;
+using NORTHWIND.INFRACTUTURE;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -16,13 +19,15 @@ namespace accesoadatos
     public partial class AllSuppliers : Form
     {
         public readonly NorthwindContext.NorthwindContext _context;
-        private NorthwindContext.NorthwindContext context;
+        public readonly Isuppliersreporitory _suppliersreporitory;
+        
 
-        public AllSuppliers(NorthwindContext.NorthwindContext context)
+        public AllSuppliers(NorthwindContext.NorthwindContext context, Isuppliersreporitory suppliersreporitory)
         {
             InitializeComponent();
             dataGridView1.AutoGenerateColumns = false;
             _context = context;
+            _suppliersreporitory = suppliersreporitory;
         }
 
     
@@ -30,7 +35,7 @@ namespace accesoadatos
 
         private void AllSuppliers_Load(object sender, EventArgs e)
         {
-            loaddatagridview();
+          dataGridView1.DataSource = _suppliersreporitory.GetSuppliers();
 
         }
        
@@ -38,26 +43,11 @@ namespace accesoadatos
         private void atrasToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var context = new NorthwindContext.NorthwindContext();
+            var supplierRepository = new suppliersrReporitory(context);
             this.Hide();
-            var supplierform = new SUPLIDOR(context);
+            var supplierform = new SUPLIDOR(context,supplierRepository);
             supplierform.Show();
         }
 
-        private void loaddatagridview()
-        {
-            var suppliers = _context.Suppliers
-                .Select(s=> new
-                {
-                    s.CompanyName,
-                    s.ContactName,
-                    s.ContactTitle,
-                    s.Phone,
-                }).ToList();
-
-            dataGridView1 .DataSource = suppliers;
-            dataGridView1.Refresh();
-
-
-        }
     }
 }

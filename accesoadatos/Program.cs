@@ -2,6 +2,8 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Identity.Client;
+using NORTHWIND.APLICACTION.Abstrations;
+using NORTHWIND.INFRACTUTURE;
 using Serilog;
 
 
@@ -27,6 +29,8 @@ namespace accesoadatos
                 .WriteTo.File("logs/myapp.txt", rollingInterval: RollingInterval.Day)
                 .CreateLogger();
 
+            var serviceColletion = new ServiceCollection();
+
 
 
             try
@@ -35,12 +39,16 @@ namespace accesoadatos
                 configuration = new ConfigurationBuilder()
                     .AddJsonFile("appsettings.json")
                     .Build();
+                serviceColletion.AddSingleton < IConfiguration>(configuration);
 
-                
-                
+
+
+
+                // infraestructura
+                serviceColletion.AddScoped<Isuppliersreporitory, suppliersrReporitory>();
                 
                 // presentacion 
-                var serviceColletion = new ServiceCollection();
+              
 
                 serviceColletion.AddTransient<MenuPrincipal>();
 

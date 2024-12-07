@@ -6,6 +6,8 @@ using System.Windows.Forms.Layout;
 using accesoadatos.Clases;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
+using NORTHWIND.APLICACTION.Abstrations;
+using NORTHWIND.INFRACTUTURE;
 using Serilog;
 using static accesoadatos.Models.NorthwindModels;
 
@@ -14,13 +16,13 @@ namespace accesoadatos
     public partial class SUPLIDOR : Form
     {
         private readonly NorthwindContext.NorthwindContext _context;
-       
+        public readonly Isuppliersreporitory _suppliersreporitory;
 
-        public SUPLIDOR(NorthwindContext.NorthwindContext context)
+        public SUPLIDOR(NorthwindContext.NorthwindContext context, Isuppliersreporitory suppliersreporitory)
         {
             InitializeComponent();
             _context = context;
-            
+            _suppliersreporitory = suppliersreporitory;
 
 
         }
@@ -250,9 +252,11 @@ namespace accesoadatos
 
         private void SUPLIDOR_Load(object sender, EventArgs e)
         {
-            LoadComboBoxSuppliers();
-           
-           
+            comboBox1.DataSource = _suppliersreporitory.LoadComboboxfiltro();
+            comboBox1.ValueMember = "SupplierID";
+            comboBox1.DisplayMember = "CompanyName";
+            comboBox1.Refresh();
+
         }
 
 
@@ -266,10 +270,13 @@ namespace accesoadatos
         private void button1_Click(object sender, EventArgs e)
         {
             var context = new NorthwindContext.NorthwindContext();
+            var supplierRepository = new suppliersrReporitory(context);
 
             
-            var allsupplier = new AllSuppliers(context);
-            allsupplier.Show();
+           
+            var allSuppliersForm = new AllSuppliers(context,supplierRepository);
+            allSuppliersForm.Show();
+            
             this.Hide();
 
 
