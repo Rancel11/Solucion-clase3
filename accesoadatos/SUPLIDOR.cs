@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using NORTHWIND.APLICACTION.Abstrations;
 using NORTHWIND.INFRACTUTURE;
 using Serilog;
-using static accesoadatos.Models.NorthwindModels;
+
 
 namespace accesoadatos
 {
@@ -69,7 +69,8 @@ namespace accesoadatos
 
                 MessageBox.Show("El suplidor se ha insertado correctamente.");
 
-                _suppliersreporitory.LoadComboboxfiltro();
+                comboBox1.DataSource = _suppliersreporitory.LoadComboboxfiltro();
+
                 ClearTextFields();
 
             }
@@ -170,7 +171,8 @@ namespace accesoadatos
                         MessageBox.Show("Los datos se actualizaron correctamente.");
 
                         ClearTextFields();
-                        _suppliersreporitory.LoadComboboxfiltro();
+                        comboBox1.DataSource = _suppliersreporitory.LoadComboboxfiltro();
+
                     }
                     else
                     {
@@ -211,7 +213,7 @@ namespace accesoadatos
 
                         MessageBox.Show("El registro ha sido eliminado correctamente.");
 
-                        _suppliersreporitory.LoadComboboxfiltro();
+                        comboBox1.DataSource = _suppliersreporitory.LoadComboboxfiltro();
                         ClearTextFields();
                     }
                     else
@@ -320,7 +322,9 @@ namespace accesoadatos
         private void productsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var context = new NorthwindContext.NorthwindContext();
-            var productsForm = new ACCESOADATOSFORM(context);
+            var productreposoitory = new ProductRepository(context);
+
+            var productsForm = new ACCESOADATOSFORM(context, productreposoitory);
             productsForm.Show();
             this.Hide();
 

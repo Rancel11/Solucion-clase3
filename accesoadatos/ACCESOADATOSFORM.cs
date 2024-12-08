@@ -9,6 +9,7 @@ using Serilog;
 using NorthwindContext;
 using Product = NorthwindContext.Product;
 using NORTHWIND.INFRACTUTURE;
+using NORTHWIND.APLICACTION.Abstrations;
 
 namespace accesoadatos
 {
@@ -18,14 +19,16 @@ namespace accesoadatos
     {
         private readonly NorthwindContext.NorthwindContext _context;
         private int selectedProductId;
+        private readonly IProductRepository _productRepository;
 
-        public NorthwindContext.NorthwindContext Context { get; }
+   
 
-        public ACCESOADATOSFORM(NorthwindContext.NorthwindContext context)
+        public ACCESOADATOSFORM(NorthwindContext.NorthwindContext context, IProductRepository productRepository)
         {
             InitializeComponent();
             _context = context;
             dataGridView1.AutoGenerateColumns = false;
+            _productRepository = productRepository;
 
         }
 
@@ -33,63 +36,21 @@ namespace accesoadatos
 
         private void ACCESOADATOSFORM_Load(object sender, EventArgs e)
         {
-            LoadDataGridView();
-            LoadComboBoxSuppliers();
-            LoadListBoxCategories();
-        }
+            dataGridView1.DataSource = _productRepository.GetAllProduct();
 
-        private void LoadDataGridView()
-        {
-            var products = _context.Products
-                .Include(p => p.Supplier)
-                .Include(p => p.Category)
-                .Select(p => new
-                {
-                    p.ProductID,
-                    p.ProductName,
-                    p.QuantityPerUnit,
-                    p.UnitPrice,
-                    p.Supplier.CompanyName,
-                    p.Category.CategoryName,
-                    p.CategoryID,
-                    p.SupplierID
-                }).ToList();
-
-            dataGridView1.DataSource = products;
-            dataGridView1.Refresh();
-        }
-
-        private void LoadComboBoxSuppliers()
-        {
-            var suppliers = _context.Suppliers
-                 .Select(s => new
-                 {
-                     s.SupplierID,
-                     s.CompanyName
-                 }).ToList();
-
-
-            comboBox1.DataSource = suppliers;
+            comboBox1.DataSource = _productRepository.LoadComboboxSupplier();
             comboBox1.ValueMember = "SupplierID";
             comboBox1.DisplayMember = "CompanyName";
-            comboBox1.Refresh();
-        }
 
-        private void LoadListBoxCategories()
-        {
-            var categories = _context.Categories
-                .Select(c => new
-                {
-                    c.CategoryID,
-                    c.CategoryName
-                }).ToList();
-
-            listBox1.DataSource = categories;
+            listBox1.DataSource = _productRepository.LoadCategory();
             listBox1.ValueMember = "CategoryID";
             listBox1.DisplayMember = "CategoryName";
-            listBox1.Refresh();
+         
         }
 
+        
+
+  
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -162,7 +123,9 @@ namespace accesoadatos
                     _context.SaveChanges();
 
                     MessageBox.Show("Los datos se actualizaron correctamente");
-                    LoadDataGridView();
+                    
+                    dataGridView1.DataSource = _productRepository.GetAllProduct();
+
                     ClearTextFields();
                 }
                 else
@@ -205,7 +168,8 @@ namespace accesoadatos
                     _context.SaveChanges();
                     MessageBox.Show("El producto ha sido eliminado correctamente.");
 
-                    LoadDataGridView();
+                      dataGridView1.DataSource = _productRepository.GetAllProduct();
+
                     ClearTextFields();
                     selectedProductId = 0;
                 }
@@ -345,22 +309,8 @@ namespace accesoadatos
         private void button3_Click_1(object sender, EventArgs e)
         {
 
-            var products = _context.Products
-                .Include(p => p.Supplier)
-                .Include(p => p.Category)
-                .Select(p => new
-                {
-                    p.ProductID,
-                    p.ProductName,
-                    p.QuantityPerUnit,
-                    p.UnitPrice,
-                    p.Supplier.CompanyName,
-                    p.Category.CategoryName
-                }).ToList();
+            dataGridView1.DataSource = _productRepository.GetAllProduct();
 
-
-            dataGridView1.DataSource = products;
-            dataGridView1.Refresh();
         }
 
 
@@ -398,10 +348,6 @@ namespace accesoadatos
 
 
 
-        public static class Configuracion
-        {
-            public static string connectionstring => Program.configuration.GetConnectionString("NorthwindConnectionString");
-        }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -445,7 +391,7 @@ namespace accesoadatos
                 MessageBox.Show("El producto ha sido insertado correctamente.");
 
 
-                LoadDataGridView();
+                dataGridView1.DataSource = _productRepository.GetAllProduct();
                 ClearTextFields();
             }
             catch (Exception ex)

@@ -1,7 +1,7 @@
 ﻿using accesoadatos.Clases;
 
-using accesoadatos.Models;
 using Microsoft.EntityFrameworkCore;
+using NORTHWIND.INFRACTUTURE;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -22,15 +22,16 @@ namespace accesoadatos
     {
         private readonly NorthwindContext.NorthwindContext _context;
         private List<Productos> _listaProductos;
+        private readonly OrderRepository _orderRepository;
 
-
-        public OrderDetails(NorthwindContext.NorthwindContext context, List<Productos> listaProductos)
+        public OrderDetails(NorthwindContext.NorthwindContext context, List<Productos> listaProductos, OrderRepository orderRepository)
         {
 
             InitializeComponent();
             _context = context;
             _listaProductos = listaProductos;
             dataGridView1.AutoGenerateColumns = false;
+            _orderRepository = orderRepository;
             
         }
 
@@ -68,47 +69,15 @@ namespace accesoadatos
 
         private void OrderDetails_Load(object sender, EventArgs e)
         {
-            LoadDatagridview();
-            LoadCombobox();
-        }
-
-        private void LoadDatagridview()
-        {
-            var Productos = _context.Products
-                .Include(p => p.OrderDetail)
-                .Include(p => p.Supplier)
-                .Include(p => p.Category)
-                .Distinct()
-                .Select(p => new
-                {
-                    p.ProductID,
-                    p.ProductName,
-                    p.Supplier.CompanyName,
-                    p.Category.CategoryName,
-                    p.UnitPrice,
-
-
-
-
-                }).ToList();
-
-            dataGridView1.DataSource = Productos;
-
-        }
-        private void LoadCombobox()
-        {
-            var categories = _context.Categories
-                .Select(c => new
-                {
-                    c.CategoryID,
-                    c.CategoryName
-                }).ToList();
-
-            comboBox1.DataSource = categories;
+            dataGridView1.DataSource = _orderRepository.LoadDatagridOrderdetails();
+            
+            comboBox1.DataSource = _orderRepository.LoadComboboxCategory();
             comboBox1.DisplayMember = "CategoryName";
             comboBox1.ValueMember = "CategoryID";
-
+           
         }
+
+    
         
         public List<Productos> ObtenerProductosGuardados()
         {
@@ -190,8 +159,8 @@ namespace accesoadatos
         {
             var context = new NorthwindContext.NorthwindContext();
            var lista = new List<Productos>();
-
-            var orders = new Order(context,lista);
+            var orderrepository = new OrderRepository(context);
+            var orders = new Order(context,lista,orderrepository);
             orders.Show();
             this.Hide();
         }

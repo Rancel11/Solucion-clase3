@@ -9,9 +9,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static accesoadatos.Models.NorthwindModels;
 using accesoadatos.Clases;
 using NorthwindContext;
+using NORTHWIND.INFRACTUTURE;
 
 namespace accesoadatos
 {
@@ -20,51 +20,23 @@ namespace accesoadatos
         private readonly NorthwindContext.NorthwindContext _context;
         private  string seletecustomer;
         private int orderID;
+        private readonly OrderRepository _orderRepository;
       
-        private NorthwindContext.NorthwindContext context1;
+       
 
-        public OrdersMade(NorthwindContext.NorthwindContext context)
+        public OrdersMade(NorthwindContext.NorthwindContext context, OrderRepository orderRepository)
         {
             InitializeComponent();
             _context = context;
             dataGridView1.AutoGenerateColumns = false;
+            _orderRepository = orderRepository;
+
 
         }
 
 
 
         private void OrdersMade_Load(object sender, EventArgs e)
-        {
-            LoadDatagridview();
-            LoadCustomer();
-
-
-
-
-
-
-
-        }
-        private void LoadCustomer()
-        {
-            var customers = _context.customers
-           .Select(c => new
-           {
-               c.CustomerID,
-               c.CompanyName
-
-           }).ToList();
-
-            comboBox1.DataSource = customers;
-            comboBox1.DisplayMember = nameof(Customer.CompanyName);
-            comboBox1.ValueMember = nameof(Customer.CustomerID);
-            comboBox1.Refresh();
-
-
-        }
-
-
-        private void LoadDatagridview()
         {
             var customerCount = _context.orders
                 .Select(o => o.CustomerID)
@@ -73,37 +45,29 @@ namespace accesoadatos
 
             textBox1.Text = customerCount.ToString();
 
-            var orders = _context.orderDetails
-                .Include(o => o.Order)
-                .Include(o => o.Product)
-                .ThenInclude(p => p.Supplier)
-                .Include(o => o.Product.Category)
-                .Select(o => new
-                {
-                    o.OrderID,
-                    o.Order.CustomerID,
-                    o.ProductID,
-                    o.Product.UnitPrice,
-                    o.Quantity,
-                    o.Discount,
-                    ProductName = o.Product.ProductName,
-                    CompanyName = o.Product.Supplier.CompanyName,
-                    CategoryName = o.Product.Category.CategoryName,
-                    ExtendedPrice = o.Product.UnitPrice * o.Quantity * (1 - (decimal)o.Discount)
+            dataGridView1.DataSource = _orderRepository.LoadOrdersDataGridView();
 
-                }).ToList();
+            comboBox1.DataSource = _orderRepository.LoadCustomer();
+            comboBox1.DisplayMember = nameof(Customer.CompanyName);
+            comboBox1.ValueMember = nameof(Customer.CustomerID);
 
-            dataGridView1.DataSource = orders;
-            dataGridView1.Refresh();
+
+
+
+
+
         }
+       
 
         private void fffToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var context = new NorthwindContext.NorthwindContext();
              var lista = new List<Productos>();
+            var orderrepository = new OrderRepository(context);
 
 
-            var order = new Order(context,lista);
+
+            var order = new Order(context,lista,orderrepository);
             order.Show();
             this.Hide();
         }
@@ -148,8 +112,10 @@ namespace accesoadatos
         {
             var context = new NorthwindContext.NorthwindContext();
             var lista = new List<Productos>();
+            var orderrepository = new OrderRepository(context);
 
-            var order = new Order(context, lista);
+
+            var order = new Order(context, lista,orderrepository);
             order.Show();
             this.Hide();
         }
@@ -199,8 +165,9 @@ namespace accesoadatos
                     MessageBox.Show("Ocurrió un error al intentar eliminar los detalles de la orden: " + ex.Message);
                 }
 
-                
-                LoadDatagridview();
+
+                dataGridView1.DataSource = _orderRepository.LoadOrdersDataGridView();
+
                 dataGridView1.Refresh();
             }
 

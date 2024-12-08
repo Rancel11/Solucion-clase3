@@ -40,6 +40,7 @@ namespace NorthwindContext
     }
     public class Product
     {
+        
 
         public int ProductID { get; set; }
         public string ProductName { get; set; }
@@ -51,7 +52,7 @@ namespace NorthwindContext
         public Supplier Supplier { get; set; }
         public Category Category { get; set; }
         public OrderDetail OrderDetail { get; set; }
-
+        
     }
 
     public class Supplier

@@ -30,9 +30,10 @@ namespace accesoadatos
         {
             var context = new NorthwindContext.NorthwindContext();
            var lista = new List<Productos>();
+            var orderrepository = new OrderRepository(context);
 
 
-            var Orders = new Order(context, lista);
+            var Orders = new Order(context, lista,orderrepository);
             Orders.Show();
             this.Hide();
         }
@@ -59,7 +60,9 @@ namespace accesoadatos
         private void productsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var context = new NorthwindContext.NorthwindContext();
-            var products = new ACCESOADATOSFORM(context);
+            var productreposoitory = new ProductRepository(context);
+
+            var products = new ACCESOADATOSFORM(context, productreposoitory);
             products.Show();
             this.Hide();
         }
@@ -70,11 +73,11 @@ namespace accesoadatos
             var context = new NorthwindContext.NorthwindContext();
 
             var lista = new List<Productos>();
+            var orderrepository = new OrderRepository(context);
 
 
 
-
-            var Orders = new Order(context,lista);
+            var Orders = new Order(context,lista, orderrepository );
             Orders.Show();
             this.Hide();
         }
@@ -100,7 +103,9 @@ namespace accesoadatos
         private void button3_Click(object sender, EventArgs e)
         {
             var context = new NorthwindContext.NorthwindContext();
-            var products = new ACCESOADATOSFORM(context);
+            var productreposoitory = new ProductRepository(context);
+
+            var products = new ACCESOADATOSFORM(context, productreposoitory);
             products.Show();
             this.Hide();
         }

@@ -7,8 +7,10 @@ using System.ComponentModel;
 using accesoadatos.Clases;
 using System.Data;
 using System.Data.SqlTypes;
-using static accesoadatos.Models.NorthwindModels;
+
 using NorthwindContext;
+using NORTHWIND.APLICACTION.Abstrations;
+using NORTHWIND.INFRACTUTURE;
 
 
 
@@ -19,16 +21,18 @@ namespace accesoadatos
         private List<Productos> _listaProductos;
 
         private readonly NorthwindContext.NorthwindContext _context;
+        public readonly IOrderRepository _orderRepository;
 
        
 
-        public Order(NorthwindContext.NorthwindContext context, List<Productos> listaProductos)
+        public Order(NorthwindContext.NorthwindContext context, List<Productos> listaProductos, IOrderRepository orderRepository)
 
         {
             InitializeComponent();
             _context = context;
             dataGridView1.AutoGenerateColumns = false;
             _listaProductos = listaProductos;
+            _orderRepository = orderRepository;
 
           
             Log.Logger = new LoggerConfiguration()
@@ -73,16 +77,21 @@ namespace accesoadatos
         private void Order_Load(object sender, EventArgs e)
         {
 
+            comboBoxCustomer.DataSource = _orderRepository.LoadCustomer();
+            comboBoxCustomer.DisplayMember = nameof(Customer.CompanyName);
+            comboBoxCustomer.ValueMember = nameof(Customer.CustomerID);
 
-            foreach (var productos in _listaProductos)
-            {
-                dataGridView1.Rows.Add(productos.ProductID, productos.ProductName, productos.UnitPrice, productos.Quantity, productos.Discount, productos.CategoryName, productos.CompanyName, productos.ExtendedPrice);
-            }
+            comboBoxEmployee.DataSource = _orderRepository.LoadEnployees();
+            comboBoxEmployee.ValueMember = "EmployeeID";
+            comboBoxEmployee.DisplayMember = "FirstName";
+            comboBoxEmployee.Refresh();
 
-          
-            LoadCustomer();
-            LoadEmployees();
-            LoadShippers();
+            comboBoxShipVIa.DataSource = _orderRepository.LoadShippers();
+            comboBoxShipVIa.DisplayMember = nameof(Shipper.CompanyName);
+            comboBoxShipVIa.ValueMember = nameof(Shipper.ShipperID);
+
+
+           
             dataGridView1.Refresh();
 
 
@@ -107,92 +116,13 @@ namespace accesoadatos
             this.Hide();
         }
 
-        private void LoadCustomer()
-        {
-            var customers = _context.customers
-           .Select(c => new
-           {
-               c.CustomerID,
-               c.CompanyName
-
-           }).ToList();
-
-            comboBoxCustomer.DataSource = customers;
-            comboBoxCustomer.DisplayMember = nameof(Customer.CompanyName);
-            comboBoxCustomer.ValueMember = nameof(Customer.CustomerID);
-            comboBoxCustomer.Refresh();
-
-
-
-
-
-
-
-
-        }
+       
 
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
 
         }
-
-        private void LoadEmployees()
-        {
-
-
-
-
-            var employees = _context.Employees
-                .Select(e => new
-                {
-                    e.EmployeeID,
-                    e.FirstName
-                }).ToArray();
-            comboBoxEmployee.DataSource = employees;
-            comboBoxEmployee.ValueMember = "EmployeeID";
-            comboBoxEmployee.DisplayMember = "FirstName";
-            comboBoxEmployee.Refresh();
-
-        }
-        private void LoadDatagridview()
-        {
-            var orders = _context.orderDetails
-                .Include(o => o.Product)
-                .ThenInclude(p => p.Supplier)
-                .Include(o => o.Product.Category)
-                .Select(o => new
-                {
-
-                    o.ProductID,
-                    o.Product.UnitPrice,
-                    o.Quantity,
-                    o.Discount,
-                    ProductName = o.Product.ProductName,
-                    CompanyName = o.Product.Supplier.CompanyName,
-                    CategoryName = o.Product.Category.CategoryName,
-                    ExtendedPrice = o.Product.UnitPrice * o.Quantity * (1 - (decimal)o.Discount)
-                }).ToList();
-
-
-            dataGridView1.DataSource = orders;
-            dataGridView1.Refresh();
-        }
-
-        private void LoadShippers()
-        {
-            var shippers = _context.shippers
-                .Select(s => new
-                {
-                    s.ShipperID,
-                    s.CompanyName
-                }).ToList();
-
-            comboBoxShipVIa.DataSource = shippers;
-            comboBoxShipVIa.DisplayMember = nameof(Shipper.CompanyName);
-            comboBoxShipVIa.ValueMember = nameof(Shipper.ShipperID);
-        }
-
 
 
 
@@ -365,8 +295,9 @@ namespace accesoadatos
             if (result == DialogResult.Yes)
             {
                 var context = new NorthwindContext.NorthwindContext();
+                var orderrepsoritory = new OrderRepository(context);
 
-                var ordermade = new OrdersMade(context);
+                var ordermade = new OrdersMade(context,orderrepsoritory);
                 ordermade.Show();
                 this.Hide();
 
@@ -388,7 +319,8 @@ namespace accesoadatos
                 {
                     var context = new NorthwindContext.NorthwindContext();
                     var lista = new List<Productos>();
-                    var orderdetails = new OrderDetails(context,lista); 
+                    var orderrepository = new OrderRepository(context);
+                    var orderdetails = new OrderDetails(context,lista,orderrepository); 
 
                    
                     if (orderdetails.ShowDialog() == DialogResult.OK)

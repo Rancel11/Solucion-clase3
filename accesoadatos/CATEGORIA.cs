@@ -74,7 +74,8 @@ namespace accesoadatos
 
                 MessageBox.Show("Los datos se insertaron correctamente");
 
-                _categoryRepository.LoadCombobox();
+                comboBox1.DataSource = _categoryRepository.LoadCombobox();
+
 
 
                 Cleartextfilds();
@@ -122,7 +123,8 @@ namespace accesoadatos
                         _context.SaveChanges();
                         MessageBox.Show("Los datos se actualizaron correctamente");
 
-                        _categoryRepository.LoadCombobox();
+                       comboBox1.DataSource = _categoryRepository.LoadCombobox();
+
                         Cleartextfilds();
                     }
                     else
@@ -184,7 +186,8 @@ namespace accesoadatos
                             textBoxCategoryName.Text = category.CategoryName;
                             textBoxDescription.Text = category.Description;
 
-                            _categoryRepository.LoadCombobox();
+                            comboBox1.DataSource = _categoryRepository.LoadCombobox();
+
 
 
                             MessageBox.Show("Los datos de la categoria se han cargado correctamente.");
@@ -246,7 +249,7 @@ namespace accesoadatos
                         _context.SaveChanges();
                         MessageBox.Show("El registro se eliminó correctamente");
 
-                        _categoryRepository.LoadCombobox();
+                       comboBox1.DataSource = _categoryRepository.LoadCombobox();
                         Cleartextfilds();
                     }
                     else
@@ -300,7 +303,8 @@ namespace accesoadatos
         private void button3_Click(object sender, EventArgs e)
         {
             var context = new NorthwindContext.NorthwindContext();
-            var Products = new ACCESOADATOSFORM(context);
+            var productreposoitory = new ProductRepository(context);
+            var Products = new ACCESOADATOSFORM(context, productreposoitory);
             Products.Show();
             this.Hide();
         }
@@ -327,7 +331,9 @@ namespace accesoadatos
         private void productsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var context = new NorthwindContext.NorthwindContext();
-            var productsForm = new ACCESOADATOSFORM(context);
+            var productreposoitory = new ProductRepository(context);
+
+            var productsForm = new ACCESOADATOSFORM(context, productreposoitory);
             productsForm.Show();
             this.Hide();
         }
