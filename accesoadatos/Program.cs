@@ -39,6 +39,7 @@ namespace accesoadatos
                 configuration = new ConfigurationBuilder()
                     .AddJsonFile("appsettings.json")
                     .Build();
+                
                 serviceColletion.AddSingleton < IConfiguration>(configuration);
 
 
