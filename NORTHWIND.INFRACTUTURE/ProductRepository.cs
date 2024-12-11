@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using FluentValidation;
+using FluentValidation.Results;
+using Microsoft.EntityFrameworkCore;
 using NORTHWIND.APLICACTION;
 using NORTHWIND.APLICACTION.Abstrations;
 using NorthwindContext;
@@ -7,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static NORTHWIND.INFRACTUTURE.Categoryrepository;
 
 
 namespace NORTHWIND.INFRACTUTURE
@@ -20,6 +23,28 @@ namespace NORTHWIND.INFRACTUTURE
         public ProductRepository(NorthwindContext.NorthwindContext context)
         {
             _context = context;
+        }
+
+        public void CreateProductValidator(Product request)
+        {
+            
+            var validator = new ProductValidator();
+            ValidationResult result = validator.Validate(request);
+
+            if (!result.IsValid)
+            {
+
+                foreach (var error in result.Errors)
+                {
+                    Console.WriteLine($"Error en la propiedad {error.PropertyName}: {error.ErrorMessage}");
+                }
+
+
+                throw new ValidationException(result.Errors);
+            }
+
+
+            Console.WriteLine("El producto es válida.");
         }
 
         public IEnumerable<DTO.ProductDto> GetAllProduct()
@@ -62,6 +87,26 @@ namespace NORTHWIND.INFRACTUTURE
                    SupplierID = s.SupplierID,
                    CompanyName = s.CompanyName
                }).ToList();
+        }
+
+        
+        
+        
+        public class ProductValidator : AbstractValidator<Product>
+        {
+            public ProductValidator()
+            {
+                RuleFor(product => product.ProductName)
+                    .NotEmpty().WithMessage("El nombre del producto es obligatorio.")
+                    .Matches(@"^[a-zA-Z\s]+$").WithMessage("El nombre del producto solo debe contener letras.");
+
+                RuleFor(product => product.QuantityPerUnit)
+                    .NotEmpty().WithMessage("La cantidad por unidad es obligatoria.");
+
+                RuleFor(product => product.UnitPrice)
+                    .NotEmpty().WithMessage("El precio único es obligatorio.")
+                    .GreaterThan(0).WithMessage("El precio debe ser mayor que cero.");
+            }
         }
     }
 }

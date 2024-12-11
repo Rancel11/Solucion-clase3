@@ -8,6 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="11.10.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\NORTHWIND.APLICACTION\NORTHWIND.APLICACTION.csproj" />
     <ProjectReference Include="..\NORTHWIND.MODELS\NORTHWIND.MODELS.csproj" />
   </ItemGroup>

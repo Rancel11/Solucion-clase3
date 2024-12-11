@@ -28,7 +28,7 @@ namespace accesoadatos.Clases
         public string Phone { get; set; }
     }
 
-    public class OrderValidator
+    public class OrderDTO
     {
         public string CustomerId { get; set; }
         public int? EmployeeId { get; set; }

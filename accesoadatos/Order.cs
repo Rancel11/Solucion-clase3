@@ -44,15 +44,7 @@ namespace accesoadatos
         }
 
 
-        private void label1_Click(object sender, EventArgs e)
-        {
 
-        }
-
-        private void label5_Click(object sender, EventArgs e)
-        {
-
-        }
 
         private void label7_Click(object sender, EventArgs e)
         {
@@ -94,15 +86,6 @@ namespace accesoadatos
            
             dataGridView1.Refresh();
 
-
-
-
-
-
-
-
-
-
         }
 
 
@@ -124,15 +107,6 @@ namespace accesoadatos
 
         }
 
-
-
-
-
-
-
-
-
-
         private void button1_Click(object sender, EventArgs e)
         {
             DialogResult dialogResult = MessageBox.Show("¿Desea ingresar la orden?", "Confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -142,10 +116,23 @@ namespace accesoadatos
                 try
                 {
 
-                    OrderInputValidator validator = new OrderInputValidator();
+
+                    var request = new NorthwindContext.Order();
+
+                    request.ShipAddress = textBoxAddress.Text;
+                    request.ShipCity = textBoxCity.Text;
+                    request.ShipRegion = textBoxRegion.Text;
+                    request.ShipName = textBoxShipName.Text;
+                    request.Freight = decimal.Parse(textBoxFrieght.Text);
+                    request.ShipPostalCode = textBoxPostalCode.Text;
+                    request.ShipCountry = textBoxShipCountry.Text;
+
+                    _orderRepository.CreateOrderValidator(request);
 
 
-                    OrderValidator orderValidator = new OrderValidator
+
+
+                    OrderDTO orderValidator = new OrderDTO
                     {
                         CustomerId = (string)comboBoxCustomer.SelectedValue,
                         EmployeeId = (int?)comboBoxEmployee.SelectedValue,
@@ -160,18 +147,7 @@ namespace accesoadatos
                     };
 
 
-                    var validationResult = validator.Validate(orderValidator);
-
-
-                    if (!validationResult.IsValid)
-                    {
-                        string errorMessages = string.Join("\n", validationResult.Errors.Select(error => error.ErrorMessage));
-                        MessageBox.Show($"Errores de validación:\n{errorMessages}", "Error de Validación", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        return;
-
-                        Log.Warning("Errores de validación al ingresar la orden: {ErrorMessages}", errorMessages);
-                        return;
-                    }
+                   
 
 
                     var newOrder = new NorthwindContext.Order()
@@ -517,7 +493,7 @@ namespace accesoadatos
 
         
 
-        public class OrderInputValidator : AbstractValidator<OrderValidator>
+        public class OrderInputValidator : AbstractValidator<OrderDTO>
         {
             public OrderInputValidator()
             {

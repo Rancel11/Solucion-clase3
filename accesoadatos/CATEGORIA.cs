@@ -58,6 +58,15 @@ namespace accesoadatos
         {
             try
             {
+
+
+                var request = new NorthwindContext.Category();
+                request.CategoryName = textBoxCategoryName.Text;    
+                request.Description = textBoxDescription.Text;
+
+                _categoryRepository.CreateCategoryValidator(request);
+
+
                 if (string.IsNullOrWhiteSpace(textBoxCategoryName.Text) || string.IsNullOrWhiteSpace(textBoxDescription.Text))
                 {
                     MessageBox.Show("Todos los campos son obligatorios.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);

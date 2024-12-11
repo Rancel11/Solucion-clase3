@@ -11,5 +11,7 @@ namespace NORTHWIND.APLICACTION.Abstrations
     {
         public IEnumerable<Category> Allcaterory();
         public IEnumerable<Category> LoadCombobox();
+        void CreateCategoryValidator(Category request);
+        
     }
 }

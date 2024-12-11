@@ -45,14 +45,15 @@ namespace accesoadatos
         {
             try
             {
-                if (string.IsNullOrWhiteSpace(textBoxCompanyName.Text) ||
-                    string.IsNullOrWhiteSpace(textBoxContactName.Text) ||
-                    string.IsNullOrWhiteSpace(textBoxContactTitle.Text) ||
-                    string.IsNullOrWhiteSpace(textBoxPhone.Text))
-                {
-                    MessageBox.Show("Todos los campos son obligatorios.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
+
+                var request = new NorthwindContext.Supplier();
+                request.CompanyName = textBoxCompanyName.Text;
+                request.ContactTitle = textBoxContactTitle.Text;
+                request.ContactName = textBoxContactName.Text;
+                request.Phone = textBoxPhone.Text;
+
+                _suppliersreporitory.CreateSuppliersvalidator(request);
+
 
 
                 var newSupplier = new NorthwindContext.Supplier()
@@ -249,12 +250,6 @@ namespace accesoadatos
 
 
 
-
-
-
-
-
-
         private void button1_Click(object sender, EventArgs e)
         {
             var context = new NorthwindContext.NorthwindContext();
@@ -342,33 +337,9 @@ namespace accesoadatos
         }
 
 
-        protected override void WndProc(ref Message m)
-        {
-            base.WndProc(ref m);
-        }
 
 
 
-
-        public class SupplierValidator : AbstractValidator<Clases.Supplier>
-        {
-            public SupplierValidator()
-            {
-                RuleFor(supplier => supplier.CompanyName).NotEmpty().WithMessage("El nombre de la compañía es obligatorio.").Matches(@"^[a-zA-Z\s]+$").WithMessage("El nombre de la compañía solo debe contener letras.");
-
-                RuleFor(supplier => supplier.ContactName).NotEmpty().WithMessage("El nombre del contacto es obligatorio.").Matches(@"^[a-zA-Z\s]+$").WithMessage("El nombre de conctato solo debe contener letras.");
-
-                RuleFor(supplier => supplier.ContactTitle).NotEmpty().WithMessage("El título del contacto es obligatorio.").Matches(@"^[a-zA-Z\s]+$").WithMessage("El titulo del conctato solo debe contener letras.");
-
-                RuleFor(supplier => supplier.Phone).NotEmpty().WithMessage("El número de teléfono es obligatorio.").Matches(@"^\d+$").WithMessage("El número de teléfono solo debe contener dígitos.");
-            }
-
-
-
-
-
-
-        }
 
         private void menuToolStripMenuItem_Click(object sender, EventArgs e)
         {

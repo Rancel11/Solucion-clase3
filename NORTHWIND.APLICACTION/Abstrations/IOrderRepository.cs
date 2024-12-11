@@ -16,6 +16,8 @@ namespace NORTHWIND.APLICACTION.Abstrations
         public IEnumerable<OrderDetailDto> LoadOrdersDataGridView();
         public IEnumerable<Category> LoadComboboxCategory();
         public IEnumerable <ProductDto> LoadDatagridOrderdetails();
+        void CreateOrderValidator(Order request);
+    
        
     }
 }

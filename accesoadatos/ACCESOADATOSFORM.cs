@@ -10,6 +10,8 @@ using NorthwindContext;
 using Product = NorthwindContext.Product;
 using NORTHWIND.INFRACTUTURE;
 using NORTHWIND.APLICACTION.Abstrations;
+using Azure.Core;
+using NORTHWIND.APLICACTION;
 
 namespace accesoadatos
 {
@@ -213,31 +215,7 @@ namespace accesoadatos
 
         }
 
-        public class ProductValidator : AbstractValidator<Product>
-        {
-            public ProductValidator()
-            {
-                RuleFor(product => product.ProductName)
-                    .NotEmpty().WithMessage("El nombre del producto es obligatorio.")
-                    .Matches(@"^[a-zA-Z\s]+$").WithMessage("El nombre del producto solo debe contener letras.");
-
-                RuleFor(product => product.QuantityPerUnit)
-                    .NotEmpty().WithMessage("La cantidad por unidad es obligatoria.");
-
-                RuleFor(product => product.UnitPrice)
-                    .NotEmpty().WithMessage("El precio único es obligatorio.")
-                    .GreaterThan(0).WithMessage("El precio debe ser mayor que cero.");
-            }
-        }
-
-
-
-
-
-
-
-
-
+       
 
 
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -366,37 +344,82 @@ namespace accesoadatos
         {
             try
             {
-
-                if (string.IsNullOrWhiteSpace(textBoxProductName.Text) || string.IsNullOrWhiteSpace(textBoxQuantityPerUnit.Text) || string.IsNullOrWhiteSpace(textBoxUnitPrice.Text) ||
-                    comboBox1.SelectedValue == null ||
-                    listBox1.SelectedValue == null)
+                
+                if (string.IsNullOrWhiteSpace(textBoxProductName.Text))
                 {
-                    MessageBox.Show("Todos los campos son obligatorios.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("El nombre del producto es obligatorio.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
+                if (string.IsNullOrWhiteSpace(textBoxQuantityPerUnit.Text))
+                {
+                    MessageBox.Show("La cantidad por unidad es obligatoria.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
 
+                
+                if (!decimal.TryParse(textBoxUnitPrice.Text, out decimal unitPrice))
+                {
+                    MessageBox.Show("El precio unitario debe ser un valor numérico válido.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                if (comboBox1.SelectedValue == null || listBox1.SelectedValue == null)
+                {
+                    MessageBox.Show("Debe seleccionar un proveedor y una categoría.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+                
+
+
+                var request = new NorthwindContext.Product
+                {
+                    ProductName = textBoxProductName.Text,
+                    QuantityPerUnit = textBoxQuantityPerUnit.Text,
+                    UnitPrice = unitPrice
+                };
+
+                
+                _productRepository.CreateProductValidator(request);
+
+                
                 var newProduct = new Product
                 {
                     ProductName = textBoxProductName.Text,
                     QuantityPerUnit = textBoxQuantityPerUnit.Text,
-                    UnitPrice = decimal.Parse(textBoxUnitPrice.Text),
+                    UnitPrice = unitPrice,
                     SupplierID = (int)comboBox1.SelectedValue,
                     CategoryID = (int)listBox1.SelectedValue
                 };
 
+               
+                var supplierExists = _context.Suppliers.Any(s => s.SupplierID == newProduct.SupplierID);
+                if (!supplierExists)
+                {
+                    MessageBox.Show("El proveedor seleccionado no existe.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+           
+                var categoryExists = _context.Categories.Any(c => c.CategoryID == newProduct.CategoryID);
+                if (!categoryExists)
+                {
+                    MessageBox.Show("La categoría seleccionada no existe.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                
                 _context.Products.Add(newProduct);
                 _context.SaveChanges();
 
-                MessageBox.Show("El producto ha sido insertado correctamente.");
+                MessageBox.Show("El producto ha sido insertado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-
+               
                 dataGridView1.DataSource = _productRepository.GetAllProduct();
                 ClearTextFields();
             }
             catch (Exception ex)
             {
-
                 MessageBox.Show($"Ocurrió un error al insertar el producto: {ex.Message}\n\nDetalles: {ex.InnerException?.Message}",
                                 "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Log.Fatal(ex, "Ocurrió un error al insertar el producto");

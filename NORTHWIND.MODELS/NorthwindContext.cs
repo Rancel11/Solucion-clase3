@@ -27,7 +27,7 @@ namespace NorthwindContext
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
-            optionsBuilder.UseSqlServer("Server=RANCEL\\SQLEXPRESS;Database=Northwind;Integrated Security=True;TrustServerCertificate=True");
+            optionsBuilder.UseSqlServer("Server=RANCEL\\SQLEXPRESS;Database=Northwind;Integrated Security=true;TrustServerCertificate=true");
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
