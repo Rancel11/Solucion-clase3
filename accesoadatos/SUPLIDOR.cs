@@ -54,19 +54,7 @@ namespace accesoadatos
 
                 _suppliersreporitory.CreateSuppliersvalidator(request);
 
-
-
-                var newSupplier = new NorthwindContext.Supplier()
-                {
-                    CompanyName = textBoxCompanyName.Text,
-                    ContactName = textBoxContactName.Text,
-                    ContactTitle = textBoxContactTitle.Text,
-                    Phone = textBoxPhone.Text
-                };
-
-
-                _context.Suppliers.Add(newSupplier);
-                _context.SaveChanges();
+                _suppliersreporitory.CreateSuppliers(request);
 
                 MessageBox.Show("El suplidor se ha insertado correctamente.");
 
@@ -167,8 +155,8 @@ namespace accesoadatos
                         supplier.ContactTitle = textBoxContactTitle.Text;
                         supplier.Phone = textBoxPhone.Text;
 
-                        _context.Suppliers.Update(supplier);
-                        _context.SaveChanges();
+                        _suppliersreporitory.UpdateSuppliers(supplier);
+
                         MessageBox.Show("Los datos se actualizaron correctamente.");
 
                         ClearTextFields();
@@ -209,8 +197,7 @@ namespace accesoadatos
 
                     if (supplier != null)
                     {
-                        _context.Suppliers.Remove(supplier);
-                        _context.SaveChanges();
+                        _suppliersreporitory.DeleteSuppliers(supplier);
 
                         MessageBox.Show("El registro ha sido eliminado correctamente.");
 

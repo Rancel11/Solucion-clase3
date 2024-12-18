@@ -61,6 +61,32 @@ namespace NORTHWIND.INFRACTUTURE
             Console.WriteLine("La categoría es válida.");
         }
 
+        public void CreateCategory(Category request)
+        {
+            var caterory = new Category();
+            
+            caterory.CategoryName = request.CategoryName;
+            caterory.Description = request.Description;
+
+            _context.Categories.Add( caterory );
+            _context.SaveChanges();
+
+        }
+
+        public void DeleteCategory(Category request)
+        {
+          
+
+            _context.Categories.Remove(request);
+            _context.SaveChanges();
+        }
+
+        public void UpdateCategory(Category request)
+        {
+            _context.Categories.Update(request);
+            _context.SaveChanges();
+        }
+
         public class CategoryValidator : AbstractValidator<Category>
         {
             public CategoryValidator()

@@ -15,6 +15,9 @@ namespace NORTHWIND.APLICACTION.Abstrations
         public IEnumerable<Supplier> LoadComboboxSupplier();
         public IEnumerable<Category> LoadCategory();
         void CreateProductValidator(Product request);
+        void InsertProduct(Product request);
+        void UpdateProduct(Product request);
+        void DeleteProduct(Product request);
        
     }
 }

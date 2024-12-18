@@ -66,20 +66,10 @@ namespace accesoadatos
 
                 _categoryRepository.CreateCategoryValidator(request);
 
+                _categoryRepository.CreateCategory(request);
+              
 
-                if (string.IsNullOrWhiteSpace(textBoxCategoryName.Text) || string.IsNullOrWhiteSpace(textBoxDescription.Text))
-                {
-                    MessageBox.Show("Todos los campos son obligatorios.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-
-                var newCategory = new NorthwindContext.Category()
-                {
-                    CategoryName = textBoxCategoryName.Text,
-                    Description = textBoxDescription.Text
-                };
-                _context.Categories.Add(newCategory);
-                _context.SaveChanges();
+          
 
                 MessageBox.Show("Los datos se insertaron correctamente");
 
@@ -121,25 +111,32 @@ namespace accesoadatos
                 if (dialogResult == DialogResult.Yes)
                 {
                     int categoryId = (int)comboBox1.SelectedValue;
+
+                   
                     var category = _context.Categories.Find(categoryId);
 
                     if (category != null)
                     {
+                        
                         category.CategoryName = textBoxCategoryName.Text;
                         category.Description = textBoxDescription.Text;
 
-                        _context.Categories.Update(category);
-                        _context.SaveChanges();
-                        MessageBox.Show("Los datos se actualizaron correctamente");
+                        
+                        _categoryRepository.UpdateCategory(category);
 
-                       comboBox1.DataSource = _categoryRepository.LoadCombobox();
+                        comboBox1.DataSource = _categoryRepository.LoadCombobox();
+
+
+                        MessageBox.Show("Los datos se actualizaron correctamente");
 
                         Cleartextfilds();
                     }
                     else
                     {
-                        MessageBox.Show("No se encontró el registro", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show("La categoría no existe.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
+
+
                 }
                 else
                 {
@@ -254,8 +251,7 @@ namespace accesoadatos
 
                     if (category != null)
                     {
-                        _context.Categories.Remove(category);
-                        _context.SaveChanges();
+                       _categoryRepository.DeleteCategory(category);
                         MessageBox.Show("El registro se eliminó correctamente");
 
                        comboBox1.DataSource = _categoryRepository.LoadCombobox();

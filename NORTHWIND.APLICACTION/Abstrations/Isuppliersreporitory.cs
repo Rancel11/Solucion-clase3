@@ -14,6 +14,9 @@ namespace NORTHWIND.APLICACTION.Abstrations
         public IEnumerable<Supplier> GetSuppliers();
         public IEnumerable<Supplier> LoadComboboxfiltro();
         void CreateSuppliersvalidator(Supplier request);
+        void CreateSuppliers(Supplier request);
+        void UpdateSuppliers(Supplier request);
+        void DeleteSuppliers(Supplier request);
     }
 
  

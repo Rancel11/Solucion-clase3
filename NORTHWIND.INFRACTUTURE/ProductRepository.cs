@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using static NORTHWIND.INFRACTUTURE.Categoryrepository;
 
 
@@ -47,6 +48,12 @@ namespace NORTHWIND.INFRACTUTURE
             Console.WriteLine("El producto es válida.");
         }
 
+        public void DeleteProduct(Product request)
+        {
+            _context.Products.Remove(request);
+            _context.SaveChanges();
+        }
+
         public IEnumerable<DTO.ProductDto> GetAllProduct()
         {
 
@@ -66,7 +73,19 @@ namespace NORTHWIND.INFRACTUTURE
                 }).ToList();
         }
 
-     
+        public void InsertProduct(Product request)
+        {
+            var Productos = new  Product();
+              Productos.ProductName = request.ProductName;
+              Productos.QuantityPerUnit = request.QuantityPerUnit;
+            Productos.UnitPrice = request.UnitPrice;
+            Productos.SupplierID = request.SupplierID;
+            Productos.CategoryID = request.CategoryID;
+
+
+            _context.Products.Add(Productos);
+            _context.SaveChanges();
+        }
 
         public IEnumerable<Category> LoadCategory()
         
@@ -89,9 +108,12 @@ namespace NORTHWIND.INFRACTUTURE
                }).ToList();
         }
 
-        
-        
-        
+        public void UpdateProduct(Product request)
+        {
+            _context.Products.Update(request);
+            _context.SaveChanges();
+        }
+
         public class ProductValidator : AbstractValidator<Product>
         {
             public ProductValidator()

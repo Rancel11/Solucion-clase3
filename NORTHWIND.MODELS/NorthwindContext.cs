@@ -7,13 +7,17 @@ using System.Linq;
 using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
-
+using Microsoft.EntityFrameworkCore.InMemory;
 
 
 namespace NorthwindContext
 {
     public class NorthwindContext : DbContext
     {
+
+        public NorthwindContext(DbContextOptions options) : base(options)
+        {
+        }
 
         public DbSet<Product> Products { get; set; }
         public DbSet<Supplier> Suppliers { get; set; }
@@ -28,6 +32,7 @@ namespace NorthwindContext
         {
             base.OnConfiguring(optionsBuilder);
             optionsBuilder.UseSqlServer("Server=RANCEL\\SQLEXPRESS;Database=Northwind;Integrated Security=true;TrustServerCertificate=true");
+            
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -36,6 +41,8 @@ namespace NorthwindContext
 
             base.OnModelCreating(modelBuilder);
         }
+      
+
 
     }
     public class Product

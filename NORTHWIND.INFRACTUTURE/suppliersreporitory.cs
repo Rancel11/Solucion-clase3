@@ -17,6 +17,18 @@ namespace NORTHWIND.INFRACTUTURE
             _context = context;
         }
 
+        public void CreateSuppliers(Supplier request)
+        {
+            var supplier = new Supplier();
+            supplier.CompanyName = request.CompanyName;
+            supplier.ContactName = request.ContactName;
+            supplier.ContactTitle = request.ContactTitle;
+            supplier.Phone = request.Phone;
+
+            _context.Suppliers.Add(supplier);
+            _context.SaveChanges();
+        }
+
         public void CreateSuppliersvalidator(Supplier request)
         {
             var validator = new SupplierValidator();
@@ -33,6 +45,12 @@ namespace NORTHWIND.INFRACTUTURE
 
                 throw new ValidationException(result.Errors);
             }
+        }
+
+        public void DeleteSuppliers(Supplier request)
+        {
+            _context.Suppliers.Remove(request);
+            _context.SaveChanges();
         }
 
         public IEnumerable<Supplier> GetSuppliers()
@@ -53,6 +71,11 @@ namespace NORTHWIND.INFRACTUTURE
                  }).ToList();
         }
 
+        public void UpdateSuppliers(Supplier request)
+        {
+            _context.Suppliers.Update(request);
+            _context.SaveChanges();
+        }
 
         public class SupplierValidator : AbstractValidator<Supplier>
         {

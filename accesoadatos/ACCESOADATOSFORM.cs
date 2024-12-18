@@ -121,8 +121,7 @@ namespace accesoadatos
                     product.SupplierID = (int)comboBox1.SelectedValue;
                     product.CategoryID = (int)listBox1.SelectedValue;
 
-                    _context.Products.Update(product);
-                    _context.SaveChanges();
+                    _productRepository.UpdateProduct(product);
 
                     MessageBox.Show("Los datos se actualizaron correctamente");
                     
@@ -166,8 +165,8 @@ namespace accesoadatos
                 if (product != null)
                 {
                    
-                    _context.Products.Remove(product);
-                    _context.SaveChanges();
+                    _productRepository.DeleteProduct(product);
+
                     MessageBox.Show("El producto ha sido eliminado correctamente.");
 
                       dataGridView1.DataSource = _productRepository.GetAllProduct();
@@ -408,9 +407,8 @@ namespace accesoadatos
                     return;
                 }
 
-                
-                _context.Products.Add(newProduct);
-                _context.SaveChanges();
+                _productRepository.InsertProduct(newProduct);
+
 
                 MessageBox.Show("El producto ha sido insertado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
