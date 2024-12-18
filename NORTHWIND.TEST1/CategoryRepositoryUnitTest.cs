@@ -9,16 +9,7 @@ namespace NORTHWIND.TEST1
     {
         public readonly NorthwindContext.NorthwindContext _context;
          
-        public CategoryRepositoryUnitTest()
-        {
-            
-            var options = new DbContextOptionsBuilder<NorthwindContext.NorthwindContext>()
-                .UseInMemoryDatabase(databaseName: "Northwind")
-                .Options;
-
-            
-            _context = new NorthwindContext.NorthwindContext(options);
-        }
+      
 
         [Fact]
         public void Test_return_AllCategory()
